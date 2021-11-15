@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import {DimensionsDevice} from 'utils/enums';
+// import {View} from 'react-native';
 interface TicketLayoutProps {
   header: React.ReactNode;
   main: React.ReactNode;
@@ -15,19 +16,14 @@ interface TicketLayoutProps {
 
 const TicketLayout: React.FC<TicketLayoutProps> = ({header, main, footer}) => {
   return (
-    <TouchableOpacity
-      activeOpacity={1}
-      style={styles.containerLayout}
-      onPress={() => {
-        console.log('clickkk en products');
-      }}>
+    <View style={styles.containerLayout}>
       {/* header */}
       <View style={styles.conatinerHeader}>{header}</View>
       {/* main */}
       <View style={{flex: 1}}>{main}</View>
       {/* footer */}
       <View style={styles.containerFooter}>{footer}</View>
-    </TouchableOpacity>
+    </View>
   );
 };
 

@@ -34,7 +34,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
         </View>
         <ColorBarComponent />
         <Button
-          title="Leer Ticket"
+          title="Leer Ticket QR"
           onPress={() => {
             readQr(token);
             // navigation.navigate('TicketProductsScreen');

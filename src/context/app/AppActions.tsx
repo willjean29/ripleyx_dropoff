@@ -10,7 +10,7 @@ import {
   CHANGE_TOTAL_PRODUCTS,
 } from './AppTypes';
 import {ITicketResponse, Ticket} from './interfaces/AppStateInterface';
-import {TypeOfError, TypeOfPrinter} from 'utils/enums';
+import {ticketDemo, TypeOfError, TypeOfPrinter} from 'utils/enums';
 import {calculateTotalProducts} from 'utils/methods';
 
 // const url =  'https://clients-backend.herokuapp.com/api/clients';
@@ -28,17 +28,19 @@ export const readQrAction = async (
     },
   });
   try {
-    const response = await axios.get<ITicketResponse>(`${url}=${token}`);
-    console.log(JSON.stringify({data: response.data}, null, 3));
-
-    dispatch({
-      type: QR_READ,
-      payload: {
-        ticket: response.data.ticket,
-        products: response.data.products,
-        totalProducts: calculateTotalProducts(response.data.products),
-      },
-    });
+    // const response = await axios.get<ITicketResponse>(`${url}=${token}`);
+    // console.log(JSON.stringify({data: response.data}, null, 3));
+    setTimeout(() => {
+      const response = ticketDemo;
+      dispatch({
+        type: QR_READ,
+        payload: {
+          ticket: response.ticket,
+          products: response.products,
+          totalProducts: calculateTotalProducts(response.products),
+        },
+      });
+    }, 1500);
   } catch (error: any) {
     // console.log('error ');
     console.log(error.response);
@@ -98,7 +100,7 @@ export const printerQrAction = (dispatch: React.Dispatch<QRDispatchTypes>) => {
       type: CHECK_PRINTER,
       payload: {
         printer: true,
-        type: TypeOfPrinter.PRINTER_ERROR,
+        type: TypeOfPrinter.PRINTER_SUCCESS,
       },
     });
   }, 1500);
