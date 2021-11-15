@@ -5,6 +5,7 @@ import BouncyCheckbox from 'react-native-bouncy-checkbox';
 import BagSmallSvg from 'assets/img/bag_small.svg';
 import {Product} from 'context/app/interfaces/AppStateInterface';
 import {AppContext} from 'context/app/AppContext';
+import CheckBoxComponent from 'components/UI/CheckBoxComponent';
 interface ProductItemComponentProps {
   product: Product;
 }
@@ -23,19 +24,11 @@ const ProductItemComponent: React.FC<ProductItemComponentProps> = ({
       {/* info */}
       <View style={{flexDirection: 'row'}}>
         <View style={{marginRight: 24}}>
-          <BouncyCheckbox
-            size={40}
-            fillColor="#893492"
-            unfillColor="#FFFFFF"
+          <CheckBoxComponent
             isChecked={isSelected}
-            iconStyle={{
-              borderColor: isSelected ? '#893492' : '#464646',
-              borderWidth: 1.2,
-            }}
-            onPress={(isChecked: boolean) => {
-              console.log(isChecked);
-              setIsSelected(isChecked);
-              isChecked
+            onPress={() => {
+              setIsSelected(!isSelected);
+              !isSelected
                 ? changeTotalProducts(
                     totalPorducts + product.quantityProductsReturn,
                   )

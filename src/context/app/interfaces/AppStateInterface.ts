@@ -36,4 +36,6 @@ export interface Ticket {
   email: string;
   ticketStatus: number;
   ticketStatusName: string;
+  categoryId?: number;
+  categoryName?: string;
 }

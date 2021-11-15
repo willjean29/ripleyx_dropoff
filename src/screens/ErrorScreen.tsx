@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
 // import TicketSecuritySvg from 'assets/img/ticket_security.svg';
-import ContentComponent from 'components/ContentComponent';
+import ContentComponent from 'components/Layout/ContentComponent';
 import AppLayout from 'layouts/AppLayout';
-import ProgressBar from 'components/ProgressBarComponent';
+import ProgressBar from 'components/UI/ProgressBarComponent';
 import {StackScreenProps} from '@react-navigation/stack';
 import {StackParamList} from 'navigation/StackNavigation';
 import {AppContext} from 'context/app/AppContext';
@@ -17,13 +17,14 @@ import TicketSecuritySvg from 'assets/img/ticket_security.svg';
 import TicketWifiSvg from 'assets/img/wifi_error.svg';
 import {TypeOfError} from 'utils/enums';
 import {SvgProps} from 'react-native-svg';
+import {Button} from 'react-native';
 
 interface ErrorScreenProps
   extends StackScreenProps<StackParamList, 'ErrorScreen'> {}
 
 const ErrorScreen: React.FC<ErrorScreenProps> = ({}) => {
   const [content, setContent] = useState<TicketContent>({} as TicketContent);
-
+  const [resetAnimation, setResetAnimation] = useState(false);
   const {
     appState: {typeOfError},
   } = useContext(AppContext);
@@ -34,6 +35,9 @@ const ErrorScreen: React.FC<ErrorScreenProps> = ({}) => {
       setContent(contentError);
     }
   }, []);
+  const onPressDemo = (callback: Function) => {
+    callback();
+  };
   return (
     <AppLayout footerTitle="Escanear otro código QR">
       <ContentComponent
@@ -52,7 +56,16 @@ const ErrorScreen: React.FC<ErrorScreenProps> = ({}) => {
         title={content.title}
         message={content.message}
       />
-      <ProgressBar backgroundColor={GlobalColors.background.paper} />
+      <Button
+        title="Reset Anbimation"
+        onPress={() => {
+          setResetAnimation(!resetAnimation);
+        }}
+      />
+      <ProgressBar
+        backgroundColor={GlobalColors.background.paper}
+        reset={resetAnimation}
+      />
     </AppLayout>
   );
 };

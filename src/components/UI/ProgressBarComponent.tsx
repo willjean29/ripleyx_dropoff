@@ -2,45 +2,31 @@ import React, {useContext, useEffect, useRef} from 'react';
 import {View, Text, StyleSheet, Animated} from 'react-native';
 import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
 import LinearGradient from 'react-native-linear-gradient';
-import {AppContext} from '../context/app/AppContext';
+import {AppContext} from 'context/app/AppContext';
+import useAnimationScale from 'hooks/useAnimationScale';
+
 interface ProgressBarComponentProps {
   time?: number;
   backgroundColor?: string;
+  reset?: boolean;
 }
 
 const ProgressBarComponent: React.FC<ProgressBarComponentProps> = ({
   time = 10,
   backgroundColor = GlobalColors.text.secondary_dark,
+  reset,
 }) => {
-  const translate = useRef(new Animated.Value(0)).current;
+  const {animation, scaleInterpolate, scaleX} = useAnimationScale(time);
   const {backHome} = useContext(AppContext);
-  const anim = useRef(
-    Animated.timing(translate, {
-      toValue: 100,
-      duration: 1000 * time,
-      useNativeDriver: true,
-    }),
-  ).current;
+
   useEffect(() => {
-    // Animated.timing(translate, {
-    //   toValue: 100,
-    //   duration: 1000 * time,
-    //   useNativeDriver: true,
-    // }).start(({finished}) => {
-    //   // disparar evento cuando termine el tiempo
-    //   console.log({finished});
-    //   if (finished) {
-    //     backHome();
-    //   }
-    // });
-    anim.start(({finished}) => {
-      // disparar evento cuando termine el tiempo
-      // console.log({finished});
-      if (finished) {
-        backHome();
-      }
+    animation.reset();
+    scaleX(() => {
+      console.log('final de la animación');
+      backHome();
     });
-  }, []);
+  }, [reset]);
+
   return (
     <View style={{backgroundColor}}>
       <Animated.View
@@ -48,10 +34,7 @@ const ProgressBarComponent: React.FC<ProgressBarComponentProps> = ({
           ...styles.container,
           transform: [
             {
-              scaleX: translate.interpolate({
-                inputRange: [0, 100],
-                outputRange: [1, 0],
-              }),
+              scaleX: scaleInterpolate,
             },
           ],
         }}>

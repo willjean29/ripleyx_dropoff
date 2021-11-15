@@ -1,10 +1,10 @@
 import {AppContext} from 'context/app/AppContext';
 import React, {useContext} from 'react';
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 import {View, Text, StyleSheet} from 'react-native';
 import {GlobalColors} from 'theme/GlobalThemes';
-import ButtonComponent from './ButtonComponent';
-import ButtonOutlineComponent from './ButtonOutlineComponent';
+import ButtonComponent from 'components/Buttons/ButtonComponent';
+import ButtonOutlineComponent from 'components/Buttons/ButtonOutlineComponent';
 
 interface FooterTicketComponentProps {
   type?: 'primary' | 'secundary';
@@ -14,7 +14,8 @@ const FooterTicketComponent: React.FC<FooterTicketComponentProps> = ({
   type = 'primary',
 }) => {
   const {backHome, printerQr} = useContext(AppContext);
-  const navigation = useNavigation();
+  const route = useRoute();
+  console.log(JSON.stringify(route, null, 3));
   return (
     <View
       style={{
@@ -28,7 +29,11 @@ const FooterTicketComponent: React.FC<FooterTicketComponentProps> = ({
         flex: 1,
       }}>
       <ButtonComponent
-        title="Imprimir código QR"
+        title={
+          route.name == 'PrinterScreen'
+            ? 'Volver a imprimir QR'
+            : 'Imprimir código QR'
+        }
         fill={type}
         onPress={() => {
           printerQr();

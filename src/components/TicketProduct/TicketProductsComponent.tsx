@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
 import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
-import ProductItemComponent from 'components/ProductItemComponent';
+import ProductItemComponent from 'components/TicketProduct/ProductItemComponent';
 import {Product} from 'context/app/interfaces/AppStateInterface';
 
 interface TicketProductsComponentProps {

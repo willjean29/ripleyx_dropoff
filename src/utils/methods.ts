@@ -6,16 +6,16 @@ import TicketSecuritySvg from 'assets/img/ticket_security.svg';
 import TicketWifiSvg from 'assets/img/wifi_error.svg';
 import {TicketContent} from 'interfaces/AppInterface';
 import {TypeOfError} from 'utils/enums';
-import {Product} from 'context/app/interfaces/AppStateInterface';
+import {Product, Ticket} from 'context/app/interfaces/AppStateInterface';
 
 export const selectTicketContent = (typeOfError: TypeOfError) => {
   let ticketContent: TicketContent = {} as TicketContent;
   switch (typeOfError) {
     case TypeOfError.TICKET_USED:
       ticketContent.IconSvg = TicketUsedSvg;
-      ticketContent.title = 'Tu ticket no fue validado por seguridad';
+      ticketContent.title = 'Tu ticket ya fue usado';
       ticketContent.message =
-        'Acércate a un personal de seguridad o a la caja más cercana';
+        'Los productos en este ticket ya fueron devueltos a la tienda';
       break;
     case TypeOfError.TICKET_SECURITY:
       ticketContent.IconSvg = TicketSecuritySvg;
@@ -57,6 +57,23 @@ export const selectTicketContent = (typeOfError: TypeOfError) => {
       break;
   }
   return ticketContent;
+};
+
+export const validateErrorTicket = (ticket: Ticket) => {
+  let errorTicket: TypeOfError = TypeOfError.TICKET_NOT_ERROR;
+  // validar ticket usado
+  if (ticket.ticketStatus === 6) {
+    errorTicket = TypeOfError.TICKET_USED;
+    return errorTicket;
+  }
+  // validar ticket cancelado (cliente o personal)
+  // validar ticket por seguirdad
+  // validar electro
+  if (ticket.categoryId === 3) {
+    errorTicket = TypeOfError.TICKET_ELECTRO;
+    return errorTicket;
+  }
+  return errorTicket;
 };
 
 export const calculateTotalProducts = (products: Product[]) => {

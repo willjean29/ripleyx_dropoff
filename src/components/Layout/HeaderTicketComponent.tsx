@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
-import ProgressBarComponent from 'components/ProgressBarComponent';
+import ProgressBarComponent from 'components/UI/ProgressBarComponent';
 import {Ticket} from 'context/app/interfaces/AppStateInterface';
 import {AppContext} from 'context/app/AppContext';
 

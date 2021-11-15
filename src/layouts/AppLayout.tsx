@@ -1,4 +1,4 @@
-import FooterScannerComponent from 'components/FooterScannerComponet';
+import FooterScannerComponent from 'components/Layout/FooterScannerComponet';
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
 import {DimensionsDevice} from 'utils/enums';

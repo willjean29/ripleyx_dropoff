@@ -1,9 +1,8 @@
 import React, {useContext} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import TicketLayout from '../layouts/TicketLayout';
-import HeaderTicketComponent from 'components/HeaderTicketComponent';
-import FooterTicketComponent from 'components/FooterTicketComponent';
-import TicketProductsComponent from 'components/TicketProductsComponent';
+import TicketLayout from 'layouts/TicketLayout';
+import HeaderTicketComponent from 'components/Layout/HeaderTicketComponent';
+import FooterTicketComponent from 'components/Layout/FooterTicketComponent';
+import TicketProductsComponent from 'components/TicketProduct/TicketProductsComponent';
 import {AppContext} from 'context/app/AppContext';
 
 interface TicketProductsScreenProps {}

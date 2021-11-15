@@ -6,7 +6,7 @@ import LogotipoSvg from 'assets/img/logotipo.svg';
 import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
 
 import AppLayout from 'layouts/AppLayout';
-import ColorBarComponent from 'components/ColorBarComponent';
+import ColorBarComponent from 'components/UI/ColorBarComponent';
 import {StackParamList} from 'navigation/StackNavigation';
 
 import {AppContext} from 'context/app/AppContext';
