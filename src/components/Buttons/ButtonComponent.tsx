@@ -8,6 +8,7 @@ import {
   ViewStyle,
   TextStyle,
 } from 'react-native';
+// custom import
 import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
 
 export type ButtonFill = 'primary' | 'secundary' | ' disabled';

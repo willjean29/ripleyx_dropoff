@@ -1,10 +1,9 @@
 import React, {useContext} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
 import {Circle} from 'react-native-animated-spinkit';
-import {StackParamList} from 'navigation/StackNavigation';
-import {StackScreenProps} from '@react-navigation/stack';
+// custom import
 import {AppContext} from 'context/app/AppContext';
+import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
 interface LoadingScreenProps {}
 
 const LoadingScreen: React.FC<LoadingScreenProps> = ({}) => {

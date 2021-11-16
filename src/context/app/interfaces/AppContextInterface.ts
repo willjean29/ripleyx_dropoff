@@ -6,4 +6,5 @@ export interface AppContextI {
   backHome: () => void;
   printerQr: () => void;
   changeTotalProducts: (total: number) => void;
+  changeAnimation: (status: boolean) => void;
 }

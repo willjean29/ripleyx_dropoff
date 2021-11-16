@@ -1,15 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
-import BagSvg from 'assets/img/bag.svg';
-import LogotipoSvg from 'assets/img/logotipo.svg';
-import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
-
+import {StackParamList} from 'navigation/StackNavigation';
+// custom import
 import AppLayout from 'layouts/AppLayout';
 import ColorBarComponent from 'components/UI/ColorBarComponent';
-import {StackParamList} from 'navigation/StackNavigation';
-
 import {AppContext} from 'context/app/AppContext';
+import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
+import BagSvg from 'assets/img/bag.svg';
+import LogotipoSvg from 'assets/img/logotipo.svg';
 interface HomeScreenProps
   extends StackScreenProps<StackParamList, 'HomeScreen'> {}
 
@@ -37,7 +36,6 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           title="Leer Ticket"
           onPress={() => {
             readQr(token);
-            // navigation.navigate('TicketProductsScreen');
           }}
         />
       </>

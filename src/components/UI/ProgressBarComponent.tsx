@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useRef} from 'react';
 import {View, Text, StyleSheet, Animated} from 'react-native';
-import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
+// custom import
 import LinearGradient from 'react-native-linear-gradient';
 import {AppContext} from 'context/app/AppContext';
 import useAnimationScale from 'hooks/useAnimationScale';
-
+import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
 interface ProgressBarComponentProps {
   time?: number;
   backgroundColor?: string;

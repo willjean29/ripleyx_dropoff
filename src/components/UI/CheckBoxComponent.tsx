@@ -1,8 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
-import CheckMarkSvg from 'assets/img/check_mark.svg';
+// custom import
 import {GlobalColors} from 'theme/GlobalThemes';
-import TicketWifiSvg from 'assets/img/wifi_error.svg';
+import CheckMarkSvg from 'assets/img/check_mark.svg';
 
 interface CheckBoxComponentProps {
   isChecked: boolean;

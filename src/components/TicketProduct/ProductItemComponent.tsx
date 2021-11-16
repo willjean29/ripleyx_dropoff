@@ -1,11 +1,12 @@
 import React, {useContext, useState} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
-import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
-import BouncyCheckbox from 'react-native-bouncy-checkbox';
-import BagSmallSvg from 'assets/img/bag_small.svg';
+import {View, Text, StyleSheet, TouchableOpacity} from 'react-native';
+// custom import
+import CheckBoxComponent from 'components/UI/CheckBoxComponent';
 import {Product} from 'context/app/interfaces/AppStateInterface';
 import {AppContext} from 'context/app/AppContext';
-import CheckBoxComponent from 'components/UI/CheckBoxComponent';
+import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
+import BagSmallSvg from 'assets/img/bag_small.svg';
+
 interface ProductItemComponentProps {
   product: Product;
 }
@@ -15,11 +16,18 @@ const ProductItemComponent: React.FC<ProductItemComponentProps> = ({
 }) => {
   const [isSelected, setIsSelected] = useState(true);
   const {
-    appState: {totalPorducts},
+    appState: {totalPorducts, resetAnimation},
     changeTotalProducts,
+    changeAnimation,
   } = useContext(AppContext);
   return (
-    <View style={styles.container}>
+    <TouchableOpacity
+      style={styles.container}
+      activeOpacity={1}
+      onPress={() => {
+        console.log('click');
+        changeAnimation(!resetAnimation);
+      }}>
       {/* checkbox */}
       {/* info */}
       <View style={{flexDirection: 'row'}}>
@@ -28,6 +36,7 @@ const ProductItemComponent: React.FC<ProductItemComponentProps> = ({
             isChecked={isSelected}
             onPress={() => {
               setIsSelected(!isSelected);
+              changeAnimation(!resetAnimation);
               !isSelected
                 ? changeTotalProducts(
                     totalPorducts + product.quantityProductsReturn,
@@ -64,7 +73,7 @@ const ProductItemComponent: React.FC<ProductItemComponentProps> = ({
         <Text style={styles.txtCloseIcon}>x</Text>
         <Text style={styles.txtQuantity}>{product.quantityProductsReturn}</Text>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 

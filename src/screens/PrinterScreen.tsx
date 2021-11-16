@@ -1,13 +1,14 @@
-import FooterTicketComponent from 'components/Layout/FooterTicketComponent';
 import React, {useContext, useEffect, useState} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {DimensionsDevice, TypeOfPrinter} from 'utils/enums';
+// custom import
 import ProgressBarComponent from 'components/UI/ProgressBarComponent';
+import FooterTicketComponent from 'components/Layout/FooterTicketComponent';
+import ContentComponent from 'components/Layout/ContentComponent';
+import {AppContext} from 'context/app/AppContext';
+import {DimensionsDevice, TypeOfPrinter} from 'utils/enums';
+import {GlobalColors} from 'theme/GlobalThemes';
 import PrinterSuccessSvg from 'assets/img/printer_success.svg';
 import PrinterError from 'assets/img/printer_error.svg';
-import ContentComponent from 'components/Layout/ContentComponent';
-import {GlobalColors} from 'theme/GlobalThemes';
-import {AppContext} from 'context/app/AppContext';
 interface PrinterScreenProps {}
 
 const PrinterScreen: React.FC<PrinterScreenProps> = () => {

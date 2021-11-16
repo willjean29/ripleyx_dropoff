@@ -1,14 +1,15 @@
 import React, {useContext, useEffect, useState} from 'react';
-// import TicketSecuritySvg from 'assets/img/ticket_security.svg';
-import ContentComponent from 'components/Layout/ContentComponent';
-import AppLayout from 'layouts/AppLayout';
-import ProgressBar from 'components/UI/ProgressBarComponent';
+import {Button} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import {StackParamList} from 'navigation/StackNavigation';
+// custom import
+import AppLayout from 'layouts/AppLayout';
+import ProgressBar from 'components/UI/ProgressBarComponent';
+import ContentComponent from 'components/Layout/ContentComponent';
 import {AppContext} from 'context/app/AppContext';
-import {GlobalColors} from 'theme/GlobalThemes';
-import {selectTicketContent} from 'utils/methods';
 import {TicketContent} from 'interfaces/appInterface';
+import {selectTicketContent} from 'utils/methods';
+import {GlobalColors} from 'theme/GlobalThemes';
 // import SVG
 import TicketUsedSvg from 'assets/img/ticket_used.svg';
 import TicketCanceledSvg from 'assets/img/ticket_canceled.svg';
@@ -16,8 +17,6 @@ import TicketElectroSvg from 'assets/img/ticket_electro.svg';
 import TicketSecuritySvg from 'assets/img/ticket_security.svg';
 import TicketWifiSvg from 'assets/img/wifi_error.svg';
 import {TypeOfError} from 'utils/enums';
-import {SvgProps} from 'react-native-svg';
-import {Button} from 'react-native';
 
 interface ErrorScreenProps
   extends StackScreenProps<StackParamList, 'ErrorScreen'> {}

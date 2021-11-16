@@ -1,10 +1,10 @@
 import React, {useContext} from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
+// custom imports
 import ProgressBarComponent from 'components/UI/ProgressBarComponent';
 import {Ticket} from 'context/app/interfaces/AppStateInterface';
 import {AppContext} from 'context/app/AppContext';
-
+import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
 interface HeaderTicketComponentProps {
   ticket: Ticket;
 }
@@ -13,12 +13,12 @@ const HeaderTicketComponent: React.FC<HeaderTicketComponentProps> = ({
   ticket,
 }) => {
   const {
-    appState: {totalPorducts},
+    appState: {totalPorducts, resetAnimation},
   } = useContext(AppContext);
   return (
     <View style={styles.containerHeader}>
       <View style={{top: -8}}>
-        <ProgressBarComponent time={60} />
+        <ProgressBarComponent time={60} reset={resetAnimation} />
       </View>
       <View
         style={{

@@ -1,7 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import ArrowDownSvg from 'assets/img/arrow_down.svg';
+// custom import
 import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
+import ArrowDownSvg from 'assets/img/arrow_down.svg';
 interface FooterScannerComponentProps {
   message: string;
 }

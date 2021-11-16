@@ -1,10 +1,11 @@
-import {AppContext} from 'context/app/AppContext';
 import React, {useContext} from 'react';
-import {useNavigation, useRoute} from '@react-navigation/native';
 import {View, Text, StyleSheet} from 'react-native';
-import {GlobalColors} from 'theme/GlobalThemes';
+import {useNavigation, useRoute} from '@react-navigation/native';
+// custom imports
 import ButtonComponent from 'components/Buttons/ButtonComponent';
 import ButtonOutlineComponent from 'components/Buttons/ButtonOutlineComponent';
+import {AppContext} from 'context/app/AppContext';
+import {GlobalColors} from 'theme/GlobalThemes';
 
 interface FooterTicketComponentProps {
   type?: 'primary' | 'secundary';

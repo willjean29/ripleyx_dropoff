@@ -31,7 +31,7 @@ export const ticketDemo: ITicketResponse = {
     email: 'demo@gmail.com',
     ticketStatus: 3,
     ticketStatusName: 'DROP OF READ',
-    categoryId: 3,
+    categoryId: 1,
     categoryName: 'Fallado',
   },
   products: [

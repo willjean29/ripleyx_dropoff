@@ -7,6 +7,7 @@ export const RESET_DATA = 'RESET_DATA';
 export const TYPE_ERROR = 'TYPE_ERROR';
 export const CHECK_PRINTER = 'CHECK_PRINTER';
 export const CHANGE_TOTAL_PRODUCTS = 'CHANGE_TOTAL_PRODUCTS';
+export const RESET_ANIMATION = 'RESET_ANIMATION';
 
 export interface QRRead {
   type: typeof QR_READ;
@@ -51,10 +52,16 @@ export interface ChangeTotalProducts {
   payload: number;
 }
 
+export interface ResetAnimation {
+  type: typeof RESET_ANIMATION;
+  payload: boolean;
+}
+
 export type QRDispatchTypes =
   | QRRead
   | QRCheck
   | ResetData
   | TypeError
   | CheckPrinter
-  | ChangeTotalProducts;
+  | ChangeTotalProducts
+  | ResetAnimation;

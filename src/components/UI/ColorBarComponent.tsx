@@ -1,7 +1,8 @@
 import React from 'react';
 import {View, Text, Image, StyleSheet} from 'react-native';
-import ColorBar from 'assets/img/color_bar.png';
+// custom import
 import {DimensionsDevice} from 'utils/enums';
+import ColorBar from 'assets/img/color_bar.png';
 interface ColorBarComponentProps {}
 
 const ColorBarComponent: React.FC<ColorBarComponentProps> = () => {

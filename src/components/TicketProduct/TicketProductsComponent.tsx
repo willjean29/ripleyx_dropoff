@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {View, Text, StyleSheet, FlatList} from 'react-native';
-import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
+// custom import
 import ProductItemComponent from 'components/TicketProduct/ProductItemComponent';
 import {Product} from 'context/app/interfaces/AppStateInterface';
-
+import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
 interface TicketProductsComponentProps {
   products: Product[];
 }

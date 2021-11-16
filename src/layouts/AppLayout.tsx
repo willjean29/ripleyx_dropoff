@@ -1,6 +1,7 @@
-import FooterScannerComponent from 'components/Layout/FooterScannerComponet';
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
+// custom import
+import FooterScannerComponent from 'components/Layout/FooterScannerComponet';
 import {DimensionsDevice} from 'utils/enums';
 interface AppLayoutProps {
   children: React.ReactNode;

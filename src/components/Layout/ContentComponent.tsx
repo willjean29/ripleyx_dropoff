@@ -1,7 +1,8 @@
 import React from 'react';
 import {View, Text, StyleSheet} from 'react-native';
-import {SvgProps} from 'react-native-svg';
+// custom import
 import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
+import {SvgProps} from 'react-native-svg';
 interface ContentComponentProps {
   IconSvg: React.FC<SvgProps>;
   title: string;

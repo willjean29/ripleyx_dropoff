@@ -8,6 +8,7 @@ import {
   TYPE_ERROR,
   CHECK_PRINTER,
   CHANGE_TOTAL_PRODUCTS,
+  RESET_ANIMATION,
 } from './AppTypes';
 import {ITicketResponse, Ticket} from './interfaces/AppStateInterface';
 import {ticketDemo, TypeOfError, TypeOfPrinter} from 'utils/enums';
@@ -103,6 +104,7 @@ export const backHomeAction = (dispatch: React.Dispatch<QRDispatchTypes>) => {
         typeOfError: null,
         printer: false,
         typeOfPrinter: TypeOfPrinter.PRINTER_ERROR,
+        resetAnimation: false,
       },
     });
   }, 1500);
@@ -135,5 +137,15 @@ export const changeTotalProductsAction = (
   dispatch({
     type: CHANGE_TOTAL_PRODUCTS,
     payload: total,
+  });
+};
+
+export const changeAnimationAction = (
+  dispatch: React.Dispatch<QRDispatchTypes>,
+  status: boolean,
+) => {
+  dispatch({
+    type: RESET_ANIMATION,
+    payload: status,
   });
 };

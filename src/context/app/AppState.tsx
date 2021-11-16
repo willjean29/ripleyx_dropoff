@@ -4,6 +4,7 @@ import AppReducer from './AppReducer';
 import React, {useReducer} from 'react';
 import {
   backHomeAction,
+  changeAnimationAction,
   changeTotalProductsAction,
   printerQrAction,
   readQrAction,
@@ -25,6 +26,7 @@ const AppState: React.FC<AppStateProps> = ({children}) => {
     typeOfError: null,
     printer: false,
     typeOfPrinter: TypeOfPrinter.PRINTER_ERROR,
+    resetAnimation: false,
   };
   const [appState, dispatch] = useReducer(AppReducer, appInitialState);
 
@@ -33,10 +35,19 @@ const AppState: React.FC<AppStateProps> = ({children}) => {
   const printerQr = () => printerQrAction(dispatch);
   const changeTotalProducts = (total: number) =>
     changeTotalProductsAction(dispatch, total);
+  const changeAnimation = (status: boolean) =>
+    changeAnimationAction(dispatch, status);
 
   return (
     <AppContext.Provider
-      value={{appState, readQr, backHome, printerQr, changeTotalProducts}}>
+      value={{
+        appState,
+        readQr,
+        backHome,
+        printerQr,
+        changeTotalProducts,
+        changeAnimation,
+      }}>
       {children}
     </AppContext.Provider>
   );
