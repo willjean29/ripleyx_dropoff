@@ -107,7 +107,7 @@ export const backHomeAction = (dispatch: React.Dispatch<QRDispatchTypes>) => {
         resetAnimation: false,
       },
     });
-  }, 1500);
+  }, 2000);
 };
 
 export const printerQrAction = (dispatch: React.Dispatch<QRDispatchTypes>) => {
@@ -127,7 +127,7 @@ export const printerQrAction = (dispatch: React.Dispatch<QRDispatchTypes>) => {
         type: TypeOfPrinter.PRINTER_ERROR,
       },
     });
-  }, 1500);
+  }, 3000);
 };
 
 export const changeTotalProductsAction = (

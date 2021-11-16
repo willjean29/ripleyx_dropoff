@@ -42,9 +42,9 @@ const AppReducer = (state: AppStateI, action: QRDispatchTypes) => {
     case CHECK_PRINTER:
       return {
         ...state,
-        isLoading: false,
-        printer: action.payload.printer,
+        printer: true,
         typeOfPrinter: action.payload.type,
+        isLoading: false,
       };
     case CHANGE_TOTAL_PRODUCTS:
       return {
