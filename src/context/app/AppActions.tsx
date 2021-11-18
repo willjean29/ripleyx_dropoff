@@ -124,10 +124,10 @@ export const printerQrAction = (dispatch: React.Dispatch<QRDispatchTypes>) => {
       type: CHECK_PRINTER,
       payload: {
         printer: true,
-        type: TypeOfPrinter.PRINTER_ERROR,
+        type: TypeOfPrinter.PRINTER_SUCCESS,
       },
     });
-  }, 3000);
+  }, 1500);
 };
 
 export const changeTotalProductsAction = (

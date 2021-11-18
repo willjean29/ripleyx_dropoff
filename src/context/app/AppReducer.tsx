@@ -1,3 +1,4 @@
+import {act} from 'react-test-renderer';
 import {
   QR_READ,
   QR_CHECK,
@@ -42,7 +43,7 @@ const AppReducer = (state: AppStateI, action: QRDispatchTypes) => {
     case CHECK_PRINTER:
       return {
         ...state,
-        printer: true,
+        printer: action.payload.printer,
         typeOfPrinter: action.payload.type,
         isLoading: false,
       };

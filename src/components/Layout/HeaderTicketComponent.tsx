@@ -30,7 +30,7 @@ const HeaderTicketComponent: React.FC<HeaderTicketComponentProps> = ({
         <View style={{...styles.containerCenter, marginVertical: 16}}>
           <Text style={[styles.txtTicket]}>Ticket N° </Text>
           <Text style={[styles.txtTicket, styles.txtTicketNumber]}>
-            {ticket.ticketId}
+            {ticket.ticket_id}
           </Text>
         </View>
         <View style={styles.containerCenter}>

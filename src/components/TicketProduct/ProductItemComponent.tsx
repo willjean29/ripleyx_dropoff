@@ -39,26 +39,26 @@ const ProductItemComponent: React.FC<ProductItemComponentProps> = ({
               changeAnimation(!resetAnimation);
               !isSelected
                 ? changeTotalProducts(
-                    totalPorducts + product.quantityProductsReturn,
+                    totalPorducts + product.quantity_products_return,
                   )
                 : changeTotalProducts(
-                    totalPorducts - product.quantityProductsReturn,
+                    totalPorducts - product.quantity_products_return,
                   );
             }}
           />
         </View>
         <View>
-          <Text style={styles.txtTitleName}>{product.productName}</Text>
+          <Text style={styles.txtTitleName}>{product.product_name}</Text>
 
           <Text style={styles.txtDetails}>
-            {product.productSize !== '-' && `Talla ${product.productSize}`}
-            {product.productSize !== '-' &&
-              product.productColor !== '' &&
+            {product.product_size !== '-' && `Talla ${product.product_size}`}
+            {product.product_size !== '-' &&
+              product.product_size !== '' &&
               ` - `}
-            {product.productColor !== '' && `Color ${product.productColor}`}
+            {product.product_color !== '' && `Color ${product.product_color}`}
           </Text>
           <View style={{flexDirection: 'row'}}>
-            <Text style={styles.txtError}>{product.reasonName}</Text>
+            <Text style={styles.txtError}>{product.reason_name}</Text>
             <BagSmallSvg width={24} height={24} />
           </View>
         </View>
@@ -71,7 +71,9 @@ const ProductItemComponent: React.FC<ProductItemComponentProps> = ({
           alignItems: 'center',
         }}>
         <Text style={styles.txtCloseIcon}>x</Text>
-        <Text style={styles.txtQuantity}>{product.quantityProductsReturn}</Text>
+        <Text style={styles.txtQuantity}>
+          {product.quantity_products_return}
+        </Text>
       </View>
     </TouchableOpacity>
   );

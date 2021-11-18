@@ -62,14 +62,14 @@ export const selectTicketContent = (typeOfError: TypeOfError) => {
 export const validateErrorTicket = (ticket: Ticket) => {
   let errorTicket: TypeOfError = TypeOfError.TICKET_NOT_ERROR;
   // validar ticket usado
-  if (ticket.ticketStatus === 6) {
+  if (ticket.status_request === 6) {
     errorTicket = TypeOfError.TICKET_USED;
     return errorTicket;
   }
   // validar ticket cancelado (cliente o personal)
   // validar ticket por seguirdad
   // validar electro
-  if (ticket.categoryId === 3) {
+  if (ticket.category_id === 3) {
     errorTicket = TypeOfError.TICKET_ELECTRO;
     return errorTicket;
   }
@@ -79,7 +79,7 @@ export const validateErrorTicket = (ticket: Ticket) => {
 export const calculateTotalProducts = (products: Product[]) => {
   let total = 0;
   products.map(product => {
-    total += product.quantityProductsReturn;
+    total += product.quantity_products_return;
   });
   return total;
 };

@@ -22,21 +22,24 @@ export interface ITicketResponse {
 }
 
 export interface Product {
-  productName: string;
-  reasonName: string;
-  quantityProductsReturn: number;
-  priceByUnit: string;
-  productColor: string;
-  productSize: string;
+  order_detail_id: string;
+  order_id: string;
+  ticket_id: string;
+  product_name: string;
+  reason_name: string;
+  quantity_products_return: number;
+  price_by_unit: string;
+  product_color: string;
+  product_size: string;
 }
 
 export interface Ticket {
-  id: string;
-  ticketId: string;
-  identityDocument: string;
+  order_id: string;
+  ticket_id: string;
+  identity_document: string;
   email: string;
-  ticketStatus: number;
-  ticketStatusName: string;
-  categoryId?: number;
-  categoryName?: string;
+  status_request: number;
+  status_request_name: string;
+  category_id: number;
+  category_name: string;
 }
