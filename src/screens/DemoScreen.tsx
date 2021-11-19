@@ -1,63 +1,116 @@
-import React, {useEffect, useRef} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {
-  View,
-  Text,
+  ActivityIndicator,
+  Platform,
   StyleSheet,
-  Animated,
+  Text,
+  View,
   Button,
-  TextInput,
+  ScrollView,
+  DeviceEventEmitter,
+  NativeEventEmitter,
+  Switch,
+  TouchableOpacity,
+  Dimensions,
+  ToastAndroid,
 } from 'react-native';
 import {DimensionsDevice} from 'utils/enums';
-interface DemoScreenProps {}
 
+// import {
+//   BluetoothEscposPrinter,
+//   BluetoothManager,
+//   BluetoothTscPrinter,
+// } from 'react-native-bluetooth-escpos-printer';
+
+import {
+  BluetoothManager,
+  BluetoothEscposPrinter,
+  BluetoothTscPrinter,
+} from 'tp-react-native-bluetooth-printer';
+import {
+  USBPrinter,
+  NetPrinter,
+  BLEPrinter,
+} from 'react-native-thermal-receipt-printer';
+
+var {height, width} = Dimensions.get('window');
+interface DemoScreenProps {}
+interface IBLEPrinter {
+  device_name: string;
+  inner_mac_address: string;
+}
+type IBLEPrinterArray = IBLEPrinter[];
+
+interface STATEPrinter {
+  printers: IBLEPrinterArray;
+  setPrinters: () => void;
+}
 const DemoScreen: React.FC<DemoScreenProps> = () => {
-  const translate = useRef(new Animated.Value(0)).current;
+  const [printers, setPrinters] = useState<any>([]);
+  const [currentPrinter, setCurrentPrinter]: any = useState();
+  const [error, setError] = useState('');
 
   useEffect(() => {
-    Animated.timing(translate, {
-      toValue: 100,
-      duration: 1000 * 10,
-      useNativeDriver: true,
-    }).start();
+    BLEPrinter.init().then(() => {
+      BLEPrinter.getDeviceList().then(setPrinters);
+    });
   }, []);
+
+  const printTextTest = (): void => {
+    currentPrinter &&
+      BLEPrinter.printText(
+        '<C>RIPLEY</C>\n<C>TIENDAS POR DEPARTAMENTO RIPLEY S.A.</C>\n<C>CALLE LAS BEGONIAS 545-577</C>\n<C>SAN ISIDRO - LIMA</C>\n<C>RUC 20337564373</C>\n',
+      );
+  };
+
+  const _connectPrinter = (printer: IBLEPrinter) => {
+    //connect printer
+    setError('');
+    BLEPrinter.connectPrinter(printer.inner_mac_address).then(
+      setCurrentPrinter,
+      error =>
+        setError(JSON.stringify('Error al intentar establecer la conexión')),
+    );
+
+    printTextTest();
+  };
+  console.log(error);
+
   return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-      }}>
-      <Button
-        title="Demo"
-        onPress={() => {
-          console.log('hola');
-        }}
-      />
-      <TextInput placeholder="hola" />
-      {/* <View
-        style={{
-          width: '100%',
-          flexDirection: 'row',
-          backgroundColor: 'green',
-        }}>
-        <Animated.View
-          style={{
-            width: '100%',
-            height: 20,
-            backgroundColor: 'red',
-            transform: [
-              {
-                scaleX: translate.interpolate({
-                  inputRange: [0, 100],
-                  outputRange: [1, 0],
-                }),
-              },
-            ],
-          }}
-        />
-      </View> */}
-    </View>
+    <ScrollView style={styles.container}>
+      <Text>Prueba de Bluetooth</Text>
+    </ScrollView>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#F5FCFF',
+  },
+
+  title: {
+    width: width,
+    backgroundColor: '#eee',
+    color: '#232323',
+    paddingLeft: 8,
+    paddingVertical: 4,
+    textAlign: 'left',
+  },
+  wtf: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  name: {
+    flex: 1,
+    textAlign: 'left',
+  },
+  address: {
+    flex: 1,
+    textAlign: 'right',
+  },
+});
 
 export default DemoScreen;

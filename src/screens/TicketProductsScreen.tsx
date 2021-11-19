@@ -12,7 +12,7 @@ const TicketProductsScreen: React.FC<TicketProductsScreenProps> = () => {
   const {
     appState: {ticketInfo, products},
   } = useContext(AppContext);
-  console.log(ticketInfo, products);
+  // console.log(ticketInfo, products);
   return (
     <TicketLayout
       header={<HeaderTicketComponent ticket={ticketInfo!} />}

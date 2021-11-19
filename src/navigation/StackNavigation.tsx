@@ -42,6 +42,7 @@ const StackNavigation: React.FC<StackNavigationProps> = () => {
         <>
           {/* no hay un ticket activo */}
           {error && <Stack.Screen name="ErrorScreen" component={ErrorScreen} />}
+          {/* <Stack.Screen name="DemoScreen" component={DemoScreen} /> */}
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
         </>
       ) : (
