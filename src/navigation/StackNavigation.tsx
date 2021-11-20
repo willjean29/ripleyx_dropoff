@@ -7,6 +7,7 @@ import LoadingScreen from 'screens/LoadingScreen';
 import DemoScreen from 'screens/DemoScreen';
 import TicketProductsScreen from 'screens/TicketProductsScreen';
 import PrinterScreen from 'screens/PrinterScreen';
+import ExampleScreen from 'screens/ExampleScreen';
 
 export type StackParamList = {
   DemoScreen: undefined;
@@ -15,6 +16,7 @@ export type StackParamList = {
   ErrorScreen: undefined;
   TicketProductsScreen: undefined;
   PrinterScreen: undefined;
+  ExampleScreen: undefined;
 };
 declare global {
   namespace ReactNavigation {
@@ -42,7 +44,7 @@ const StackNavigation: React.FC<StackNavigationProps> = () => {
         <>
           {/* no hay un ticket activo */}
           {error && <Stack.Screen name="ErrorScreen" component={ErrorScreen} />}
-          {/* <Stack.Screen name="DemoScreen" component={DemoScreen} /> */}
+          <Stack.Screen name="ExampleScreen" component={ExampleScreen} />
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
         </>
       ) : (
