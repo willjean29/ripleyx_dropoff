@@ -17,6 +17,8 @@ import {
   BluetoothEscposPrinter,
   BluetoothTscPrinter,
 } from 'tp-react-native-bluetooth-printer';
+
+import QRCode from 'qrcode';
 interface ExampleScreenProps {}
 
 interface IBLEPrinter {
@@ -32,7 +34,7 @@ const ExampleScreen: React.FC<ExampleScreenProps> = () => {
   const [printers, setPrinters] = useState<any>([]);
   const [currentPrinter, setCurrentPrinter]: any = useState();
   const [error, setError] = useState('');
-
+  const [qr, setQr] = useState('');
   useEffect(() => {
     BLEPrinter.init().then(() => {
       BLEPrinter.getDeviceList().then(setPrinters);
@@ -40,14 +42,31 @@ const ExampleScreen: React.FC<ExampleScreenProps> = () => {
   }, []);
 
   const printTextTest = (): void => {
-    currentPrinter &&
-      BLEPrinter.printText(
-        '<C>RIPLEY</C>\n<C>TIENDAS POR DEPARTAMENTO RIPLEY S.A.</C>\n<C>CALLE LAS BEGONIAS 545-577</C>\n<C>SAN ISIDRO - LIMA</C>\n<C>RUC 20337564373</C>\n',
-      );
+    const textFooter =
+      'COLOCA ESTE PAPEL JUNTO CON TUS PRODUCTOS DENTRO DE LA BOLSA DE DEVOLUCIONES';
+    const textPrint = `
+    <C>RIPLEY</C>\n
+    <C>TIENDAS POR DEPARTAMENTO RIPLEY S.A.</C>\n
+    <C>CALLE LAS BEGONIAS 545-577</C>\n
+    <C>SAN ISIDRO - LIMA</C>\n
+    <C>RUC 20337564373</C>\n
+    <M>Nro Ticket\t\tT-001005</M>\n
+    <M>Fec Devolución\t\t25/10/2021</M>\n
+    <M>Cant Productos\t\t4</M>\n\n
+    <M>${qr}</M>\n\n
+    <C>${textFooter}</C>
+    `;
+    const defaultPrint =
+      '<C>RIPLEY</C>\n<C>TIENDAS POR DEPARTAMENTO RIPLEY S.A.</C>\n<C>CALLE LAS BEGONIAS 545-577</C>\n<C>SAN ISIDRO - LIMA</C>\n<C>RUC 20337564373</C>\n';
+    currentPrinter && BLEPrinter.printText(textPrint);
   };
 
   const connectPrinter = (printer: IBLEPrinter) => {
     //connect printer
+    QRCode.toString('http://www.google.com', function (err, string) {
+      if (err) throw err;
+      setQr(string);
+    });
     console.log('imprimir modo 1');
     setError('');
     BLEPrinter.connectPrinter(printer.inner_mac_address).then(
@@ -58,6 +77,7 @@ const ExampleScreen: React.FC<ExampleScreenProps> = () => {
 
     printTextTest();
   };
+
   const [printers2, setPrinters2] = useState<DeviceBluetooth[]>([]);
   const [error2, setError2] = useState('');
   // modo 2
@@ -111,11 +131,13 @@ const ExampleScreen: React.FC<ExampleScreenProps> = () => {
     ],
   };
   const printerModo2 = async () => {
-    await BluetoothEscposPrinter.printQRCode(
-      'Prueba qr',
-      200,
-      BluetoothEscposPrinter.ERROR_CORRECTION.H,
-      90,
+    BluetoothTscPrinter.printLabel(options).then(
+      () => {
+        //success
+      },
+      (err: any) => {
+        //error
+      },
     );
   };
 
