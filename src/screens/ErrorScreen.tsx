@@ -23,7 +23,7 @@ interface ErrorScreenProps
 
 const ErrorScreen: React.FC<ErrorScreenProps> = ({}) => {
   const [content, setContent] = useState<TicketContent>({} as TicketContent);
-  const [resetAnimation, setResetAnimation] = useState(false);
+
   const {
     appState: {typeOfError},
   } = useContext(AppContext);
@@ -34,9 +34,7 @@ const ErrorScreen: React.FC<ErrorScreenProps> = ({}) => {
       setContent(contentError);
     }
   }, []);
-  const onPressDemo = (callback: Function) => {
-    callback();
-  };
+
   return (
     <AppLayout footerTitle="Escanear otro código QR">
       <ContentComponent
@@ -55,16 +53,7 @@ const ErrorScreen: React.FC<ErrorScreenProps> = ({}) => {
         title={content.title}
         message={content.message}
       />
-      <Button
-        title="Reset Anbimation"
-        onPress={() => {
-          setResetAnimation(!resetAnimation);
-        }}
-      />
-      <ProgressBar
-        backgroundColor={GlobalColors.background.paper}
-        reset={resetAnimation}
-      />
+      <ProgressBar backgroundColor={GlobalColors.background.paper} />
     </AppLayout>
   );
 };

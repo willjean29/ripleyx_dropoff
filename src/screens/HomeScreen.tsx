@@ -14,7 +14,7 @@ interface HomeScreenProps
 
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const tokenDefault =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkbmkiOiI0NjQ3MzE1NCIsInRpY2tldE51bWJlciI6IidULTAwMDMyMiciLCJpYXQiOjE2MzYzOTY1ODEsImV4cCI6MTY2Nzk1NDE4MX0.90eg7sSvSxgUcuJr6Y_bxbeir6lIpnClKeXArEVt0fU';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkbmkiOiI0NjQ3MzE1NCIsInRpY2tldE51bWJlciI6IidULTAwMDMyMiciLCJpYXQiOjE2MzcyNzYwMjYsImV4cCI6MTY2ODgzMzYyNn0.D_EcW4DchtqzE4eaPkjYp9eddnycxqeFCTW9yR1eUww';
   const [token, setToken] = useState(tokenDefault);
   const {
     appState: {ticketInfo},

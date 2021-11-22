@@ -13,7 +13,7 @@ import {
 import {ITicketResponse, Ticket} from './interfaces/AppStateInterface';
 import {ticketDemo, TypeOfError, TypeOfPrinter} from 'utils/enums';
 import {calculateTotalProducts, validateErrorTicket} from 'utils/methods';
-
+import dropoffApi from 'api/dropoffApi';
 // const url =  'https://clients-backend.herokuapp.com/api/clients';
 const url = 'http://192.168.0.121:3005/api/ticket?token';
 
@@ -29,45 +29,56 @@ export const readQrAction = async (
     },
   });
   try {
-    // const response = await axios.get<ITicketResponse>(`${url}=${token}`);
-    // console.log(JSON.stringify({data: response.data}, null, 3));
+    const response = await dropoffApi.get<ITicketResponse>(
+      `/dropoff/ticket?token=${token}`,
+    );
+    console.log(JSON.stringify({data: response.data}, null, 3));
+    dispatch({
+      type: QR_READ,
+      payload: {
+        ticket: response.data.ticket,
+        products: response.data.products,
+        totalProducts: calculateTotalProducts(response.data.products),
+      },
+    });
 
-    // dispatch({
-    //   type: QR_READ,
-    //   payload: {
-    //     ticket: response.data.ticket,
-    //     products: response.data.products,
-    //     totalProducts: calculateTotalProducts(response.data.products),
-    //   },
-    // });
-
-    setTimeout(() => {
-      const response = ticketDemo;
-      const ticketError = validateErrorTicket(response.ticket);
-      if (ticketError === 0) {
-        dispatch({
-          type: QR_READ,
-          payload: {
-            ticket: response.ticket,
-            products: response.products,
-            totalProducts: calculateTotalProducts(response.products),
-          },
-        });
-      } else {
-        // ESTABLECER EL ERROR DE TICKET
-        dispatch({
-          type: TYPE_ERROR,
-          payload: {
-            error: true,
-            type: ticketError,
-          },
-        });
-      }
-    }, 1500);
+    // setTimeout(() => {
+    //   const response = ticketDemo;
+    //   const ticketError = validateErrorTicket(response.ticket);
+    //   if (ticketError === 0) {
+    //     dispatch({
+    //       type: QR_READ,
+    //       payload: {
+    //         ticket: response.ticket,
+    //         products: response.products,
+    //         totalProducts: calculateTotalProducts(response.products),
+    //       },
+    //     });
+    //   } else {
+    //     // ESTABLECER EL ERROR DE TICKET
+    //     dispatch({
+    //       type: TYPE_ERROR,
+    //       payload: {
+    //         error: true,
+    //         type: ticketError,
+    //       },
+    //     });
+    //   }
+    // }, 1500);
   } catch (error: any) {
     // console.log('error ');
-    console.log(error.response);
-    if (error.response.status === 500) {
+    console.log(JSON.stringify(error.response, null, 3));
+    if (error.response.status === 401) {
+      // disparar un error
+      dispatch({
+        type: TYPE_ERROR,
+        payload: {
+          error: true,
+          type: TypeOfError.TICKET_CANCELED,
+        },
+      });
+    }
+    if (error.response.status === 500 || error.response.status === 504) {
       // disparar un error
       dispatch({
         type: TYPE_ERROR,
