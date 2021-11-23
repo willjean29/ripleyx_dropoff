@@ -16,7 +16,7 @@ const FooterTicketComponent: React.FC<FooterTicketComponentProps> = ({
 }) => {
   const {backHome, printerQr} = useContext(AppContext);
   const route = useRoute();
-  console.log(JSON.stringify(route, null, 3));
+  // console.log(JSON.stringify(route, null, 3));
   return (
     <View
       style={{

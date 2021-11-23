@@ -10,9 +10,10 @@ interface TicketProductsScreenProps {}
 
 const TicketProductsScreen: React.FC<TicketProductsScreenProps> = () => {
   const {
-    appState: {ticketInfo, products},
+    appState: {ticketInfo, products, returnedProducts},
   } = useContext(AppContext);
-  console.log(ticketInfo, products);
+  // console.log(ticketInfo, products);
+  console.log(returnedProducts);
   return (
     <TicketLayout
       header={<HeaderTicketComponent ticket={ticketInfo!} />}

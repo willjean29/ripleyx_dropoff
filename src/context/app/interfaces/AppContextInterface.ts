@@ -7,4 +7,6 @@ export interface AppContextI {
   printerQr: () => void;
   changeTotalProducts: (total: number) => void;
   changeAnimation: (status: boolean) => void;
+  addProductReturned: (order_detail_id: number) => void;
+  deleteProductReturned: (order_detail_id: number) => void;
 }

@@ -8,6 +8,8 @@ import {
   CHECK_PRINTER,
   CHANGE_TOTAL_PRODUCTS,
   RESET_ANIMATION,
+  ADD_PRODUCT_REURNED,
+  DELETE_PRODUCT_REURNED,
 } from './AppTypes';
 
 import {AppStateI, Product} from './interfaces/AppStateInterface';
@@ -56,6 +58,21 @@ const AppReducer = (state: AppStateI, action: QRDispatchTypes) => {
       return {
         ...state,
         resetAnimation: action.payload,
+      };
+    case ADD_PRODUCT_REURNED:
+      return {
+        ...state,
+        returnedProducts: [
+          ...state.returnedProducts,
+          {order_detail_id: action.payload},
+        ],
+      };
+    case DELETE_PRODUCT_REURNED:
+      return {
+        ...state,
+        returnedProducts: state.returnedProducts.filter(
+          product => product.order_detail_id !== action.payload && product,
+        ),
       };
     default:
       return state;

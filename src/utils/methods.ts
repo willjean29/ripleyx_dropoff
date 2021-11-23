@@ -62,12 +62,40 @@ export const selectTicketContent = (typeOfError: TypeOfError) => {
 export const validateErrorTicket = (ticket: Ticket) => {
   let errorTicket: TypeOfError = TypeOfError.TICKET_NOT_ERROR;
   // validar ticket usado
-  if (ticket.status_request === 6) {
-    errorTicket = TypeOfError.TICKET_USED;
-    return errorTicket;
+  // if (ticket.status_request === 6 || ticket.status_request === 2) {
+  //   errorTicket = TypeOfError.TICKET_USED;
+  //   return errorTicket;
+  // }
+  // // validar ticket cancelado (personal)
+  // if (ticket.status_request === 37) {
+  //   errorTicket = TypeOfError.TICKET_CANCELED_CLIENT;
+  //   return errorTicket;
+  // }
+  // // validar ticket cancelado (personal)
+  // if (ticket.status_request === 4) {
+  //   errorTicket = TypeOfError.TICKET_CANCELED_PERSONAL;
+  //   return errorTicket;
+  // }
+  // // validar ticket por seguirdad
+  // if (ticket.status_request === 3) {
+  //   errorTicket = TypeOfError.TICKET_SECURITY;
+  //   return errorTicket;
+  // }
+  switch (ticket.status_request) {
+    case 6:
+    case 2:
+      errorTicket = TypeOfError.TICKET_USED;
+      break;
+    case 3:
+      errorTicket = TypeOfError.TICKET_SECURITY;
+      break;
+    case 4:
+      errorTicket = TypeOfError.TICKET_CANCELED_PERSONAL;
+      break;
+    case 37:
+      errorTicket = TypeOfError.TICKET_CANCELED_CLIENT;
+      break;
   }
-  // validar ticket cancelado (cliente o personal)
-  // validar ticket por seguirdad
   // validar electro
   if (ticket.category_id === 3) {
     errorTicket = TypeOfError.TICKET_ELECTRO;

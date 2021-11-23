@@ -3,9 +3,11 @@ import {AppStateI, Ticket} from './interfaces/AppStateInterface';
 import AppReducer from './AppReducer';
 import React, {useReducer} from 'react';
 import {
+  addProductsReturnedAction,
   backHomeAction,
   changeAnimationAction,
   changeTotalProductsAction,
+  deleteProductsReturnedAction,
   printerQrAction,
   readQrAction,
 } from './AppActions';
@@ -20,6 +22,7 @@ const AppState: React.FC<AppStateProps> = ({children}) => {
     messageLoading: '',
     ticketStatus: 'init',
     ticketInfo: null,
+    returnedProducts: [],
     products: [],
     totalPorducts: 0,
     error: false,
@@ -37,6 +40,10 @@ const AppState: React.FC<AppStateProps> = ({children}) => {
     changeTotalProductsAction(dispatch, total);
   const changeAnimation = (status: boolean) =>
     changeAnimationAction(dispatch, status);
+  const addProductReturned = (order_detail_id: number) =>
+    addProductsReturnedAction(dispatch, order_detail_id);
+  const deleteProductReturned = (order_detail_id: number) =>
+    deleteProductsReturnedAction(dispatch, order_detail_id);
 
   return (
     <AppContext.Provider
@@ -47,6 +54,8 @@ const AppState: React.FC<AppStateProps> = ({children}) => {
         printerQr,
         changeTotalProducts,
         changeAnimation,
+        addProductReturned,
+        deleteProductReturned,
       }}>
       {children}
     </AppContext.Provider>

@@ -9,6 +9,8 @@ import {
   CHECK_PRINTER,
   CHANGE_TOTAL_PRODUCTS,
   RESET_ANIMATION,
+  ADD_PRODUCT_REURNED,
+  DELETE_PRODUCT_REURNED,
 } from './AppTypes';
 import {ITicketResponse, Ticket} from './interfaces/AppStateInterface';
 import {ticketDemo, TypeOfError, TypeOfPrinter} from 'utils/enums';
@@ -29,42 +31,42 @@ export const readQrAction = async (
     },
   });
   try {
-    const response = await dropoffApi.get<ITicketResponse>(
-      `/dropoff/ticket?token=${token}`,
-    );
-    console.log(JSON.stringify({data: response.data}, null, 3));
-    dispatch({
-      type: QR_READ,
-      payload: {
-        ticket: response.data.ticket,
-        products: response.data.products,
-        totalProducts: calculateTotalProducts(response.data.products),
-      },
-    });
+    // const response = await dropoffApi.get<ITicketResponse>(
+    //   `/dropoff/ticket?token=${token}`,
+    // );
+    // console.log(JSON.stringify({data: response.data}, null, 3));
+    // dispatch({
+    //   type: QR_READ,
+    //   payload: {
+    //     ticket: response.data.ticket,
+    //     products: response.data.products,
+    //     totalProducts: calculateTotalProducts(response.data.products),
+    //   },
+    // });
 
-    // setTimeout(() => {
-    //   const response = ticketDemo;
-    //   const ticketError = validateErrorTicket(response.ticket);
-    //   if (ticketError === 0) {
-    //     dispatch({
-    //       type: QR_READ,
-    //       payload: {
-    //         ticket: response.ticket,
-    //         products: response.products,
-    //         totalProducts: calculateTotalProducts(response.products),
-    //       },
-    //     });
-    //   } else {
-    //     // ESTABLECER EL ERROR DE TICKET
-    //     dispatch({
-    //       type: TYPE_ERROR,
-    //       payload: {
-    //         error: true,
-    //         type: ticketError,
-    //       },
-    //     });
-    //   }
-    // }, 1500);
+    setTimeout(() => {
+      const response = ticketDemo;
+      const ticketError = validateErrorTicket(response.ticket);
+      if (ticketError === 0) {
+        dispatch({
+          type: QR_READ,
+          payload: {
+            ticket: response.ticket,
+            products: response.products,
+            totalProducts: calculateTotalProducts(response.products),
+          },
+        });
+      } else {
+        // ESTABLECER EL ERROR DE TICKET
+        dispatch({
+          type: TYPE_ERROR,
+          payload: {
+            error: true,
+            type: ticketError,
+          },
+        });
+      }
+    }, 1500);
   } catch (error: any) {
     // console.log('error ');
     console.log(JSON.stringify(error.response, null, 3));
@@ -110,6 +112,7 @@ export const backHomeAction = (dispatch: React.Dispatch<QRDispatchTypes>) => {
         ticketStatus: 'init',
         ticketInfo: null,
         totalPorducts: 0,
+        returnedProducts: [],
         products: [],
         error: false,
         typeOfError: null,
@@ -158,5 +161,25 @@ export const changeAnimationAction = (
   dispatch({
     type: RESET_ANIMATION,
     payload: status,
+  });
+};
+
+export const addProductsReturnedAction = (
+  dispatch: React.Dispatch<QRDispatchTypes>,
+  order_detail_id: number,
+) => {
+  dispatch({
+    type: ADD_PRODUCT_REURNED,
+    payload: order_detail_id,
+  });
+};
+
+export const deleteProductsReturnedAction = (
+  dispatch: React.Dispatch<QRDispatchTypes>,
+  order_detail_id: number,
+) => {
+  dispatch({
+    type: DELETE_PRODUCT_REURNED,
+    payload: order_detail_id,
   });
 };
