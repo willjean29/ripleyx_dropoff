@@ -15,7 +15,7 @@ const FooterTicketComponent: React.FC<FooterTicketComponentProps> = ({
   type = 'primary',
 }) => {
   const {
-    appState: {ticketInfo, returnedProducts},
+    appState: {ticketInfo, returnedProducts, totalPorducts},
     backHome,
     printerQr,
   } = useContext(AppContext);
@@ -42,6 +42,7 @@ const FooterTicketComponent: React.FC<FooterTicketComponentProps> = ({
         fill={type}
         onPress={() => {
           ticketInfo &&
+            totalPorducts !== 0 &&
             printerQr(
               {
                 ticket_id: ticketInfo.ticket_id!,

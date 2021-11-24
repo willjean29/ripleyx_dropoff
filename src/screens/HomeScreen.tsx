@@ -1,6 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {View, Text, StyleSheet, Button} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
+import KeyEvent from 'react-native-keyevent';
 import {StackParamList} from 'navigation/StackNavigation';
 // custom import
 import AppLayout from 'layouts/AppLayout';
@@ -13,10 +14,27 @@ interface HomeScreenProps
   extends StackScreenProps<StackParamList, 'HomeScreen'> {}
 
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
-  const tokenDefault =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkbmkiOiI0NjQ3MzE1NCIsInRpY2tldE51bWJlciI6IidULTAwMDMyOCciLCJpYXQiOjE2MzcyNzYwMjYsImV4cCI6MTY2ODgzMzYyNn0.izB3FvuDikeCDEk8pKDgyFN7hWNUR73CFeX5gf_hxOM';
+  const tokenDefault = 'fdfgdfgdf';
   const [token, setToken] = useState(tokenDefault);
+  const [readInflaR, setReadInflaR] = useState('');
   const {readQr} = useContext(AppContext);
+
+  let txtReaded = '';
+  let resp = '';
+  useEffect(() => {
+    KeyEvent.onKeyDownListener((keyEvent: any) => {
+      // console.log('1', keyEvent);
+      // console.log(`onKeyDown keyCode: ${keyEvent.keyCode}`);
+      // console.log(`Action: ${keyEvent.action}`);
+      // console.log(`Key: ${keyEvent.pressedKey}`);
+      txtReaded += String(keyEvent.pressedKey);
+      setReadInflaR(`${String(txtReaded)}`);
+    });
+
+    return () => {
+      KeyEvent.removeKeyDownListener();
+    };
+  }, []);
   return (
     <AppLayout footerTitle="Escanea tu código QR en el lector de abajo">
       <>
@@ -27,6 +45,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           <LogotipoSvg width={550} height={100} />
         </View>
         <ColorBarComponent />
+        <Text style={{fontSize: 28}}>Infrarojo: {readInflaR}</Text>
         <Button
           title="Leer Ticket"
           onPress={() => {
