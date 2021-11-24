@@ -20,10 +20,11 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const [token, setToken] = useState(tokenDefault);
   const [readInflaR, setReadInflaR] = useState('');
   const debouncedValue = useDebounceValue(readInflaR);
-  const {readQr} = useContext(AppContext);
+  const {appState, readQr} = useContext(AppContext);
 
   let txtReaded = '';
   let resp = '';
+  console.log(JSON.stringify(appState, null, 3));
   useEffect(() => {
     KeyEvent.onKeyDownListener((keyEvent: any) => {
       // console.log('1', keyEvent);
