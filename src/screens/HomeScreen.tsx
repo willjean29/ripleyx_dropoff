@@ -14,7 +14,8 @@ interface HomeScreenProps
   extends StackScreenProps<StackParamList, 'HomeScreen'> {}
 
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
-  const tokenDefault = 'fdfgdfgdf';
+  const tokenDefault =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkbmkiOiI0NjQ3MzE1NCIsInRpY2tldE51bWJlciI6IidULTAwMDMwMiciLCJpYXQiOjE2MzcyNzYwMjYsImV4cCI6MTY2ODgzMzYyNn0.GPZgQR_pQoUECRqAH7QY6YZzAok5mPakUmP2vfDjUEY';
   const [token, setToken] = useState(tokenDefault);
   const [readInflaR, setReadInflaR] = useState('');
   const {readQr} = useContext(AppContext);
@@ -45,7 +46,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           <LogotipoSvg width={550} height={100} />
         </View>
         <ColorBarComponent />
-        <Text style={{fontSize: 28}}>Infrarojo: {readInflaR}</Text>
+        <Text style={{fontSize: 28}}>Infrarojo:{readInflaR}</Text>
         <Button
           title="Leer Ticket"
           onPress={() => {
