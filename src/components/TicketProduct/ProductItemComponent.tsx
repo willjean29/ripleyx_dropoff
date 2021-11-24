@@ -67,9 +67,9 @@ const ProductItemComponent: React.FC<ProductItemComponentProps> = ({
           <Text style={styles.txtDetails}>
             {product.product_size !== '-' && `Talla ${product.product_size}`}
             {product.product_size !== '-' &&
-              product.product_size !== '' &&
+              product.product_color !== '' &&
               ` - `}
-            {product.product_color !== '' && `Color ${product.product_color}`}
+            {product.product_color !== '-' && `Color ${product.product_color}`}
           </Text>
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.txtError}>{product.reason_name}</Text>

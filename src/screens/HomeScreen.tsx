@@ -14,7 +14,7 @@ interface HomeScreenProps
 
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const tokenDefault =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkbmkiOiI0NjQ3MzE1NCIsInRpY2tldE51bWJlciI6IidULTAwMDMyMiciLCJpYXQiOjE2MzcyNzYwMjYsImV4cCI6MTY2ODgzMzYyNn0.D_EcW4DchtqzE4eaPkjYp9eddnycxqeFCTW9yR1eUww';
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkbmkiOiI0NjQ3MzE1NCIsInRpY2tldE51bWJlciI6IidULTAwMDMyOCciLCJpYXQiOjE2MzcyNzYwMjYsImV4cCI6MTY2ODgzMzYyNn0.izB3FvuDikeCDEk8pKDgyFN7hWNUR73CFeX5gf_hxOM';
   const [token, setToken] = useState(tokenDefault);
   const {readQr} = useContext(AppContext);
   return (

@@ -16,6 +16,7 @@ import {ITicketResponse, Ticket} from './interfaces/AppStateInterface';
 import {ticketDemo, TypeOfError, TypeOfPrinter} from 'utils/enums';
 import {calculateTotalProducts, validateErrorTicket} from 'utils/methods';
 import dropoffApi from 'api/dropoffApi';
+import {DetailTicketDto, StatusTicketDto} from './dtos/appDtos';
 // const url =  'https://clients-backend.herokuapp.com/api/clients';
 const url = 'http://192.168.0.121:3005/api/ticket?token';
 
@@ -31,42 +32,54 @@ export const readQrAction = async (
     },
   });
   try {
-    // const response = await dropoffApi.get<ITicketResponse>(
-    //   `/dropoff/ticket?token=${token}`,
-    // );
-    // console.log(JSON.stringify({data: response.data}, null, 3));
-    // dispatch({
-    //   type: QR_READ,
-    //   payload: {
-    //     ticket: response.data.ticket,
-    //     products: response.data.products,
-    //     totalProducts: calculateTotalProducts(response.data.products),
-    //   },
-    // });
+    const response = await dropoffApi.get<ITicketResponse>(
+      `/dropoff/ticket?token=${token}`,
+    );
+    console.log(JSON.stringify({data: response.data}, null, 3));
+    const ticketError = validateErrorTicket(response.data.ticket);
+    if (ticketError === 0) {
+      dispatch({
+        type: QR_READ,
+        payload: {
+          ticket: response.data.ticket,
+          products: response.data.products,
+          totalProducts: calculateTotalProducts(response.data.products),
+        },
+      });
+    } else {
+      // ESTABLECER EL ERROR DE TICKET
+      dispatch({
+        type: TYPE_ERROR,
+        payload: {
+          error: true,
+          type: ticketError,
+        },
+      });
+    }
 
-    setTimeout(() => {
-      const response = ticketDemo;
-      const ticketError = validateErrorTicket(response.ticket);
-      if (ticketError === 0) {
-        dispatch({
-          type: QR_READ,
-          payload: {
-            ticket: response.ticket,
-            products: response.products,
-            totalProducts: calculateTotalProducts(response.products),
-          },
-        });
-      } else {
-        // ESTABLECER EL ERROR DE TICKET
-        dispatch({
-          type: TYPE_ERROR,
-          payload: {
-            error: true,
-            type: ticketError,
-          },
-        });
-      }
-    }, 1500);
+    // setTimeout(() => {
+    //   const response = ticketDemo;
+    //   const ticketError = validateErrorTicket(response.ticket);
+    //   if (ticketError === 0) {
+    //     dispatch({
+    //       type: QR_READ,
+    //       payload: {
+    //         ticket: response.ticket,
+    //         products: response.products,
+    //         totalProducts: calculateTotalProducts(response.products),
+    //       },
+    //     });
+    //   } else {
+    //     // ESTABLECER EL ERROR DE TICKET
+    //     dispatch({
+    //       type: TYPE_ERROR,
+    //       payload: {
+    //         error: true,
+    //         type: ticketError,
+    //       },
+    //     });
+    //   }
+    // }, 1500);
   } catch (error: any) {
     // console.log('error ');
     console.log(JSON.stringify(error.response, null, 3));
@@ -90,6 +103,14 @@ export const readQrAction = async (
         },
       });
     }
+    // disparar un error
+    dispatch({
+      type: TYPE_ERROR,
+      payload: {
+        error: true,
+        type: TypeOfError.TICKET_CANCELED,
+      },
+    });
   }
 };
 
@@ -124,7 +145,11 @@ export const backHomeAction = (dispatch: React.Dispatch<QRDispatchTypes>) => {
   }, 2000);
 };
 
-export const printerQrAction = (dispatch: React.Dispatch<QRDispatchTypes>) => {
+export const printerQrAction = async (
+  dispatch: React.Dispatch<QRDispatchTypes>,
+  statusTicket: StatusTicketDto,
+  detailTicket: DetailTicketDto,
+) => {
   dispatch({
     type: QR_CHECK,
     payload: {
@@ -133,15 +158,29 @@ export const printerQrAction = (dispatch: React.Dispatch<QRDispatchTypes>) => {
     },
   });
   // respuesta de la impresora (true | false)
-  setTimeout(() => {
-    dispatch({
-      type: CHECK_PRINTER,
-      payload: {
-        printer: true,
-        type: TypeOfPrinter.PRINTER_SUCCESS,
-      },
-    });
-  }, 1500);
+  try {
+    const promiseStatus = dropoffApi.put(
+      '/dropoff/update-status-ticket',
+      statusTicket,
+    );
+    const promiseDetail = dropoffApi.put(
+      '/dropoff/update-detail-ticket',
+      detailTicket,
+    );
+
+    const [status, detail] = await Promise.all([promiseStatus, promiseDetail]);
+    console.log(JSON.stringify(status.data, null, 3));
+    console.log(JSON.stringify(detail.data, null, 3));
+    setTimeout(() => {
+      dispatch({
+        type: CHECK_PRINTER,
+        payload: {
+          printer: true,
+          type: TypeOfPrinter.PRINTER_SUCCESS,
+        },
+      });
+    }, 1500);
+  } catch (error) {}
 };
 
 export const changeTotalProductsAction = (
@@ -183,3 +222,13 @@ export const deleteProductsReturnedAction = (
     payload: order_detail_id,
   });
 };
+
+// export const updateStateTicketAction = (
+//   dispatch: React.Dispatch<QRDispatchTypes>,
+//   statusTicket: StatusTicketDto,
+// ) => {};
+
+// export const updateDetailTicketAction = (
+//   dispatch: React.Dispatch<QRDispatchTypes>,
+//   detailTicket: DetailTicketDto[],
+// ) => {};

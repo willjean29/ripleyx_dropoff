@@ -12,6 +12,7 @@ import {
   readQrAction,
 } from './AppActions';
 import {TypeOfPrinter} from 'utils/enums';
+import {DetailTicketDto, StatusTicketDto} from './dtos/appDtos';
 interface AppStateProps {
   children: React.ReactNode;
 }
@@ -35,7 +36,10 @@ const AppState: React.FC<AppStateProps> = ({children}) => {
 
   const readQr = (token: string) => readQrAction(dispatch, token);
   const backHome = () => backHomeAction(dispatch);
-  const printerQr = () => printerQrAction(dispatch);
+  const printerQr = (
+    statusTicket: StatusTicketDto,
+    detailTicket: DetailTicketDto,
+  ) => printerQrAction(dispatch, statusTicket, detailTicket);
   const changeTotalProducts = (total: number) =>
     changeTotalProductsAction(dispatch, total);
   const changeAnimation = (status: boolean) =>

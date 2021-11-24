@@ -14,7 +14,11 @@ interface FooterTicketComponentProps {
 const FooterTicketComponent: React.FC<FooterTicketComponentProps> = ({
   type = 'primary',
 }) => {
-  const {backHome, printerQr} = useContext(AppContext);
+  const {
+    appState: {ticketInfo, returnedProducts},
+    backHome,
+    printerQr,
+  } = useContext(AppContext);
   const route = useRoute();
   // console.log(JSON.stringify(route, null, 3));
   return (
@@ -37,7 +41,17 @@ const FooterTicketComponent: React.FC<FooterTicketComponentProps> = ({
         }
         fill={type}
         onPress={() => {
-          printerQr();
+          ticketInfo &&
+            printerQr(
+              {
+                ticket_id: ticketInfo.ticket_id!,
+                status: 36,
+              },
+              {
+                order_id: parseInt(ticketInfo.order_id)!,
+                products: returnedProducts,
+              },
+            );
         }}
       />
       <ButtonOutlineComponent
