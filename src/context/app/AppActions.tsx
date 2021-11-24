@@ -92,6 +92,7 @@ export const readQrAction = async (
           type: TypeOfError.TICKET_CANCELED,
         },
       });
+      return;
     }
     if (error.response.status === 500 || error.response.status === 504) {
       // disparar un error
@@ -102,6 +103,7 @@ export const readQrAction = async (
           type: TypeOfError.TICKET_WIFI,
         },
       });
+      return;
     }
     // disparar un error
     dispatch({

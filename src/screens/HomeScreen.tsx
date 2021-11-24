@@ -10,6 +10,7 @@ import {AppContext} from 'context/app/AppContext';
 import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
 import BagSvg from 'assets/img/bag.svg';
 import LogotipoSvg from 'assets/img/logotipo.svg';
+import useDebounceValue from 'hooks/useDebounceValue';
 interface HomeScreenProps
   extends StackScreenProps<StackParamList, 'HomeScreen'> {}
 
@@ -18,6 +19,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkbmkiOiI0NjQ3MzE1NCIsInRpY2tldE51bWJlciI6IidULTAwMDMwMiciLCJpYXQiOjE2MzcyNzYwMjYsImV4cCI6MTY2ODgzMzYyNn0.GPZgQR_pQoUECRqAH7QY6YZzAok5mPakUmP2vfDjUEY';
   const [token, setToken] = useState(tokenDefault);
   const [readInflaR, setReadInflaR] = useState('');
+  const debouncedValue = useDebounceValue(readInflaR);
   const {readQr} = useContext(AppContext);
 
   let txtReaded = '';
@@ -36,6 +38,20 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
       KeyEvent.removeKeyDownListener();
     };
   }, []);
+  // console.log(debouncedValue);
+  useEffect(() => {
+    // if (debouncedValue.split('.').length === 3) {
+    //   console.log({debouncedValue});
+    //   readQr(debouncedValue);
+    // }
+    if (debouncedValue.length !== 0) {
+      console.log({debouncedValue});
+      readQr(debouncedValue);
+    }
+    return () => {
+      setReadInflaR('');
+    };
+  }, [debouncedValue]);
   return (
     <AppLayout footerTitle="Escanea tu código QR en el lector de abajo">
       <>
@@ -46,13 +62,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           <LogotipoSvg width={550} height={100} />
         </View>
         <ColorBarComponent />
-        <Text style={{fontSize: 28}}>Infrarojo:{readInflaR}</Text>
-        <Button
+        {/* <Text style={{fontSize: 28}}>Infrarojo:{readInflaR}</Text> */}
+        {/* <Button
           title="Leer Ticket"
           onPress={() => {
             readQr(token);
           }}
-        />
+        /> */}
       </>
     </AppLayout>
   );
