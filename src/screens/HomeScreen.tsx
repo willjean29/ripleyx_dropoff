@@ -15,9 +15,9 @@ interface HomeScreenProps
   extends StackScreenProps<StackParamList, 'HomeScreen'> {}
 
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
-  const tokenDefault =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkbmkiOiI0NjQ3MzE1NCIsInRpY2tldE51bWJlciI6IidULTAwMDMwMiciLCJpYXQiOjE2MzcyNzYwMjYsImV4cCI6MTY2ODgzMzYyNn0.GPZgQR_pQoUECRqAH7QY6YZzAok5mPakUmP2vfDjUEY';
-  const [token, setToken] = useState(tokenDefault);
+  // const tokenDefault =
+  //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkbmkiOiI0NjQ3MzE1NCIsInRpY2tldE51bWJlciI6IidULTAwMDMwMiciLCJpYXQiOjE2MzcyNzYwMjYsImV4cCI6MTY2ODgzMzYyNn0.GPZgQR_pQoUECRqAH7QY6YZzAok5mPakUmP2vfDjUEY';
+  // const [token, setToken] = useState(tokenDefault);
   const [readInflaR, setReadInflaR] = useState('');
   const debouncedValue = useDebounceValue(readInflaR);
   const {appState, readQr, resetState} = useContext(AppContext);
@@ -65,12 +65,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
         </View>
         <ColorBarComponent />
         <Text style={{fontSize: 28}}>Infrarojo:{readInflaR}</Text>
-        <Button
+        {/* <Button
           title="Leer Ticket"
           onPress={() => {
             readQr(token);
           }}
-        />
+        /> */}
       </>
     </AppLayout>
   );
