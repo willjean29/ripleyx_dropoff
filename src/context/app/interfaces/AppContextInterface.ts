@@ -13,4 +13,5 @@ export interface AppContextI {
   changeAnimation: (status: boolean) => void;
   addProductReturned: (order_detail_id: number) => void;
   deleteProductReturned: (order_detail_id: number) => void;
+  resetState: () => void;
 }

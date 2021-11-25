@@ -83,15 +83,30 @@ export const readQrAction = async (
   } catch (error: any) {
     // console.log('error ');
     console.log(JSON.stringify(error.response, null, 3));
-    if (error.response.status === 401) {
+    if (error.message == 'Network Error') {
+      setTimeout(() => {
+        dispatch({
+          type: TYPE_ERROR,
+          payload: {
+            error: true,
+            type: TypeOfError.TICKET_WIFI,
+          },
+        });
+      }, 1500);
+
+      return;
+    }
+    if (error.response.status === 400 || error.response.status === 401) {
       // disparar un error
-      dispatch({
-        type: TYPE_ERROR,
-        payload: {
-          error: true,
-          type: TypeOfError.TICKET_CANCELED,
-        },
-      });
+      setTimeout(() => {
+        dispatch({
+          type: TYPE_ERROR,
+          payload: {
+            error: true,
+            type: TypeOfError.TICKET_CANCELED,
+          },
+        });
+      }, 1500);
       return;
     }
     if (error.response.status === 500 || error.response.status === 504) {
@@ -103,16 +118,25 @@ export const readQrAction = async (
           type: TypeOfError.TICKET_WIFI,
         },
       });
+      setTimeout(() => {
+        dispatch({
+          type: TYPE_ERROR,
+          payload: {
+            error: true,
+            type: TypeOfError.TICKET_WIFI,
+          },
+        });
+      }, 1500);
       return;
     }
     // disparar un error
-    dispatch({
-      type: TYPE_ERROR,
-      payload: {
-        error: true,
-        type: TypeOfError.TICKET_CANCELED,
-      },
-    });
+    // dispatch({
+    //   type: TYPE_ERROR,
+    //   payload: {
+    //     error: true,
+    //     type: TypeOfError.TICKET_CANCELED,
+    //   },
+    // });
   }
 };
 
@@ -222,6 +246,26 @@ export const deleteProductsReturnedAction = (
   dispatch({
     type: DELETE_PRODUCT_REURNED,
     payload: order_detail_id,
+  });
+};
+
+export const resetStateAction = (dispatch: React.Dispatch<QRDispatchTypes>) => {
+  dispatch({
+    type: RESET_DATA,
+    payload: {
+      isLoading: false,
+      messageLoading: '',
+      ticketStatus: 'init',
+      ticketInfo: null,
+      totalPorducts: 0,
+      returnedProducts: [],
+      products: [],
+      error: false,
+      typeOfError: null,
+      printer: false,
+      typeOfPrinter: TypeOfPrinter.PRINTER_ERROR,
+      resetAnimation: false,
+    },
   });
 };
 

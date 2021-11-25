@@ -19,12 +19,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
     'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkbmkiOiI0NjQ3MzE1NCIsInRpY2tldE51bWJlciI6IidULTAwMDMwMiciLCJpYXQiOjE2MzcyNzYwMjYsImV4cCI6MTY2ODgzMzYyNn0.GPZgQR_pQoUECRqAH7QY6YZzAok5mPakUmP2vfDjUEY';
   const [token, setToken] = useState(tokenDefault);
   const [readInflaR, setReadInflaR] = useState('');
-  // const debouncedValue = useDebounceValue(readInflaR);
-  const {appState, readQr} = useContext(AppContext);
+  const debouncedValue = useDebounceValue(readInflaR);
+  const {appState, readQr, resetState} = useContext(AppContext);
 
   let txtReaded = '';
   let resp = '';
   console.log(JSON.stringify(appState, null, 3));
+
   useEffect(() => {
     KeyEvent.onKeyDownListener((keyEvent: any) => {
       // console.log('1', keyEvent);
@@ -39,20 +40,20 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
       KeyEvent.removeKeyDownListener();
     };
   }, []);
-  // console.log(debouncedValue);
-  // useEffect(() => {
-  //   // if (debouncedValue.split('.').length === 3) {
-  //   //   console.log({debouncedValue});
-  //   //   readQr(debouncedValue);
-  //   // }
-  //   if (debouncedValue.length !== 0) {
-  //     console.log({debouncedValue});
-  //     readQr(debouncedValue);
-  //   }
-  //   return () => {
-  //     setReadInflaR('');
-  //   };
-  // }, [debouncedValue]);
+  console.log(readInflaR);
+  useEffect(() => {
+    if (debouncedValue.split('.').length === 3) {
+      console.log({debouncedValue});
+      readQr(debouncedValue);
+    }
+    // if (readInflaR.length !== 0) {
+    //   console.log({readInflaR});
+    //   readQr(readInflaR);
+    // }
+    // return () => {
+    //   setReadInflaR('');
+    // };
+  }, [debouncedValue]);
   return (
     <AppLayout footerTitle="Escanea tu código QR en el lector de abajo">
       <>
@@ -64,12 +65,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
         </View>
         <ColorBarComponent />
         <Text style={{fontSize: 28}}>Infrarojo:{readInflaR}</Text>
-        {/* <Button
+        <Button
           title="Leer Ticket"
           onPress={() => {
             readQr(token);
           }}
-        /> */}
+        />
       </>
     </AppLayout>
   );

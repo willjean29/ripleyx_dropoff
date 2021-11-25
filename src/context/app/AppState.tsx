@@ -10,6 +10,7 @@ import {
   deleteProductsReturnedAction,
   printerQrAction,
   readQrAction,
+  resetStateAction,
 } from './AppActions';
 import {TypeOfPrinter} from 'utils/enums';
 import {DetailTicketDto, StatusTicketDto} from './dtos/appDtos';
@@ -48,7 +49,7 @@ const AppState: React.FC<AppStateProps> = ({children}) => {
     addProductsReturnedAction(dispatch, order_detail_id);
   const deleteProductReturned = (order_detail_id: number) =>
     deleteProductsReturnedAction(dispatch, order_detail_id);
-
+  const resetState = () => resetStateAction(dispatch);
   return (
     <AppContext.Provider
       value={{
@@ -60,6 +61,7 @@ const AppState: React.FC<AppStateProps> = ({children}) => {
         changeAnimation,
         addProductReturned,
         deleteProductReturned,
+        resetState,
       }}>
       {children}
     </AppContext.Provider>
