@@ -111,13 +111,6 @@ export const readQrAction = async (
     }
     if (error.response.status === 500 || error.response.status === 504) {
       // disparar un error
-      dispatch({
-        type: TYPE_ERROR,
-        payload: {
-          error: true,
-          type: TypeOfError.TICKET_WIFI,
-        },
-      });
       setTimeout(() => {
         dispatch({
           type: TYPE_ERROR,
