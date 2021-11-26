@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {View, Text, StyleSheet, Button} from 'react-native';
+import {View, Text, StyleSheet, Button, TouchableOpacity} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import KeyEvent from 'react-native-keyevent';
 import {StackParamList} from 'navigation/StackNavigation';
@@ -19,17 +19,20 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkbmkiOiI0NjQ3MzE1NCIsInRpY2tldE51bWJlciI6IidULTAwMDMwMiciLCJpYXQiOjE2MzcyNzYwMjYsImV4cCI6MTY2ODgzMzYyNn0.GPZgQR_pQoUECRqAH7QY6YZzAok5mPakUmP2vfDjUEY';
   // const [token, setToken] = useState(tokenDefault);
   const [readInflaR, setReadInflaR] = useState('');
+  const [keyCode, setKeyCode] = useState();
   // const debouncedValue = useDebounceValue(readInflaR);
   const {appState, readQr, resetState} = useContext(AppContext);
 
   let txtReaded = '';
   let resp = '';
-  console.log(JSON.stringify(appState, null, 3));
+  // console.log(JSON.stringify(appState, null, 3));
 
   useEffect(() => {
     KeyEvent.onKeyDownListener((keyEvent: any) => {
       // console.log('1', keyEvent);
-      // console.log(`onKeyDown keyCode: ${keyEvent.keyCode}`);
+      setKeyCode(keyEvent.keyCode);
+      // if (keyEvent.keyCode == 66) return;
+      console.log(`onKeyDown keyCode: ${keyEvent.keyCode}`);
       // console.log(`Action: ${keyEvent.action}`);
       // console.log(`Key: ${keyEvent.pressedKey}`);
       txtReaded += String(keyEvent.pressedKey);
@@ -41,6 +44,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
     };
   }, []);
   console.log(readInflaR);
+  console.log(keyCode);
   // useEffect(() => {
   //   if (debouncedValue.split('.').length === 3) {
   //     console.log({debouncedValue});
@@ -65,12 +69,17 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
         </View>
         <ColorBarComponent />
         <Text style={{fontSize: 28}}>Infrarojo:{readInflaR}</Text>
-        <Button
-          title="Leer Ticket"
+
+        {/* <TouchableOpacity
           onPress={() => {
-            readQr(readInflaR);
-          }}
-        />
+            if (keyCode !== 66) {
+              console.log('Disparar evento de qr');
+            } else {
+              console.log('enviar qr');
+            }
+          }}>
+          <Text>LEER TICKET</Text>
+        </TouchableOpacity> */}
       </>
     </AppLayout>
   );
