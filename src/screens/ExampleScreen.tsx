@@ -18,6 +18,12 @@ import {
   BLEPrinter,
 } from 'react-native-thermal-receipt-printer-image-qr';
 import QRCode from 'qrcode';
+
+import {
+  BluetoothManager,
+  BluetoothEscposPrinter,
+  BluetoothTscPrinter,
+} from '@brooons/react-native-bluetooth-escpos-printer';
 interface ExampleScreenProps {}
 
 interface IBLEPrinter {
@@ -68,10 +74,49 @@ const ExampleScreen: React.FC<ExampleScreenProps> = () => {
     printTextTest();
   };
 
+  const [printers2, setPrinters2] = useState<DeviceBluetooth[]>([]);
+  const [currentPrinter2, setCurrentPrinter2] = useState<any>();
+  const [error2, setError2] = useState('');
+  useEffect(() => {
+    BluetoothManager.enableBluetooth().then(
+      devices => {
+        let listDevice: DeviceBluetooth[] = [];
+        devices?.map(device => {
+          const dv: DeviceBluetooth = JSON.parse(device);
+          listDevice.push(dv);
+        });
+        setPrinters2(listDevice);
+      },
+      err => {
+        //  alert(err)
+      },
+    );
+  }, []);
+
+  const printerText2 = async () => {
+    await BluetoothEscposPrinter.printText('Tiendas Ripley\n\r', {});
+    await BluetoothEscposPrinter.printText('Prueba De QR\n\r', {});
+    await BluetoothEscposPrinter.printQRCode(
+      'Hola demo',
+      200,
+      BluetoothEscposPrinter.ERROR_CORRECTION.L,
+    );
+  };
+  const connectPrinter2 = async (printer: DeviceBluetooth) => {
+    setError2('');
+    try {
+      const isConnect = await BluetoothManager.connect(printer.address);
+      console.log(isConnect);
+      await printerText2();
+    } catch (error) {
+      console.log('Error al intentar establecer la conexión');
+      setError2(JSON.stringify('Error al intentar establecer la conexión'));
+    }
+  };
   return (
     <ScrollView style={{flex: 1, margin: 10}}>
       <Text style={styles.txtTitle}>Prueba de Impresora </Text>
-      <Text style={styles.txtTitle}>Prueba de módulo BLT</Text>
+      {/* <Text style={styles.txtTitle}>Prueba de módulo BLT</Text>
       <Text>{error}</Text>
       {printers.map((printer: IBLEPrinter, index: number) => (
         <TouchableOpacity
@@ -82,6 +127,19 @@ const ExampleScreen: React.FC<ExampleScreenProps> = () => {
           }}>
           <Text style={styles.txtName}>{printer.device_name}</Text>
           <Text>{printer.inner_mac_address}</Text>
+        </TouchableOpacity>
+      ))} */}
+      <Text style={styles.txtTitle}>Prueba de módulo ESC/POS</Text>
+      <Text>{error2}</Text>
+      {printers2.map((printer: DeviceBluetooth, index: number) => (
+        <TouchableOpacity
+          style={styles.btnPrinter}
+          key={index.toString()}
+          onPress={() => {
+            connectPrinter2(printer);
+          }}>
+          <Text style={styles.txtName}>{printer.name}</Text>
+          <Text>{printer.address}</Text>
         </TouchableOpacity>
       ))}
     </ScrollView>
