@@ -10,7 +10,6 @@ import {GlobalColors} from 'theme/GlobalThemes';
 import PrinterSuccessSvg from 'assets/img/printer_success.svg';
 import PrinterError from 'assets/img/printer_error.svg';
 
-import {BLEPrinter} from 'react-native-thermal-receipt-printer';
 interface PrinterScreenProps {}
 interface IBLEPrinter {
   device_name: string;
@@ -46,46 +45,46 @@ const PrinterScreen: React.FC<PrinterScreenProps> = () => {
     return content;
   };
 
-  const [printers, setPrinters] = useState<any>([]);
-  const [currentPrinter, setCurrentPrinter]: any = useState();
-  const [error, setError] = useState('');
+  // const [printers, setPrinters] = useState<any>([]);
+  // const [currentPrinter, setCurrentPrinter]: any = useState();
+  // const [error, setError] = useState('');
 
-  useEffect(() => {
-    BLEPrinter.init().then(() => {
-      BLEPrinter.getDeviceList().then(setPrinters);
-    });
-  }, []);
+  // useEffect(() => {
+  //   BLEPrinter.init().then(() => {
+  //     BLEPrinter.getDeviceList().then(setPrinters);
+  //   });
+  // }, []);
 
-  const printTextTest = (): void => {
-    currentPrinter &&
-      BLEPrinter.printText(
-        '<C>RIPLEY</C>\n<C>TIENDAS POR DEPARTAMENTO RIPLEY S.A.</C>\n<C>CALLE LAS BEGONIAS 545-577</C>\n<C>SAN ISIDRO - LIMA</C>\n<C>RUC 20337564373</C>\n',
-      );
-  };
+  // const printTextTest = (): void => {
+  //   currentPrinter &&
+  //     BLEPrinter.printText(
+  //       '<C>RIPLEY</C>\n<C>TIENDAS POR DEPARTAMENTO RIPLEY S.A.</C>\n<C>CALLE LAS BEGONIAS 545-577</C>\n<C>SAN ISIDRO - LIMA</C>\n<C>RUC 20337564373</C>\n',
+  //     );
+  // };
 
-  const _connectPrinter = (printer: IBLEPrinter) => {
-    //connect printer
-    setError('');
-    BLEPrinter.connectPrinter(printer.inner_mac_address).then(
-      setCurrentPrinter,
-      error =>
-        setError(JSON.stringify('Error al intentar establecer la conexión')),
-    );
+  // const _connectPrinter = (printer: IBLEPrinter) => {
+  //   //connect printer
+  //   setError('');
+  //   BLEPrinter.connectPrinter(printer.inner_mac_address).then(
+  //     setCurrentPrinter,
+  //     error =>
+  //       setError(JSON.stringify('Error al intentar establecer la conexión')),
+  //   );
 
-    printTextTest();
-  };
-  console.log(error);
+  //   printTextTest();
+  // };
+  // console.log(error);
 
-  useEffect(() => {
-    const contentPrinter = selectContent(typeOfPrinter);
-    setContent(contentPrinter);
-  }, []);
+  // useEffect(() => {
+  //   const contentPrinter = selectContent(typeOfPrinter);
+  //   setContent(contentPrinter);
+  // }, []);
 
-  useEffect(() => {
-    BLEPrinter.init().then(() => {
-      BLEPrinter.getDeviceList().then(setPrinters);
-    });
-  }, []);
+  // useEffect(() => {
+  //   BLEPrinter.init().then(() => {
+  //     BLEPrinter.getDeviceList().then(setPrinters);
+  //   });
+  // }, []);
 
   return (
     <View style={{flex: 1}}>
@@ -112,18 +111,6 @@ const PrinterScreen: React.FC<PrinterScreenProps> = () => {
               : 'primary'
           }
         />
-      </View>
-      <View>
-        <Text>{error}</Text>
-        {printers.map((printer: IBLEPrinter) => (
-          <TouchableOpacity
-            onPress={() => _connectPrinter(printer)}
-            style={{padding: 10}}>
-            <Text style={{fontSize: 20, color: '#000'}}>
-              {printer.device_name}
-            </Text>
-          </TouchableOpacity>
-        ))}
       </View>
       <View style={{height: DimensionsDevice.HEIGHT_DEVICE * 0.22}}>
         <FooterTicketComponent
