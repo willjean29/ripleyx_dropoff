@@ -19,7 +19,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkbmkiOiI0NjQ3MzE1NCIsInRpY2tldE51bWJlciI6IidULTAwMDMwMiciLCJpYXQiOjE2MzcyNzYwMjYsImV4cCI6MTY2ODgzMzYyNn0.GPZgQR_pQoUECRqAH7QY6YZzAok5mPakUmP2vfDjUEY';
   // const [token, setToken] = useState(tokenDefault);
   const [readInflaR, setReadInflaR] = useState('');
-  const debouncedValue = useDebounceValue(readInflaR);
+  // const debouncedValue = useDebounceValue(readInflaR);
   const {appState, readQr, resetState} = useContext(AppContext);
 
   let txtReaded = '';
@@ -41,19 +41,19 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
     };
   }, []);
   console.log(readInflaR);
-  useEffect(() => {
-    if (debouncedValue.split('.').length === 3) {
-      console.log({debouncedValue});
-      readQr(debouncedValue);
-    }
-    // if (readInflaR.length !== 0) {
-    //   console.log({readInflaR});
-    //   readQr(readInflaR);
-    // }
-    // return () => {
-    //   setReadInflaR('');
-    // };
-  }, [debouncedValue]);
+  // useEffect(() => {
+  //   if (debouncedValue.split('.').length === 3) {
+  //     console.log({debouncedValue});
+  //     readQr(debouncedValue);
+  //   }
+  //   // if (readInflaR.length !== 0) {
+  //   //   console.log({readInflaR});
+  //   //   readQr(readInflaR);
+  //   // }
+  //   // return () => {
+  //   //   setReadInflaR('');
+  //   // };
+  // }, [debouncedValue]);
   return (
     <AppLayout footerTitle="Escanea tu código QR en el lector de abajo">
       <>
@@ -65,12 +65,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
         </View>
         <ColorBarComponent />
         <Text style={{fontSize: 28}}>Infrarojo:{readInflaR}</Text>
-        {/* <Button
+        <Button
           title="Leer Ticket"
           onPress={() => {
-            readQr(token);
+            readQr(readInflaR);
           }}
-        /> */}
+        />
       </>
     </AppLayout>
   );
