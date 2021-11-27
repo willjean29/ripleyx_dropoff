@@ -19,8 +19,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkbmkiOiI0NjQ3MzE1NCIsInRpY2tldE51bWJlciI6IidULTAwMDMwMiciLCJpYXQiOjE2MzcyNzYwMjYsImV4cCI6MTY2ODgzMzYyNn0.GPZgQR_pQoUECRqAH7QY6YZzAok5mPakUmP2vfDjUEY';
   // const [token, setToken] = useState(tokenDefault);
   const [readInflaR, setReadInflaR] = useState('');
-  const [keyCode, setKeyCode] = useState();
-  // const debouncedValue = useDebounceValue(readInflaR);
+  const debouncedValue = useDebounceValue(readInflaR);
   const {appState, readQr, resetState} = useContext(AppContext);
 
   let txtReaded = '';
@@ -30,8 +29,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   useEffect(() => {
     KeyEvent.onKeyDownListener((keyEvent: any) => {
       // console.log('1', keyEvent);
-      setKeyCode(keyEvent.keyCode);
-      // if (keyEvent.keyCode == 66) return;
+      if (keyEvent.keyCode == 66) return;
       console.log(`onKeyDown keyCode: ${keyEvent.keyCode}`);
       // console.log(`Action: ${keyEvent.action}`);
       // console.log(`Key: ${keyEvent.pressedKey}`);
@@ -44,20 +42,20 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
     };
   }, []);
   console.log(readInflaR);
-  console.log(keyCode);
-  // useEffect(() => {
-  //   if (debouncedValue.split('.').length === 3) {
-  //     console.log({debouncedValue});
-  //     readQr(debouncedValue);
-  //   }
-  //   // if (readInflaR.length !== 0) {
-  //   //   console.log({readInflaR});
-  //   //   readQr(readInflaR);
-  //   // }
-  //   // return () => {
-  //   //   setReadInflaR('');
-  //   // };
-  // }, [debouncedValue]);
+
+  useEffect(() => {
+    if (debouncedValue.split('.').length === 3) {
+      console.log({debouncedValue: debouncedValue.trim()});
+      readQr(debouncedValue.trim());
+    }
+    // if (readInflaR.length !== 0) {
+    //   console.log({readInflaR});
+    //   readQr(readInflaR);
+    // }
+    // return () => {
+    //   setReadInflaR('');
+    // };
+  }, [debouncedValue]);
   return (
     <AppLayout footerTitle="Escanea tu código QR en el lector de abajo">
       <>
@@ -72,11 +70,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
 
         {/* <TouchableOpacity
           onPress={() => {
-            if (keyCode !== 66) {
-              console.log('Disparar evento de qr');
-            } else {
-              console.log('enviar qr');
-            }
+            console.log(readInflaR);
           }}>
           <Text>LEER TICKET</Text>
         </TouchableOpacity> */}
