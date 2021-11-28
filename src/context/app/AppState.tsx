@@ -8,6 +8,7 @@ import {
   changeTotalProductsAction,
   printerQrAction,
   readQrAction,
+  setTokenAction,
 } from './AppActions';
 import {TypeOfPrinter} from 'utils/enums';
 interface AppStateProps {
@@ -19,6 +20,7 @@ const AppState: React.FC<AppStateProps> = ({children}) => {
     isLoading: false,
     messageLoading: '',
     ticketStatus: 'init',
+    token: '',
     ticketInfo: null,
     products: [],
     totalPorducts: 0,
@@ -37,6 +39,7 @@ const AppState: React.FC<AppStateProps> = ({children}) => {
     changeTotalProductsAction(dispatch, total);
   const changeAnimation = (status: boolean) =>
     changeAnimationAction(dispatch, status);
+  const setToken = (token: string) => setTokenAction(dispatch, token);
 
   return (
     <AppContext.Provider
@@ -47,6 +50,7 @@ const AppState: React.FC<AppStateProps> = ({children}) => {
         printerQr,
         changeTotalProducts,
         changeAnimation,
+        setToken,
       }}>
       {children}
     </AppContext.Provider>

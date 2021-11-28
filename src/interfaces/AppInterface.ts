@@ -14,3 +14,7 @@ export interface TicketContent {
   title: string;
   message: string;
 }
+export interface DeviceBluetooth {
+  name: string;
+  address: string;
+}

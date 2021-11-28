@@ -2,6 +2,7 @@ import {TypeOfError, TypeOfPrinter} from 'utils/enums';
 
 export interface AppStateI {
   ticketStatus: 'checking' | 'acepted' | 'canceled' | 'init';
+  token: string;
   products: Product[];
   ticketInfo: Ticket | null;
   totalPorducts: number;

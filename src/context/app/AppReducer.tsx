@@ -8,6 +8,7 @@ import {
   CHECK_PRINTER,
   CHANGE_TOTAL_PRODUCTS,
   RESET_ANIMATION,
+  SET_TOKEN,
 } from './AppTypes';
 
 import {AppStateI, Product} from './interfaces/AppStateInterface';
@@ -56,6 +57,11 @@ const AppReducer = (state: AppStateI, action: QRDispatchTypes) => {
       return {
         ...state,
         resetAnimation: action.payload,
+      };
+    case SET_TOKEN:
+      return {
+        ...state,
+        token: action.payload,
       };
     default:
       return state;

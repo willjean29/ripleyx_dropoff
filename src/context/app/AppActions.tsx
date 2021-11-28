@@ -9,6 +9,7 @@ import {
   CHECK_PRINTER,
   CHANGE_TOTAL_PRODUCTS,
   RESET_ANIMATION,
+  SET_TOKEN,
 } from './AppTypes';
 import {ITicketResponse, Ticket} from './interfaces/AppStateInterface';
 import {ticketDemo, TypeOfError, TypeOfPrinter} from 'utils/enums';
@@ -97,6 +98,7 @@ export const backHomeAction = (dispatch: React.Dispatch<QRDispatchTypes>) => {
         isLoading: false,
         messageLoading: '',
         ticketStatus: 'init',
+        token: '',
         ticketInfo: null,
         totalPorducts: 0,
         products: [],
@@ -147,5 +149,15 @@ export const changeAnimationAction = (
   dispatch({
     type: RESET_ANIMATION,
     payload: status,
+  });
+};
+
+export const setTokenAction = (
+  dispatch: React.Dispatch<QRDispatchTypes>,
+  token: string,
+) => {
+  dispatch({
+    type: SET_TOKEN,
+    payload: token,
   });
 };
