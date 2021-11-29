@@ -82,8 +82,25 @@ const ExampleScreen: React.FC<ExampleScreenProps> = () => {
   }, []);
 
   const printerText2 = async () => {
+    let columnWidths = [12, 6, 6, 8];
+    await BluetoothEscposPrinter.printerAlign(
+      BluetoothEscposPrinter.ALIGN.CENTER,
+    );
     await BluetoothEscposPrinter.printText('Tiendas Ripley\n\r', {});
     await BluetoothEscposPrinter.printText('Prueba De QR\n\r', {});
+    await BluetoothEscposPrinter.printText('\n\r', {});
+    await BluetoothEscposPrinter.printColumn(
+      columnWidths,
+      [
+        BluetoothEscposPrinter.ALIGN.LEFT,
+        BluetoothEscposPrinter.ALIGN.LEFT,
+        BluetoothEscposPrinter.ALIGN.CENTER,
+        BluetoothEscposPrinter.ALIGN.RIGHT,
+      ],
+      ['React-Native', '1', '32000', '32000'],
+      {},
+    );
+    await BluetoothEscposPrinter.printText('\n\r', {});
     await BluetoothEscposPrinter.printQRCode(
       'Hola demo',
       200,

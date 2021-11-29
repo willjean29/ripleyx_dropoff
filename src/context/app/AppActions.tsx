@@ -19,7 +19,7 @@ import {ticketDemo, TypeOfError, TypeOfPrinter} from 'utils/enums';
 import {calculateTotalProducts, validateErrorTicket} from 'utils/methods';
 import dropoffApi from 'api/dropoffApi';
 import {DeviceBluetooth} from 'interfaces/appInterface';
-import {DetailTicketDto, StatusTicketDto} from './dtos/appDtos';
+import {DetailTicketDto, StatusTicketDto, TicketPrintDto} from './dtos/appDtos';
 import {
   BluetoothManager,
   BluetoothEscposPrinter,
@@ -179,6 +179,8 @@ export const printerQrAction = async (
   dispatch: React.Dispatch<QRDispatchTypes>,
   statusTicket: StatusTicketDto,
   detailTicket: DetailTicketDto,
+  printer: DeviceBluetooth,
+  infoTicket: TicketPrintDto,
 ) => {
   dispatch({
     type: QR_CHECK,
@@ -188,29 +190,115 @@ export const printerQrAction = async (
     },
   });
   // respuesta de la impresora (true | false)
-  try {
-    const promiseStatus = dropoffApi.put(
-      '/dropoff/update-status-ticket',
-      statusTicket,
-    );
-    const promiseDetail = dropoffApi.put(
-      '/dropoff/update-detail-ticket',
-      detailTicket,
-    );
+  const isConnected = await connectPrinter(printer);
+  if (isConnected) {
+    try {
+      // imprimir ticket
+      await BluetoothEscposPrinter.printerAlign(
+        BluetoothEscposPrinter.ALIGN.CENTER,
+      );
+      await BluetoothEscposPrinter.printText('Tiendas Ripley\n\r', {});
+      await BluetoothEscposPrinter.printText('Prueba De QR\n\r', {});
+      await BluetoothEscposPrinter.printQRCode(
+        infoTicket.token,
+        200,
+        BluetoothEscposPrinter.ERROR_CORRECTION.L,
+      );
+      // actualizar datos del ticket
+      const promiseStatus = dropoffApi.put(
+        '/dropoff/update-status-ticket',
+        statusTicket,
+      );
+      const promiseDetail = dropoffApi.put(
+        '/dropoff/update-detail-ticket',
+        detailTicket,
+      );
 
-    const [status, detail] = await Promise.all([promiseStatus, promiseDetail]);
-    console.log(JSON.stringify(status.data, null, 3));
-    console.log(JSON.stringify(detail.data, null, 3));
+      const [status, detail] = await Promise.all([
+        promiseStatus,
+        promiseDetail,
+      ]);
+      console.log(JSON.stringify(status.data, null, 3));
+      console.log(JSON.stringify(detail.data, null, 3));
+      setTimeout(() => {
+        dispatch({
+          type: CHECK_PRINTER,
+          payload: {
+            printer: true,
+            type: TypeOfPrinter.PRINTER_SUCCESS,
+          },
+        });
+      }, 1500);
+    } catch (error) {
+      setTimeout(() => {
+        dispatch({
+          type: CHECK_PRINTER,
+          payload: {
+            printer: true,
+            type: TypeOfPrinter.PRINTER_ERROR,
+          },
+        });
+      }, 1500);
+    }
+  } else {
+    console.log('error en conectar impresora');
     setTimeout(() => {
       dispatch({
         type: CHECK_PRINTER,
         payload: {
           printer: true,
-          type: TypeOfPrinter.PRINTER_SUCCESS,
+          type: TypeOfPrinter.PRINTER_ERROR,
         },
       });
     }, 1500);
-  } catch (error) {}
+  }
+  // try {
+  //   const promiseStatus = dropoffApi.put(
+  //     '/dropoff/update-status-ticket',
+  //     statusTicket,
+  //   );
+  //   const promiseDetail = dropoffApi.put(
+  //     '/dropoff/update-detail-ticket',
+  //     detailTicket,
+  //   );
+
+  //   const [status, detail] = await Promise.all([promiseStatus, promiseDetail]);
+  //   console.log(JSON.stringify(status.data, null, 3));
+  //   console.log(JSON.stringify(detail.data, null, 3));
+  //   setTimeout(() => {
+  //     dispatch({
+  //       type: CHECK_PRINTER,
+  //       payload: {
+  //         printer: true,
+  //         type: TypeOfPrinter.PRINTER_SUCCESS,
+  //       },
+  //     });
+  //   }, 1500);
+  // } catch (error) {
+
+  // }
+};
+
+const connectPrinter = async (printer: DeviceBluetooth) => {
+  let isConnected = false;
+  try {
+    const isConnect = await BluetoothManager.connect(printer.address);
+    isConnected = true;
+  } catch (error) {
+    console.log('Error al intentar establecer la conexión');
+    isConnected = false;
+  }
+  return isConnected;
+};
+
+const printerText2 = async () => {
+  await BluetoothEscposPrinter.printText('Tiendas Ripley\n\r', {});
+  await BluetoothEscposPrinter.printText('Prueba De QR\n\r', {});
+  await BluetoothEscposPrinter.printQRCode(
+    'Hola demo',
+    200,
+    BluetoothEscposPrinter.ERROR_CORRECTION.L,
+  );
 };
 
 export const changeTotalProductsAction = (

@@ -27,20 +27,19 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const [readInflaR, setReadInflaR] = useState('');
   const debouncedValue = useDebounceValue(readInflaR);
   const {
-    appState: {ticketInfo},
+    appState: {ticketInfo, printer},
     readQr,
     setToken,
     setDeviceCurrent,
   } = useContext(AppContext);
   console.log({ticketInfo});
-
+  console.log({printer});
   let txtReaded = '';
   let resp = '';
-  // console.log(JSON.stringify(appState, null, 3));
 
   useEffect(() => {
     KeyEvent.onKeyDownListener((keyEvent: any) => {
-      // console.log('1', keyEvent);
+      console.log('1', keyEvent);
       if (keyEvent.keyCode == 66) return;
       console.log(`onKeyDown keyCode: ${keyEvent.keyCode}`);
       // console.log(`Action: ${keyEvent.action}`);
@@ -97,12 +96,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           <LogotipoSvg width={550} height={100} />
         </View>
         <ColorBarComponent />
-        <Button
+        <Text style={{fontSize: 25}}>TOKEN: {readInflaR}</Text>
+        {/* <Button
           title="Leer Ticket"
           onPress={() => {
             readQr(tokenDefault);
           }}
-        />
+        /> */}
       </>
     </AppLayout>
   );

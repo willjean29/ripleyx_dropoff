@@ -1,6 +1,10 @@
 import {AppStateI, Ticket} from './AppStateInterface';
 import {DeviceBluetooth} from 'interfaces/appInterface';
-import {DetailTicketDto, StatusTicketDto} from '../dtos/appDtos';
+import {
+  DetailTicketDto,
+  StatusTicketDto,
+  TicketPrintDto,
+} from '../dtos/appDtos';
 export interface AppContextI {
   appState: AppStateI;
   readQr: (token: string) => Promise<void>;
@@ -8,6 +12,8 @@ export interface AppContextI {
   printerQr: (
     statusTicket: StatusTicketDto,
     detailTicket: DetailTicketDto,
+    printer: DeviceBluetooth,
+    infoTicket: TicketPrintDto,
   ) => void;
   changeTotalProducts: (total: number) => void;
   changeAnimation: (status: boolean) => void;

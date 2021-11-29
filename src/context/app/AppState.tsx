@@ -15,7 +15,7 @@ import {
 } from './AppActions';
 import {TypeOfPrinter} from 'utils/enums';
 import {DeviceBluetooth} from 'interfaces/appInterface';
-import {DetailTicketDto, StatusTicketDto} from './dtos/appDtos';
+import {DetailTicketDto, StatusTicketDto, TicketPrintDto} from './dtos/appDtos';
 interface AppStateProps {
   children: React.ReactNode;
 }
@@ -44,7 +44,10 @@ const AppState: React.FC<AppStateProps> = ({children}) => {
   const printerQr = (
     statusTicket: StatusTicketDto,
     detailTicket: DetailTicketDto,
-  ) => printerQrAction(dispatch, statusTicket, detailTicket);
+    printer: DeviceBluetooth,
+    infoTicket: TicketPrintDto,
+  ) =>
+    printerQrAction(dispatch, statusTicket, detailTicket, printer, infoTicket);
   const changeTotalProducts = (total: number) =>
     changeTotalProductsAction(dispatch, total);
   const changeAnimation = (status: boolean) =>
