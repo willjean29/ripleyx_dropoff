@@ -190,6 +190,7 @@ export const printerQrAction = async (
     },
   });
   // respuesta de la impresora (true | false)
+  console.log({actionPrinter: printer});
   const isConnected = await connectPrinter(printer);
   if (isConnected) {
     try {

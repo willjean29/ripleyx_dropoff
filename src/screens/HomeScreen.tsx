@@ -27,13 +27,13 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   const [readInflaR, setReadInflaR] = useState('');
   const debouncedValue = useDebounceValue(readInflaR);
   const {
-    appState: {ticketInfo, printer},
+    appState: {ticketInfo, currentPrint},
     readQr,
     setToken,
     setDeviceCurrent,
   } = useContext(AppContext);
-  console.log({ticketInfo});
-  console.log({printer});
+  // console.log({ticketInfo});
+  // console.log({currentPrint});
   let txtReaded = '';
   let resp = '';
 
@@ -68,23 +68,24 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
     // };
   }, [debouncedValue]);
 
-  useEffect(() => {
-    BluetoothManager.enableBluetooth().then(
-      devices => {
-        // let listDevice: DeviceBluetooth[] = [];
-        devices?.map(device => {
-          const dv: DeviceBluetooth = JSON.parse(device);
-          if (listMacsPrint.includes(dv.address)) {
-            setDeviceCurrent(dv);
-          }
-        });
-        // setPrinters2(listDevice);
-      },
-      err => {
-        //  alert(err)
-      },
-    );
-  }, []);
+  // useEffect(() => {
+  //   BluetoothManager.enableBluetooth().then(
+  //     devices => {
+  //       // let listDevice: DeviceBluetooth[] = [];
+  //       devices?.map(device => {
+  //         const dv: DeviceBluetooth = JSON.parse(device);
+  //         console.log(dv);
+  //         if (listMacsPrint.includes(dv.address)) {
+  //           setDeviceCurrent(dv);
+  //         }
+  //       });
+  //       // setPrinters2(listDevice);
+  //     },
+  //     err => {
+  //       //  alert(err)
+  //     },
+  //   );
+  // }, []);
 
   return (
     <AppLayout footerTitle="Escanea tu código QR en el lector de abajo">

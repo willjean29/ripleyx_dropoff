@@ -21,7 +21,13 @@ const FooterTicketComponent: React.FC<FooterTicketComponentProps> = ({
   type = 'primary',
 }) => {
   const {
-    appState: {ticketInfo, returnedProducts, totalPorducts},
+    appState: {
+      ticketInfo,
+      returnedProducts,
+      totalPorducts,
+      currentPrint,
+      token,
+    },
     backHome,
     printerQr,
   } = useContext(AppContext);
@@ -58,6 +64,13 @@ const FooterTicketComponent: React.FC<FooterTicketComponentProps> = ({
               {
                 order_id: parseInt(ticketInfo.order_id)!,
                 products: returnedProducts,
+              },
+              currentPrint!,
+              {
+                ticket_id: ticketInfo.ticket_id,
+                total_products: totalPorducts,
+                token: token,
+                date_returned: new Date(),
               },
             );
         }}

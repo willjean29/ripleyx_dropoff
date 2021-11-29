@@ -80,7 +80,7 @@ const ExampleScreen: React.FC<ExampleScreenProps> = () => {
       },
     );
   }, []);
-
+  console.log(printers2);
   const printerText2 = async () => {
     let columnWidths = [12, 6, 6, 8];
     await BluetoothEscposPrinter.printerAlign(

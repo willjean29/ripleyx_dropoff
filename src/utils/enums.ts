@@ -82,4 +82,4 @@ export const ticketDemo: ITicketResponse = {
   ],
 };
 
-export let listMacsPrint = ['00:13:7B:3A:79:CD'];
+export let listMacsPrint = ['00:13:7B:3A:79:CD', '41:42:06:8C:00:CA'];
