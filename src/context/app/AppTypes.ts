@@ -1,6 +1,6 @@
 import {TypeOfError, TypeOfPrinter} from 'utils/enums';
 import {Product, Ticket, AppStateI} from './interfaces/AppStateInterface';
-
+import {DeviceBluetooth} from 'interfaces/appInterface';
 export const QR_READ = 'QR_READ';
 export const QR_CHECK = 'QR_CHECK';
 export const RESET_DATA = 'RESET_DATA';
@@ -9,6 +9,11 @@ export const CHECK_PRINTER = 'CHECK_PRINTER';
 export const CHANGE_TOTAL_PRODUCTS = 'CHANGE_TOTAL_PRODUCTS';
 export const RESET_ANIMATION = 'RESET_ANIMATION';
 export const SET_TOKEN = 'SET_TOKEN';
+export const SET_DEVICE_CURRENT = 'SET_DEVICE_CURRENT';
+
+// ACTIONS FOR ADD / DELETE RETURNED PRODUICTS
+export const ADD_PRODUCT_REURNED = 'ADD_PRODUCT_REURNED';
+export const DELETE_PRODUCT_REURNED = 'DELETE_PRODUCT_REURNED';
 export interface QRRead {
   type: typeof QR_READ;
   payload: {
@@ -57,9 +62,24 @@ export interface ResetAnimation {
   payload: boolean;
 }
 
+export interface AddeProductReturned {
+  type: typeof ADD_PRODUCT_REURNED;
+  payload: number;
+}
+
+export interface DeleteProductReturned {
+  type: typeof DELETE_PRODUCT_REURNED;
+  payload: number;
+}
+
 export interface SetToken {
   type: typeof SET_TOKEN;
   payload: string;
+}
+
+export interface SetDeviceCurrent {
+  type: typeof SET_DEVICE_CURRENT;
+  payload: DeviceBluetooth;
 }
 
 export type QRDispatchTypes =
@@ -70,4 +90,7 @@ export type QRDispatchTypes =
   | CheckPrinter
   | ChangeTotalProducts
   | ResetAnimation
-  | SetToken;
+  | AddeProductReturned
+  | DeleteProductReturned
+  | SetToken
+  | SetDeviceCurrent;

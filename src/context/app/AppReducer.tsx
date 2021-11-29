@@ -1,4 +1,4 @@
-import {act} from 'react-test-renderer';
+// import {act} from 'react-test-renderer';
 import {
   QR_READ,
   QR_CHECK,
@@ -9,6 +9,9 @@ import {
   CHANGE_TOTAL_PRODUCTS,
   RESET_ANIMATION,
   SET_TOKEN,
+  SET_DEVICE_CURRENT,
+  ADD_PRODUCT_REURNED,
+  DELETE_PRODUCT_REURNED,
 } from './AppTypes';
 
 import {AppStateI, Product} from './interfaces/AppStateInterface';
@@ -58,10 +61,30 @@ const AppReducer = (state: AppStateI, action: QRDispatchTypes) => {
         ...state,
         resetAnimation: action.payload,
       };
+    case ADD_PRODUCT_REURNED:
+      return {
+        ...state,
+        returnedProducts: [
+          ...state.returnedProducts,
+          {order_detail_id: action.payload},
+        ],
+      };
+    case DELETE_PRODUCT_REURNED:
+      return {
+        ...state,
+        returnedProducts: state.returnedProducts.filter(
+          product => product.order_detail_id !== action.payload && product,
+        ),
+      };
     case SET_TOKEN:
       return {
         ...state,
         token: action.payload,
+      };
+    case SET_DEVICE_CURRENT:
+      return {
+        ...state,
+        currentPrint: action.payload,
       };
     default:
       return state;

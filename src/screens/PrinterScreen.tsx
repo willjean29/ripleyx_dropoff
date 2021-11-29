@@ -11,10 +11,7 @@ import PrinterSuccessSvg from 'assets/img/printer_success.svg';
 import PrinterError from 'assets/img/printer_error.svg';
 
 interface PrinterScreenProps {}
-interface IBLEPrinter {
-  device_name: string;
-  inner_mac_address: string;
-}
+
 const PrinterScreen: React.FC<PrinterScreenProps> = () => {
   const {
     appState: {typeOfPrinter},
@@ -45,46 +42,10 @@ const PrinterScreen: React.FC<PrinterScreenProps> = () => {
     return content;
   };
 
-  // const [printers, setPrinters] = useState<any>([]);
-  // const [currentPrinter, setCurrentPrinter]: any = useState();
-  // const [error, setError] = useState('');
-
-  // useEffect(() => {
-  //   BLEPrinter.init().then(() => {
-  //     BLEPrinter.getDeviceList().then(setPrinters);
-  //   });
-  // }, []);
-
-  // const printTextTest = (): void => {
-  //   currentPrinter &&
-  //     BLEPrinter.printText(
-  //       '<C>RIPLEY</C>\n<C>TIENDAS POR DEPARTAMENTO RIPLEY S.A.</C>\n<C>CALLE LAS BEGONIAS 545-577</C>\n<C>SAN ISIDRO - LIMA</C>\n<C>RUC 20337564373</C>\n',
-  //     );
-  // };
-
-  // const _connectPrinter = (printer: IBLEPrinter) => {
-  //   //connect printer
-  //   setError('');
-  //   BLEPrinter.connectPrinter(printer.inner_mac_address).then(
-  //     setCurrentPrinter,
-  //     error =>
-  //       setError(JSON.stringify('Error al intentar establecer la conexión')),
-  //   );
-
-  //   printTextTest();
-  // };
-  // console.log(error);
-
-  // useEffect(() => {
-  //   const contentPrinter = selectContent(typeOfPrinter);
-  //   setContent(contentPrinter);
-  // }, []);
-
-  // useEffect(() => {
-  //   BLEPrinter.init().then(() => {
-  //     BLEPrinter.getDeviceList().then(setPrinters);
-  //   });
-  // }, []);
+  useEffect(() => {
+    const contentPrinter = selectContent(typeOfPrinter);
+    setContent(contentPrinter);
+  }, []);
 
   return (
     <View style={{flex: 1}}>

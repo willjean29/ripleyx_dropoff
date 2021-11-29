@@ -17,11 +17,12 @@ import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
 import BagSvg from 'assets/img/bag.svg';
 import LogotipoSvg from 'assets/img/logotipo.svg';
 import {DeviceBluetooth} from 'interfaces/appInterface';
+import {listMacsPrint} from 'utils/enums';
 interface HomeScreenProps
   extends StackScreenProps<StackParamList, 'HomeScreen'> {}
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
-  // const tokenDefault =
-  //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkbmkiOiI0NjQ3MzE1NCIsInRpY2tldE51bWJlciI6IidULTAwMDMyMiciLCJpYXQiOjE2MzYzOTY1ODEsImV4cCI6MTY2Nzk1NDE4MX0.90eg7sSvSxgUcuJr6Y_bxbeir6lIpnClKeXArEVt0fU';
+  const tokenDefault =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDUyMTE2MDAsImRhdGEiOiJ7XCJkbmlcIjpcIjQ2MDQ0MDQwXCIsXCJ0aWNrZXROdW1iZXJcIjpcIlQtMDAwMzY4XCJ9IiwiaWF0IjoxNjM4MDMyMjgzfQ.Jl6tyidvRVT3NzwueJfK4o6S9MMDpSZxie88pYaqiQ8';
   // const [token, setToken] = useState(tokenDefault);
   const [readInflaR, setReadInflaR] = useState('');
   const debouncedValue = useDebounceValue(readInflaR);
@@ -29,6 +30,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
     appState: {ticketInfo},
     readQr,
     setToken,
+    setDeviceCurrent,
   } = useContext(AppContext);
   console.log({ticketInfo});
 
@@ -70,10 +72,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   useEffect(() => {
     BluetoothManager.enableBluetooth().then(
       devices => {
-        let listDevice: DeviceBluetooth[] = [];
+        // let listDevice: DeviceBluetooth[] = [];
         devices?.map(device => {
           const dv: DeviceBluetooth = JSON.parse(device);
-          listDevice.push(dv);
+          if (listMacsPrint.includes(dv.address)) {
+            setDeviceCurrent(dv);
+          }
         });
         // setPrinters2(listDevice);
       },
@@ -93,12 +97,12 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           <LogotipoSvg width={550} height={100} />
         </View>
         <ColorBarComponent />
-        {/* <Button
+        <Button
           title="Leer Ticket"
           onPress={() => {
-            readQr(token);
+            readQr(tokenDefault);
           }}
-        /> */}
+        />
       </>
     </AppLayout>
   );

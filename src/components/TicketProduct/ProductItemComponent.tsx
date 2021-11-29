@@ -19,6 +19,8 @@ const ProductItemComponent: React.FC<ProductItemComponentProps> = ({
     appState: {totalPorducts, resetAnimation},
     changeTotalProducts,
     changeAnimation,
+    deleteProductReturned,
+    addProductReturned,
   } = useContext(AppContext);
   return (
     <TouchableOpacity
@@ -37,13 +39,26 @@ const ProductItemComponent: React.FC<ProductItemComponentProps> = ({
             onPress={() => {
               setIsSelected(!isSelected);
               changeAnimation(!resetAnimation);
-              !isSelected
-                ? changeTotalProducts(
-                    totalPorducts + product.quantity_products_return,
-                  )
-                : changeTotalProducts(
-                    totalPorducts - product.quantity_products_return,
-                  );
+              // !isSelected
+              //   ? changeTotalProducts(
+              //       totalPorducts + product.quantity_products_return,
+              //     )
+              //   : changeTotalProducts(
+              //       totalPorducts - product.quantity_products_return,
+              //     );
+              if (!isSelected) {
+                console.log('se agrega');
+                changeTotalProducts(
+                  totalPorducts + product.quantity_products_return,
+                );
+                deleteProductReturned(parseInt(product.order_detail_id));
+              } else {
+                console.log('se quita');
+                changeTotalProducts(
+                  totalPorducts - product.quantity_products_return,
+                );
+                addProductReturned(parseInt(product.order_detail_id));
+              }
             }}
           />
         </View>

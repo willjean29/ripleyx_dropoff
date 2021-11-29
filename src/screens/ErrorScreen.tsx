@@ -55,12 +55,6 @@ const ErrorScreen: React.FC<ErrorScreenProps> = ({}) => {
         title={content.title}
         message={content.message}
       />
-      <Button
-        title="Reset Anbimation"
-        onPress={() => {
-          setResetAnimation(!resetAnimation);
-        }}
-      />
       <ProgressBar
         backgroundColor={GlobalColors.background.paper}
         reset={resetAnimation}
