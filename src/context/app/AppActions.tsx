@@ -223,7 +223,9 @@ export const printerQrAction = async (
       );
       await BluetoothEscposPrinter.printText(
         `Fec Devolución\t\t${currentDate}\n\r`,
-        {},
+        {
+          encoding: 'utf8',
+        },
       );
       await BluetoothEscposPrinter.printText(
         `Cant Productos\t\t${infoTicket.total_products}\n\r`,
@@ -238,7 +240,7 @@ export const printerQrAction = async (
       );
       await BluetoothEscposPrinter.printQRCode(
         infoTicket.token,
-        300,
+        500,
         BluetoothEscposPrinter.ERROR_CORRECTION.L,
       );
       // espaciado
