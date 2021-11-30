@@ -82,14 +82,19 @@ export const validateErrorTicket = (ticket: Ticket) => {
   //   return errorTicket;
   // }
   switch (ticket.status_request) {
-    case 6:
-    case 2:
-      errorTicket = TypeOfError.TICKET_USED;
-      break;
-    case 3:
+    case 1:
       errorTicket = TypeOfError.TICKET_SECURITY;
       break;
+    case 5:
+    case 6:
+    case 32:
+    case 33:
+    case 39:
+    case 40:
+      errorTicket = TypeOfError.TICKET_USED;
+      break;
     case 4:
+    case 34:
       errorTicket = TypeOfError.TICKET_CANCELED_PERSONAL;
       break;
     case 37:

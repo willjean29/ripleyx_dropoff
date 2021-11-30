@@ -211,36 +211,43 @@ export const printerQrAction = async (
       );
       await BluetoothEscposPrinter.printText('SAN ISIDRO - LIMA\n\r', {});
       await BluetoothEscposPrinter.printText('RUC 20337564373\n\r', {});
+      // espaciado
+      await BluetoothEscposPrinter.printText('\n\r', {});
       // content ticket
       await BluetoothEscposPrinter.printerAlign(
         BluetoothEscposPrinter.ALIGN.LEFT,
       );
       await BluetoothEscposPrinter.printText(
-        `Nro Ticket\t${infoTicket.ticket_id}\n\r`,
+        `Nro Ticket\t\t${infoTicket.ticket_id}\n\r`,
         {},
       );
       await BluetoothEscposPrinter.printText(
-        `Fec Devolución\t${currentDate}\n\r`,
+        `Fec Devolución\t\t${currentDate}\n\r`,
         {},
       );
       await BluetoothEscposPrinter.printText(
-        `Cant Productos\t${infoTicket.total_products}\n\r`,
+        `Cant Productos\t\t${infoTicket.total_products}\n\r`,
         {},
       );
       // espaciado
       await BluetoothEscposPrinter.printText('\n\r', {});
-      await BluetoothEscposPrinter.printText('\n\r', {});
+      // await BluetoothEscposPrinter.printText('\n\r', {});
       // qr tikcet
+      await BluetoothEscposPrinter.printerAlign(
+        BluetoothEscposPrinter.ALIGN.CENTER,
+      );
       await BluetoothEscposPrinter.printQRCode(
         infoTicket.token,
-        250,
+        300,
         BluetoothEscposPrinter.ERROR_CORRECTION.L,
       );
       // espaciado
       await BluetoothEscposPrinter.printText('\n\r', {});
       await BluetoothEscposPrinter.printText('\n\r', {});
-      await BluetoothEscposPrinter.printText('\n\r', {});
       // footer ticket
+      await BluetoothEscposPrinter.printerAlign(
+        BluetoothEscposPrinter.ALIGN.CENTER,
+      );
       await BluetoothEscposPrinter.printText(
         'COLOCA ESTE PAPEL JUNTO CON\n\r',
         {},
