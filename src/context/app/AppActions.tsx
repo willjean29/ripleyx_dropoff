@@ -193,18 +193,66 @@ export const printerQrAction = async (
   console.log({actionPrinter: printer});
   const isConnected = await connectPrinter(printer);
   if (isConnected) {
+    const currentDate = new Date().toLocaleDateString();
     try {
       // imprimir ticket
+      // header ticket
       await BluetoothEscposPrinter.printerAlign(
         BluetoothEscposPrinter.ALIGN.CENTER,
       );
-      await BluetoothEscposPrinter.printText('Tiendas Ripley\n\r', {});
-      await BluetoothEscposPrinter.printText('Prueba De QR\n\r', {});
+      await BluetoothEscposPrinter.printText('RIPLEY\n\r', {});
+      await BluetoothEscposPrinter.printText(
+        'TIENDAS POR DEPARTAMENTO RIPLEY S.A.\n\r',
+        {},
+      );
+      await BluetoothEscposPrinter.printText(
+        'CALLE LAS BEGONIAS 545-577\n\r',
+        {},
+      );
+      await BluetoothEscposPrinter.printText('SAN ISIDRO - LIMA\n\r', {});
+      await BluetoothEscposPrinter.printText('RUC 20337564373\n\r', {});
+      // content ticket
+      await BluetoothEscposPrinter.printerAlign(
+        BluetoothEscposPrinter.ALIGN.LEFT,
+      );
+      await BluetoothEscposPrinter.printText(
+        `Nro Ticket\t${infoTicket.ticket_id}\n\r`,
+        {},
+      );
+      await BluetoothEscposPrinter.printText(
+        `Fec Devolución\t${currentDate}\n\r`,
+        {},
+      );
+      await BluetoothEscposPrinter.printText(
+        `Cant Productos\t${infoTicket.total_products}\n\r`,
+        {},
+      );
+      // espaciado
+      await BluetoothEscposPrinter.printText('\n\r', {});
+      await BluetoothEscposPrinter.printText('\n\r', {});
+      // qr tikcet
       await BluetoothEscposPrinter.printQRCode(
         infoTicket.token,
-        200,
+        250,
         BluetoothEscposPrinter.ERROR_CORRECTION.L,
       );
+      // espaciado
+      await BluetoothEscposPrinter.printText('\n\r', {});
+      await BluetoothEscposPrinter.printText('\n\r', {});
+      await BluetoothEscposPrinter.printText('\n\r', {});
+      // footer ticket
+      await BluetoothEscposPrinter.printText(
+        'COLOCA ESTE PAPEL JUNTO CON\n\r',
+        {},
+      );
+      await BluetoothEscposPrinter.printText(
+        'TUS PRODUCTOS DENTRO DE LA\n\r',
+        {},
+      );
+      await BluetoothEscposPrinter.printText('BOLSA DE DEVOLUCIONES\n\r', {});
+      // espaciado
+      await BluetoothEscposPrinter.printText('\n\r', {});
+      await BluetoothEscposPrinter.printText('\n\r', {});
       // actualizar datos del ticket
       const promiseStatus = dropoffApi.put(
         '/dropoff/update-status-ticket',

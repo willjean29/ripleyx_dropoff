@@ -21,8 +21,8 @@ import {listMacsPrint} from 'utils/enums';
 interface HomeScreenProps
   extends StackScreenProps<StackParamList, 'HomeScreen'> {}
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
-  const tokenDefault =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDUyMTE2MDAsImRhdGEiOiJ7XCJkbmlcIjpcIjQ2MDQ0MDQwXCIsXCJ0aWNrZXROdW1iZXJcIjpcIlQtMDAwMzY4XCJ9IiwiaWF0IjoxNjM4MDMyMjgzfQ.Jl6tyidvRVT3NzwueJfK4o6S9MMDpSZxie88pYaqiQ8';
+  // const tokenDefault =
+  //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDUyMTE2MDAsImRhdGEiOiJ7XCJkbmlcIjpcIjMyOTcxMTg3XCIsXCJ0aWNrZXROdW1iZXJcIjpcIlQtMDAwMzgyXCJ9IiwiaWF0IjoxNjM4MjI4NjY1fQ.ggmEYr9WS0JSEDF9TsqHrvlUe3WRAdmU5LIh5OqDuDI';
   // const [token, setToken] = useState(tokenDefault);
   const [readInflaR, setReadInflaR] = useState('');
   const debouncedValue = useDebounceValue(readInflaR);
