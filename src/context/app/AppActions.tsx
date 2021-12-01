@@ -201,6 +201,34 @@ export const printerQrAction = async (
         BluetoothEscposPrinter.ALIGN.CENTER,
       );
       await BluetoothEscposPrinter.printText('RIPLEY\n\r', {});
+      await BluetoothEscposPrinter.printText('RIPLEY\n\r', {
+        encoding: 'GBK',
+        codepage: 0,
+        widthtimes: 1,
+        heigthtimes: 1,
+        fonttype: 5,
+      });
+      await BluetoothEscposPrinter.printText('RIPLEY\n\r', {
+        encoding: 'GBK',
+        codepage: 0,
+        widthtimes: 0,
+        heigthtimes: 0,
+        fonttype: 6,
+      });
+      await BluetoothEscposPrinter.printText('RIPLEY\n\r', {
+        encoding: 'GBK',
+        codepage: 0,
+        widthtimes: 1,
+        heigthtimes: 1,
+        fonttype: 7,
+      });
+      await BluetoothEscposPrinter.printText('RIPLEY\n\r', {
+        encoding: 'GBK',
+        codepage: 0,
+        widthtimes: 0,
+        heigthtimes: 0,
+        fonttype: 8,
+      });
       await BluetoothEscposPrinter.printText(
         'TIENDAS POR DEPARTAMENTO RIPLEY S.A.\n\r',
         {},
@@ -224,27 +252,55 @@ export const printerQrAction = async (
       await BluetoothEscposPrinter.printText(
         `Fec Devolución\t\t${currentDate}\n\r`,
         {
-          encoding: 'utf8',
+          encoding: 'Cp858',
+          codepage: 13,
+          widthtimes: 0,
+          heigthtimes: 0,
+          fonttype: 1,
+        },
+      );
+      await BluetoothEscposPrinter.printText(
+        `Fec Devolución\t\t${currentDate}\n\r`,
+        {
+          encoding: 'ISO8859-15',
+          codepage: 13,
+          widthtimes: 0,
+          heigthtimes: 0,
+          fonttype: 2,
         },
       );
       await BluetoothEscposPrinter.printText(
         `Cant Productos\t\t${infoTicket.total_products}\n\r`,
-        {},
+        {
+          encoding: 'GBK',
+          codepage: 0,
+          widthtimes: 0,
+          heigthtimes: 0,
+          fonttype: 3,
+        },
+      );
+      await BluetoothEscposPrinter.printText(
+        `Cant Productos\t\t${infoTicket.total_products}\n\r`,
+        {
+          encoding: 'GBK',
+          codepage: 0,
+          widthtimes: 0,
+          heigthtimes: 0,
+          fonttype: 4,
+        },
       );
       // espaciado
       await BluetoothEscposPrinter.printText('\n\r', {});
-      // await BluetoothEscposPrinter.printText('\n\r', {});
       // qr tikcet
       await BluetoothEscposPrinter.printerAlign(
-        BluetoothEscposPrinter.ALIGN.CENTER,
+        BluetoothEscposPrinter.ALIGN.LEFT,
       );
       await BluetoothEscposPrinter.printQRCode(
         infoTicket.token,
-        500,
+        450,
         BluetoothEscposPrinter.ERROR_CORRECTION.L,
       );
       // espaciado
-      await BluetoothEscposPrinter.printText('\n\r', {});
       await BluetoothEscposPrinter.printText('\n\r', {});
       // footer ticket
       await BluetoothEscposPrinter.printerAlign(
