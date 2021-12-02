@@ -3,11 +3,6 @@ import {View, Text, StyleSheet, Button} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import KeyEvent from 'react-native-keyevent';
 import {StackParamList} from 'navigation/StackNavigation';
-import {
-  BluetoothManager,
-  BluetoothEscposPrinter,
-  BluetoothTscPrinter,
-} from '@brooons/react-native-bluetooth-escpos-printer';
 // custom import
 import AppLayout from 'layouts/AppLayout';
 import ColorBarComponent from 'components/UI/ColorBarComponent';
@@ -16,26 +11,18 @@ import useDebounceValue from 'hooks/useDebounceValue';
 import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
 import BagSvg from 'assets/img/bag.svg';
 import LogotipoSvg from 'assets/img/logotipo.svg';
-import {DeviceBluetooth} from 'interfaces/appInterface';
-import {listMacsPrint} from 'utils/enums';
+
 interface HomeScreenProps
   extends StackScreenProps<StackParamList, 'HomeScreen'> {}
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
-  // const tokenDefault =
-  //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDUyMTE2MDAsImRhdGEiOiJ7XCJkbmlcIjpcIjMyOTcxMTg3XCIsXCJ0aWNrZXROdW1iZXJcIjpcIlQtMDAwMzgyXCJ9IiwiaWF0IjoxNjM4MjI4NjY1fQ.ggmEYr9WS0JSEDF9TsqHrvlUe3WRAdmU5LIh5OqDuDI';
+  const tokenDefault =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDUyMTE2MDAsImRhdGEiOiJ7XCJkbmlcIjpcIjQ0MDQzMDIxXCIsXCJ0aWNrZXROdW1iZXJcIjpcIlQtMDAwMzc0XCJ9IiwiaWF0IjoxNjM4MjE5NDg0fQ.EoqycqWjyBn9cVnvq1ehgcb3uPomlWQUipklAEdvdqg';
   // const [token, setToken] = useState(tokenDefault);
   const [readInflaR, setReadInflaR] = useState('');
   const debouncedValue = useDebounceValue(readInflaR);
-  const {
-    appState: {ticketInfo, currentPrint},
-    readQr,
-    setToken,
-    setDeviceCurrent,
-  } = useContext(AppContext);
-  // console.log({ticketInfo});
-  // console.log({currentPrint});
+  const {readQr, setToken} = useContext(AppContext);
+
   let txtReaded = '';
-  let resp = '';
 
   useEffect(() => {
     KeyEvent.onKeyDownListener((keyEvent: any) => {
@@ -52,40 +39,14 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
       KeyEvent.removeKeyDownListener();
     };
   }, []);
-  console.log(readInflaR);
+
   useEffect(() => {
     if (debouncedValue.split('.').length === 3) {
       console.log({debouncedValue: debouncedValue.trim()});
       setToken(debouncedValue.trim());
       readQr(debouncedValue.trim());
     }
-    // if (readInflaR.length !== 0) {
-    //   console.log({readInflaR});
-    //   readQr(readInflaR);
-    // }
-    // return () => {
-    //   setReadInflaR('');
-    // };
   }, [debouncedValue]);
-
-  // useEffect(() => {
-  //   BluetoothManager.enableBluetooth().then(
-  //     devices => {
-  //       // let listDevice: DeviceBluetooth[] = [];
-  //       devices?.map(device => {
-  //         const dv: DeviceBluetooth = JSON.parse(device);
-  //         console.log(dv);
-  //         if (listMacsPrint.includes(dv.address)) {
-  //           setDeviceCurrent(dv);
-  //         }
-  //       });
-  //       // setPrinters2(listDevice);
-  //     },
-  //     err => {
-  //       //  alert(err)
-  //     },
-  //   );
-  // }, []);
 
   return (
     <AppLayout footerTitle="Escanea tu código QR en el lector de abajo">
@@ -97,7 +58,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
           <LogotipoSvg width={550} height={100} />
         </View>
         <ColorBarComponent />
-        <Text style={{fontSize: 25}}>TOKEN: {readInflaR}</Text>
+        {/* <Text style={{fontSize: 25}}>TOKEN: {readInflaR}</Text> */}
         {/* <Button
           title="Leer Ticket"
           onPress={() => {

@@ -116,3 +116,19 @@ export const calculateTotalProducts = (products: Product[]) => {
   });
   return total;
 };
+
+export const validateProperty = (property: string) => {
+  let isValid = false;
+  if (
+    property.length == 0 ||
+    property == '-' ||
+    property == undefined ||
+    property == null ||
+    property == '.'
+  ) {
+    isValid = false;
+  } else {
+    isValid = true;
+  }
+  return isValid;
+};

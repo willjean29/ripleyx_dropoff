@@ -5,6 +5,7 @@ import CheckBoxComponent from 'components/UI/CheckBoxComponent';
 import {Product} from 'context/app/interfaces/AppStateInterface';
 import {AppContext} from 'context/app/AppContext';
 import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
+import {validateProperty} from 'utils/methods';
 import BagSmallSvg from 'assets/img/bag_small.svg';
 
 interface ProductItemComponentProps {
@@ -39,13 +40,6 @@ const ProductItemComponent: React.FC<ProductItemComponentProps> = ({
             onPress={() => {
               setIsSelected(!isSelected);
               changeAnimation(!resetAnimation);
-              // !isSelected
-              //   ? changeTotalProducts(
-              //       totalPorducts + product.quantity_products_return,
-              //     )
-              //   : changeTotalProducts(
-              //       totalPorducts - product.quantity_products_return,
-              //     );
               if (!isSelected) {
                 console.log('se agrega');
                 changeTotalProducts(
@@ -66,11 +60,13 @@ const ProductItemComponent: React.FC<ProductItemComponentProps> = ({
           <Text style={styles.txtTitleName}>{product.product_name}</Text>
 
           <Text style={styles.txtDetails}>
-            {product.product_size !== '-' && `Talla ${product.product_size}`}
-            {product.product_size !== '-' &&
-              product.product_size !== '' &&
+            {validateProperty(product.product_size) &&
+              `Talla ${product.product_size}`}
+            {validateProperty(product.product_size) &&
+              validateProperty(product.product_color) &&
               ` - `}
-            {product.product_color !== '' && `Color ${product.product_color}`}
+            {validateProperty(product.product_color) &&
+              `Color ${product.product_color}`}
           </Text>
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.txtError}>{product.reason_name}</Text>
