@@ -206,7 +206,7 @@ export const printerQrAction = async (
         codepage: 0,
         widthtimes: 0,
         heigthtimes: 0,
-        fonttype: 1,
+        fonttype: 0,
       });
       await BluetoothEscposPrinter.printerAlign(
         BluetoothEscposPrinter.ALIGN.CENTER,
@@ -218,7 +218,7 @@ export const printerQrAction = async (
           codepage: 0,
           widthtimes: 0,
           heigthtimes: 0,
-          fonttype: 1,
+          fonttype: 0,
         },
       );
       await BluetoothEscposPrinter.printerAlign(
@@ -229,21 +229,21 @@ export const printerQrAction = async (
         codepage: 0,
         widthtimes: 0,
         heigthtimes: 0,
-        fonttype: 1,
+        fonttype: 0,
       });
       await BluetoothEscposPrinter.printText('SAN ISIDRO - LIMA\n\r', {
         encoding: 'GBK',
         codepage: 0,
         widthtimes: 0,
         heigthtimes: 0,
-        fonttype: 1,
+        fonttype: 0,
       });
       await BluetoothEscposPrinter.printText('RUC 20337564373\n\r', {
         encoding: 'GBK',
         codepage: 0,
         widthtimes: 0,
         heigthtimes: 0,
-        fonttype: 1,
+        fonttype: 0,
       });
       // espaciado
       await BluetoothEscposPrinter.printText('\n\r', {});
@@ -252,13 +252,13 @@ export const printerQrAction = async (
         BluetoothEscposPrinter.ALIGN.LEFT,
       );
       await BluetoothEscposPrinter.printText(
-        `Nro Ticket    \t\t${infoTicket.ticket_id}\n\r`,
+        `Nro Ticket\t\t${infoTicket.ticket_id}\n\r`,
         {
           encoding: 'GBK',
           codepage: 0,
           widthtimes: 0,
           heigthtimes: 0,
-          fonttype: 1,
+          fonttype: 0,
         },
       );
       await BluetoothEscposPrinter.printText(
@@ -268,7 +268,7 @@ export const printerQrAction = async (
           codepage: 13,
           widthtimes: 0,
           heigthtimes: 0,
-          fonttype: 1,
+          fonttype: 0,
         },
       );
       await BluetoothEscposPrinter.printText(
@@ -278,7 +278,7 @@ export const printerQrAction = async (
           codepage: 0,
           widthtimes: 0,
           heigthtimes: 0,
-          fonttype: 1,
+          fonttype: 0,
         },
       );
       // espaciado
@@ -305,7 +305,7 @@ export const printerQrAction = async (
           codepage: 0,
           widthtimes: 0,
           heigthtimes: 0,
-          fonttype: 1,
+          fonttype: 0,
         },
       );
       await BluetoothEscposPrinter.printText('TUS PRODUCTOS DENTRO DE LA\n\r', {
@@ -313,14 +313,14 @@ export const printerQrAction = async (
         codepage: 0,
         widthtimes: 0,
         heigthtimes: 0,
-        fonttype: 1,
+        fonttype: 0,
       });
       await BluetoothEscposPrinter.printText('BOLSA DE DEVOLUCIONES\n\r', {
         encoding: 'GBK',
         codepage: 0,
         widthtimes: 0,
         heigthtimes: 0,
-        fonttype: 1,
+        fonttype: 0,
       });
       // espaciado
       await BluetoothEscposPrinter.printText('\n\r', {});
