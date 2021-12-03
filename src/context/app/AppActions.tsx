@@ -193,7 +193,10 @@ export const printerQrAction = async (
   console.log({actionPrinter: printer});
   const isConnected = await connectPrinter(printer);
   if (isConnected) {
-    const currentDate = new Date().toLocaleDateString('es-ES');
+    const currentDate = new Date();
+    const dateFormant = `${currentDate.getDate()}/${
+      currentDate.getMonth() + 1
+    }/${currentDate.getFullYear()}`;
     try {
       // imprimir ticket
       // header ticket
@@ -204,9 +207,9 @@ export const printerQrAction = async (
       await BluetoothEscposPrinter.printText('RIPLEY\n\r', {
         encoding: 'GBK',
         codepage: 0,
-        widthtimes: 0,
-        heigthtimes: 0,
-        fonttype: 0,
+        widthtimes: 1,
+        heigthtimes: 1,
+        fonttype: 1,
       });
       await BluetoothEscposPrinter.printerAlign(
         BluetoothEscposPrinter.ALIGN.CENTER,
@@ -216,9 +219,9 @@ export const printerQrAction = async (
         {
           encoding: 'GBK',
           codepage: 0,
-          widthtimes: 0,
-          heigthtimes: 0,
-          fonttype: 0,
+          widthtimes: 1,
+          heigthtimes: 1,
+          fonttype: 1,
         },
       );
       await BluetoothEscposPrinter.printerAlign(
@@ -227,23 +230,23 @@ export const printerQrAction = async (
       await BluetoothEscposPrinter.printText('CALLE LAS BEGONIAS 545-577\n\r', {
         encoding: 'GBK',
         codepage: 0,
-        widthtimes: 0,
-        heigthtimes: 0,
-        fonttype: 0,
+        widthtimes: 1,
+        heigthtimes: 1,
+        fonttype: 1,
       });
       await BluetoothEscposPrinter.printText('SAN ISIDRO - LIMA\n\r', {
         encoding: 'GBK',
         codepage: 0,
-        widthtimes: 0,
-        heigthtimes: 0,
-        fonttype: 0,
+        widthtimes: 1,
+        heigthtimes: 1,
+        fonttype: 1,
       });
       await BluetoothEscposPrinter.printText('RUC 20337564373\n\r', {
         encoding: 'GBK',
         codepage: 0,
-        widthtimes: 0,
-        heigthtimes: 0,
-        fonttype: 0,
+        widthtimes: 1,
+        heigthtimes: 1,
+        fonttype: 1,
       });
       // espaciado
       await BluetoothEscposPrinter.printText('\n\r', {});
@@ -252,23 +255,23 @@ export const printerQrAction = async (
         BluetoothEscposPrinter.ALIGN.LEFT,
       );
       await BluetoothEscposPrinter.printText(
-        `Nro Ticket\t\t${infoTicket.ticket_id}\n\r`,
+        `Nro Ticket    \t\t${infoTicket.ticket_id}\n\r`,
         {
           encoding: 'GBK',
           codepage: 0,
-          widthtimes: 0,
-          heigthtimes: 0,
-          fonttype: 0,
+          widthtimes: 1,
+          heigthtimes: 1,
+          fonttype: 1,
         },
       );
       await BluetoothEscposPrinter.printText(
-        `Fec Devolución\t\t${currentDate}\n\r`,
+        `Fec Devolución\t\t${dateFormant}\n\r`,
         {
           encoding: 'Cp858',
           codepage: 13,
-          widthtimes: 0,
-          heigthtimes: 0,
-          fonttype: 0,
+          widthtimes: 1,
+          heigthtimes: 1,
+          fonttype: 1,
         },
       );
       await BluetoothEscposPrinter.printText(
@@ -276,9 +279,9 @@ export const printerQrAction = async (
         {
           encoding: 'GBK',
           codepage: 0,
-          widthtimes: 0,
-          heigthtimes: 0,
-          fonttype: 0,
+          widthtimes: 1,
+          heigthtimes: 1,
+          fonttype: 1,
         },
       );
       // espaciado
@@ -303,24 +306,24 @@ export const printerQrAction = async (
         {
           encoding: 'GBK',
           codepage: 0,
-          widthtimes: 0,
-          heigthtimes: 0,
-          fonttype: 0,
+          widthtimes: 1,
+          heigthtimes: 1,
+          fonttype: 1,
         },
       );
       await BluetoothEscposPrinter.printText('TUS PRODUCTOS DENTRO DE LA\n\r', {
         encoding: 'GBK',
         codepage: 0,
-        widthtimes: 0,
-        heigthtimes: 0,
-        fonttype: 0,
+        widthtimes: 1,
+        heigthtimes: 1,
+        fonttype: 1,
       });
       await BluetoothEscposPrinter.printText('BOLSA DE DEVOLUCIONES\n\r', {
         encoding: 'GBK',
         codepage: 0,
-        widthtimes: 0,
-        heigthtimes: 0,
-        fonttype: 0,
+        widthtimes: 1,
+        heigthtimes: 1,
+        fonttype: 1,
       });
       // espaciado
       await BluetoothEscposPrinter.printText('\n\r', {});
