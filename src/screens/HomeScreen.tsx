@@ -3,6 +3,7 @@ import {View, Text, StyleSheet, Button} from 'react-native';
 import {StackScreenProps} from '@react-navigation/stack';
 import KeyEvent from 'react-native-keyevent';
 import {StackParamList} from 'navigation/StackNavigation';
+import jwt_decode from 'jwt-decode';
 // custom import
 import AppLayout from 'layouts/AppLayout';
 import ColorBarComponent from 'components/UI/ColorBarComponent';
@@ -15,8 +16,8 @@ import LogotipoSvg from 'assets/img/logotipo.svg';
 interface HomeScreenProps
   extends StackScreenProps<StackParamList, 'HomeScreen'> {}
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
-  const tokenDefault =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDUyMTE2MDAsImRhdGEiOiJ7XCJkbmlcIjpcIjQ0MDQzMDIxXCIsXCJ0aWNrZXROdW1iZXJcIjpcIlQtMDAwMzc0XCJ9IiwiaWF0IjoxNjM4MjE5NDg0fQ.EoqycqWjyBn9cVnvq1ehgcb3uPomlWQUipklAEdvdqg';
+  // const tokenDefault =
+  //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDUyMTE2MDAsImRhdGEiOiJ7XCJkbmlcIjpcIjc3MDM2Njg3XCIsXCJ0aWNrZXROdW1iZXJcIjpcIlQtMDAwMzcxXCJ9IiwiaWF0IjoxNjM4MDQzNTA0fQ.ToXbCeEa_DglSL4wcbIHPn6hz-29JGDxSOIR50ydlJc';
   // const [token, setToken] = useState(tokenDefault);
   const [readInflaR, setReadInflaR] = useState('');
   const debouncedValue = useDebounceValue(readInflaR);
@@ -39,7 +40,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
       KeyEvent.removeKeyDownListener();
     };
   }, []);
-
+  // console.log(readInflaR);
   useEffect(() => {
     if (debouncedValue.split('.').length === 3) {
       console.log({debouncedValue: debouncedValue.trim()});
@@ -62,7 +63,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
         {/* <Button
           title="Leer Ticket"
           onPress={() => {
-            readQr(tokenDefault);
+            setReadInflaR(tokenDefault);
           }}
         /> */}
       </>

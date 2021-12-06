@@ -255,21 +255,58 @@ export const printerQrAction = async (
       // espaciado
       await BluetoothEscposPrinter.printText('\n\r', {});
       // content ticket
-      await BluetoothEscposPrinter.printerAlign(
-        BluetoothEscposPrinter.ALIGN.LEFT,
+      // await BluetoothEscposPrinter.printerAlign(
+      //   BluetoothEscposPrinter.ALIGN.LEFT,
+      // );
+      // await BluetoothEscposPrinter.printText(
+      //   `Nro Ticket\t\t${infoTicket.ticket_id}\n\r`,
+      //   {
+      //     encoding: 'GBK',
+      //     codepage: 0,
+      //     widthtimes: 0,
+      //     heigthtimes: 0,
+      //     fonttype: 0,
+      //   },
+      // );
+      // await BluetoothEscposPrinter.printText(
+      //   `Fec Devolución\t\t${dateFormant}\n\r`,
+      //   {
+      //     encoding: 'Cp858',
+      //     codepage: 13,
+      //     widthtimes: 0,
+      //     heigthtimes: 0,
+      //     fonttype: 0,
+      //   },
+      // );
+      // await BluetoothEscposPrinter.printText(
+      //   `Cant Productos\t\t${infoTicket.total_products}\n\r`,
+      //   {
+      //     encoding: 'GBK',
+      //     codepage: 0,
+      //     widthtimes: 0,
+      //     heigthtimes: 0,
+      //     fonttype: 0,
+      //   },
+      // );
+      const columnWidths = [16, 4, 12];
+      await BluetoothEscposPrinter.printColumn(
+        columnWidths,
+        [
+          BluetoothEscposPrinter.ALIGN.LEFT,
+          BluetoothEscposPrinter.ALIGN.CENTER,
+          BluetoothEscposPrinter.ALIGN.RIGHT,
+        ],
+        ['Nro Ticket', '', `${infoTicket.ticket_id}`],
+        {},
       );
-      await BluetoothEscposPrinter.printText(
-        `Nro Ticket\t\t${infoTicket.ticket_id}\n\r`,
-        {
-          encoding: 'GBK',
-          codepage: 0,
-          widthtimes: 0,
-          heigthtimes: 0,
-          fonttype: 0,
-        },
-      );
-      await BluetoothEscposPrinter.printText(
-        `Fec Devolución\t\t${dateFormant}\n\r`,
+      await BluetoothEscposPrinter.printColumn(
+        columnWidths,
+        [
+          BluetoothEscposPrinter.ALIGN.LEFT,
+          BluetoothEscposPrinter.ALIGN.CENTER,
+          BluetoothEscposPrinter.ALIGN.RIGHT,
+        ],
+        ['Fec Devolución', '', `${dateFormant}`],
         {
           encoding: 'Cp858',
           codepage: 13,
@@ -278,15 +315,15 @@ export const printerQrAction = async (
           fonttype: 0,
         },
       );
-      await BluetoothEscposPrinter.printText(
-        `Cant Productos\t\t${infoTicket.total_products}\n\r`,
-        {
-          encoding: 'GBK',
-          codepage: 0,
-          widthtimes: 0,
-          heigthtimes: 0,
-          fonttype: 0,
-        },
+      await BluetoothEscposPrinter.printColumn(
+        columnWidths,
+        [
+          BluetoothEscposPrinter.ALIGN.LEFT,
+          BluetoothEscposPrinter.ALIGN.CENTER,
+          BluetoothEscposPrinter.ALIGN.RIGHT,
+        ],
+        ['Cant Productos', '', `${infoTicket.total_products}`],
+        {},
       );
       // espaciado
       // await BluetoothEscposPrinter.printText('\n\r', {});
