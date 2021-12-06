@@ -214,16 +214,20 @@ export const printerQrAction = async (
       await BluetoothEscposPrinter.printerAlign(
         BluetoothEscposPrinter.ALIGN.CENTER,
       );
-      await BluetoothEscposPrinter.printText(
-        'TIENDAS POR DEPARTAMENTO RIPLEY S.A.\n\r',
-        {
-          encoding: 'GBK',
-          codepage: 0,
-          widthtimes: 0,
-          heigthtimes: 0,
-          fonttype: 0,
-        },
-      );
+      await BluetoothEscposPrinter.printText('TIENDAS POR DEPARTAMENTO\n\r', {
+        encoding: 'GBK',
+        codepage: 0,
+        widthtimes: 0,
+        heigthtimes: 0,
+        fonttype: 0,
+      });
+      await BluetoothEscposPrinter.printText('RIPLEY S.A.\n\r', {
+        encoding: 'GBK',
+        codepage: 0,
+        widthtimes: 0,
+        heigthtimes: 0,
+        fonttype: 0,
+      });
       await BluetoothEscposPrinter.printerAlign(
         BluetoothEscposPrinter.ALIGN.CENTER,
       );

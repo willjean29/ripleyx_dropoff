@@ -18,7 +18,7 @@ const HeaderTicketComponent: React.FC<HeaderTicketComponentProps> = ({
   return (
     <View style={styles.containerHeader}>
       <View style={{top: -8}}>
-        {/* <ProgressBarComponent time={60} reset={resetAnimation} /> */}
+        <ProgressBarComponent time={60} reset={resetAnimation} />
       </View>
       <View
         style={{
