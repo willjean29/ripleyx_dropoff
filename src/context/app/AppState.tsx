@@ -12,6 +12,7 @@ import {
   setListDevicesAction,
   addProductsReturnedAction,
   deleteProductsReturnedAction,
+  setListDevicesArrayAction,
 } from './AppActions';
 import {TypeOfPrinter} from 'utils/enums';
 import {DeviceBluetooth} from 'interfaces/appInterface';
@@ -36,6 +37,7 @@ const AppState: React.FC<AppStateProps> = ({children}) => {
     typeOfPrinter: TypeOfPrinter.PRINTER_ERROR,
     resetAnimation: false,
     currentPrint: null,
+    listDevices: [],
   };
   const [appState, dispatch] = useReducer(AppReducer, appInitialState);
 
@@ -44,7 +46,7 @@ const AppState: React.FC<AppStateProps> = ({children}) => {
   const printerQr = (
     statusTicket: StatusTicketDto,
     detailTicket: DetailTicketDto,
-    printer: DeviceBluetooth,
+    printer: DeviceBluetooth[],
     infoTicket: TicketPrintDto,
   ) =>
     printerQrAction(dispatch, statusTicket, detailTicket, printer, infoTicket);
@@ -59,6 +61,8 @@ const AppState: React.FC<AppStateProps> = ({children}) => {
   const setToken = (token: string) => setTokenAction(dispatch, token);
   const setDeviceCurrent = (device: DeviceBluetooth) =>
     setListDevicesAction(dispatch, device);
+  const setListDevices = (devices: DeviceBluetooth[]) =>
+    setListDevicesArrayAction(dispatch, devices);
   return (
     <AppContext.Provider
       value={{
@@ -72,6 +76,7 @@ const AppState: React.FC<AppStateProps> = ({children}) => {
         deleteProductReturned,
         setToken,
         setDeviceCurrent,
+        setListDevices,
       }}>
       {children}
     </AppContext.Provider>

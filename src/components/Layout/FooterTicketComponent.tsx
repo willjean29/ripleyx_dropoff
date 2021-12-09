@@ -27,6 +27,7 @@ const FooterTicketComponent: React.FC<FooterTicketComponentProps> = ({
       totalPorducts,
       currentPrint,
       token,
+      listDevices,
     },
     backHome,
     printerQr,
@@ -65,7 +66,7 @@ const FooterTicketComponent: React.FC<FooterTicketComponentProps> = ({
                 order_id: parseInt(ticketInfo.order_id)!,
                 products: returnedProducts,
               },
-              currentPrint!,
+              listDevices,
               {
                 ticket_id: ticketInfo.ticket_id,
                 total_products: totalPorducts,

@@ -12,7 +12,7 @@ export interface AppContextI {
   printerQr: (
     statusTicket: StatusTicketDto,
     detailTicket: DetailTicketDto,
-    printer: DeviceBluetooth,
+    printer: DeviceBluetooth[],
     infoTicket: TicketPrintDto,
   ) => void;
   changeTotalProducts: (total: number) => void;
@@ -21,4 +21,5 @@ export interface AppContextI {
   deleteProductReturned: (order_detail_id: number) => void;
   setToken: (token: string) => void;
   setDeviceCurrent: (device: DeviceBluetooth) => void;
+  setListDevices: (devices: DeviceBluetooth[]) => void;
 }

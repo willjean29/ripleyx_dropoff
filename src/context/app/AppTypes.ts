@@ -10,6 +10,7 @@ export const CHANGE_TOTAL_PRODUCTS = 'CHANGE_TOTAL_PRODUCTS';
 export const RESET_ANIMATION = 'RESET_ANIMATION';
 export const SET_TOKEN = 'SET_TOKEN';
 export const SET_DEVICE_CURRENT = 'SET_DEVICE_CURRENT';
+export const SET_LIST_DEVICES = 'SET_LIST_DEVICES';
 
 // ACTIONS FOR ADD / DELETE RETURNED PRODUICTS
 export const ADD_PRODUCT_REURNED = 'ADD_PRODUCT_REURNED';
@@ -82,6 +83,11 @@ export interface SetDeviceCurrent {
   payload: DeviceBluetooth;
 }
 
+export interface SetListDevices {
+  type: typeof SET_LIST_DEVICES;
+  payload: DeviceBluetooth[];
+}
+
 export type QRDispatchTypes =
   | QRRead
   | QRCheck
@@ -93,4 +99,5 @@ export type QRDispatchTypes =
   | AddeProductReturned
   | DeleteProductReturned
   | SetToken
-  | SetDeviceCurrent;
+  | SetDeviceCurrent
+  | SetListDevices;

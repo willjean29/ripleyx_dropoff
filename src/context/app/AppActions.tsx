@@ -13,13 +13,20 @@ import {
   SET_DEVICE_CURRENT,
   ADD_PRODUCT_REURNED,
   DELETE_PRODUCT_REURNED,
+  SET_LIST_DEVICES,
 } from './AppTypes';
 import {ITicketResponse, Ticket} from './interfaces/AppStateInterface';
-import {ticketDemo, TypeOfError, TypeOfPrinter} from 'utils/enums';
+import {
+  macModelDemo,
+  ticketDemo,
+  TypeOfError,
+  TypeOfPrinter,
+} from 'utils/enums';
 import {calculateTotalProducts, validateErrorTicket} from 'utils/methods';
 import dropoffApi from 'api/dropoffApi';
 import {DeviceBluetooth} from 'interfaces/appInterface';
 import {DetailTicketDto, StatusTicketDto, TicketPrintDto} from './dtos/appDtos';
+import {macModel} from '../../utils/enums';
 import {
   BluetoothManager,
   BluetoothEscposPrinter,
@@ -170,6 +177,7 @@ export const backHomeAction = (dispatch: React.Dispatch<QRDispatchTypes>) => {
         typeOfPrinter: TypeOfPrinter.PRINTER_ERROR,
         resetAnimation: false,
         currentPrint: null,
+        listDevices: [],
       },
     });
   }, 2000);
@@ -179,7 +187,7 @@ export const printerQrAction = async (
   dispatch: React.Dispatch<QRDispatchTypes>,
   statusTicket: StatusTicketDto,
   detailTicket: DetailTicketDto,
-  printer: DeviceBluetooth,
+  printer: DeviceBluetooth[],
   infoTicket: TicketPrintDto,
 ) => {
   dispatch({
@@ -189,223 +197,205 @@ export const printerQrAction = async (
       message: 'Imprimiendo tu código QR',
     },
   });
-  // respuesta de la impresora (true | false)
-  console.log({actionPrinter: printer});
-  const isConnected = await connectPrinter(printer);
-  if (isConnected) {
-    const currentDate = new Date();
-    const dateFormant = `${currentDate.getDate()}/${
-      currentDate.getMonth() + 1
-    }/${currentDate.getFullYear()}`;
-    try {
-      // imprimir ticket
-      // header ticket
-      await BluetoothEscposPrinter.printerAlign(
-        BluetoothEscposPrinter.ALIGN.CENTER,
-      );
-      await BluetoothEscposPrinter.printerLeftSpace(0);
-      await BluetoothEscposPrinter.printText('RIPLEY\n\r', {
-        encoding: 'GBK',
-        codepage: 0,
-        widthtimes: 0,
-        heigthtimes: 0,
-        fonttype: 0,
-      });
-      await BluetoothEscposPrinter.printerAlign(
-        BluetoothEscposPrinter.ALIGN.CENTER,
-      );
-      await BluetoothEscposPrinter.printText('TIENDAS POR DEPARTAMENTO\n\r', {
-        encoding: 'GBK',
-        codepage: 0,
-        widthtimes: 0,
-        heigthtimes: 0,
-        fonttype: 0,
-      });
-      await BluetoothEscposPrinter.printText('RIPLEY S.A.\n\r', {
-        encoding: 'GBK',
-        codepage: 0,
-        widthtimes: 0,
-        heigthtimes: 0,
-        fonttype: 0,
-      });
-      await BluetoothEscposPrinter.printerAlign(
-        BluetoothEscposPrinter.ALIGN.CENTER,
-      );
-      await BluetoothEscposPrinter.printText('CALLE LAS BEGONIAS 545-577\n\r', {
-        encoding: 'GBK',
-        codepage: 0,
-        widthtimes: 0,
-        heigthtimes: 0,
-        fonttype: 0,
-      });
-      await BluetoothEscposPrinter.printText('SAN ISIDRO - LIMA\n\r', {
-        encoding: 'GBK',
-        codepage: 0,
-        widthtimes: 0,
-        heigthtimes: 0,
-        fonttype: 0,
-      });
-      await BluetoothEscposPrinter.printText('RUC 20337564373\n\r', {
-        encoding: 'GBK',
-        codepage: 0,
-        widthtimes: 0,
-        heigthtimes: 0,
-        fonttype: 0,
-      });
-      // espaciado
-      await BluetoothEscposPrinter.printText('\n\r', {});
-      // content ticket
-      // await BluetoothEscposPrinter.printerAlign(
-      //   BluetoothEscposPrinter.ALIGN.LEFT,
-      // );
-      // await BluetoothEscposPrinter.printText(
-      //   `Nro Ticket\t\t${infoTicket.ticket_id}\n\r`,
-      //   {
-      //     encoding: 'GBK',
-      //     codepage: 0,
-      //     widthtimes: 0,
-      //     heigthtimes: 0,
-      //     fonttype: 0,
-      //   },
-      // );
-      // await BluetoothEscposPrinter.printText(
-      //   `Fec Devolución\t\t${dateFormant}\n\r`,
-      //   {
-      //     encoding: 'Cp858',
-      //     codepage: 13,
-      //     widthtimes: 0,
-      //     heigthtimes: 0,
-      //     fonttype: 0,
-      //   },
-      // );
-      // await BluetoothEscposPrinter.printText(
-      //   `Cant Productos\t\t${infoTicket.total_products}\n\r`,
-      //   {
-      //     encoding: 'GBK',
-      //     codepage: 0,
-      //     widthtimes: 0,
-      //     heigthtimes: 0,
-      //     fonttype: 0,
-      //   },
-      // );
-      const columnWidths = [16, 4, 12];
-      await BluetoothEscposPrinter.printColumn(
-        columnWidths,
-        [
-          BluetoothEscposPrinter.ALIGN.LEFT,
+  // recorrer la lista de dispositivos y encontrar la impresora
+  let isConnected = false;
+  for (const device of printer) {
+    if (!device.address.includes(macModel)) break;
+    isConnected = await connectPrinter(device);
+    if (isConnected) {
+      const currentDate = new Date();
+      const dateFormant = `${currentDate.getDate()}/${
+        currentDate.getMonth() + 1
+      }/${currentDate.getFullYear()}`;
+      try {
+        // imprimir ticket
+        // header ticket
+        await BluetoothEscposPrinter.printerAlign(
           BluetoothEscposPrinter.ALIGN.CENTER,
-          BluetoothEscposPrinter.ALIGN.RIGHT,
-        ],
-        ['Nro Ticket', '', `${infoTicket.ticket_id}`],
-        {},
-      );
-      await BluetoothEscposPrinter.printColumn(
-        columnWidths,
-        [
-          BluetoothEscposPrinter.ALIGN.LEFT,
-          BluetoothEscposPrinter.ALIGN.CENTER,
-          BluetoothEscposPrinter.ALIGN.RIGHT,
-        ],
-        ['Fec Devolución', '', `${dateFormant}`],
-        {
-          encoding: 'Cp858',
-          codepage: 13,
-          widthtimes: 0,
-          heigthtimes: 0,
-          fonttype: 0,
-        },
-      );
-      await BluetoothEscposPrinter.printColumn(
-        columnWidths,
-        [
-          BluetoothEscposPrinter.ALIGN.LEFT,
-          BluetoothEscposPrinter.ALIGN.CENTER,
-          BluetoothEscposPrinter.ALIGN.RIGHT,
-        ],
-        ['Cant Productos', '', `${infoTicket.total_products}`],
-        {},
-      );
-      // espaciado
-      // await BluetoothEscposPrinter.printText('\n\r', {});
-      // qr tikcet
-      await BluetoothEscposPrinter.printerAlign(
-        BluetoothEscposPrinter.ALIGN.CENTER,
-      );
-      await BluetoothEscposPrinter.printQRCode(
-        infoTicket.token,
-        370,
-        BluetoothEscposPrinter.ERROR_CORRECTION.L,
-      );
-      // espaciado
-      // await BluetoothEscposPrinter.printText('\n\r', {});
-      // footer ticket
-      await BluetoothEscposPrinter.printerAlign(
-        BluetoothEscposPrinter.ALIGN.CENTER,
-      );
-      await BluetoothEscposPrinter.printText(
-        'COLOCA ESTE PAPEL JUNTO CON\n\r',
-        {
+        );
+        await BluetoothEscposPrinter.printerLeftSpace(0);
+        await BluetoothEscposPrinter.printText('RIPLEY\n\r', {
           encoding: 'GBK',
           codepage: 0,
           widthtimes: 0,
           heigthtimes: 0,
           fonttype: 0,
-        },
-      );
-      await BluetoothEscposPrinter.printText('TUS PRODUCTOS DENTRO DE LA\n\r', {
-        encoding: 'GBK',
-        codepage: 0,
-        widthtimes: 0,
-        heigthtimes: 0,
-        fonttype: 0,
-      });
-      await BluetoothEscposPrinter.printText('BOLSA DE DEVOLUCIONES\n\r', {
-        encoding: 'GBK',
-        codepage: 0,
-        widthtimes: 0,
-        heigthtimes: 0,
-        fonttype: 0,
-      });
-      // espaciado
-      await BluetoothEscposPrinter.printText('\n\r', {});
-      await BluetoothEscposPrinter.printText('\n\r', {});
-      // actualizar datos del ticket
-      const promiseStatus = dropoffApi.put(
-        '/dropoff/update-status-ticket',
-        statusTicket,
-      );
-      const promiseDetail = dropoffApi.put(
-        '/dropoff/update-detail-ticket',
-        detailTicket,
-      );
+        });
+        await BluetoothEscposPrinter.printerAlign(
+          BluetoothEscposPrinter.ALIGN.CENTER,
+        );
+        await BluetoothEscposPrinter.printText('TIENDAS POR DEPARTAMENTO\n\r', {
+          encoding: 'GBK',
+          codepage: 0,
+          widthtimes: 0,
+          heigthtimes: 0,
+          fonttype: 0,
+        });
+        await BluetoothEscposPrinter.printText('RIPLEY S.A.\n\r', {
+          encoding: 'GBK',
+          codepage: 0,
+          widthtimes: 0,
+          heigthtimes: 0,
+          fonttype: 0,
+        });
+        await BluetoothEscposPrinter.printerAlign(
+          BluetoothEscposPrinter.ALIGN.CENTER,
+        );
+        await BluetoothEscposPrinter.printText(
+          'CALLE LAS BEGONIAS 545-577\n\r',
+          {
+            encoding: 'GBK',
+            codepage: 0,
+            widthtimes: 0,
+            heigthtimes: 0,
+            fonttype: 0,
+          },
+        );
+        await BluetoothEscposPrinter.printText('SAN ISIDRO - LIMA\n\r', {
+          encoding: 'GBK',
+          codepage: 0,
+          widthtimes: 0,
+          heigthtimes: 0,
+          fonttype: 0,
+        });
+        await BluetoothEscposPrinter.printText('RUC 20337564373\n\r', {
+          encoding: 'GBK',
+          codepage: 0,
+          widthtimes: 0,
+          heigthtimes: 0,
+          fonttype: 0,
+        });
+        // espaciado
+        await BluetoothEscposPrinter.printText('\n\r', {});
+        // content ticket
+        const columnWidths = [16, 4, 12];
+        await BluetoothEscposPrinter.printColumn(
+          columnWidths,
+          [
+            BluetoothEscposPrinter.ALIGN.LEFT,
+            BluetoothEscposPrinter.ALIGN.CENTER,
+            BluetoothEscposPrinter.ALIGN.RIGHT,
+          ],
+          ['Nro Ticket', '', `${infoTicket.ticket_id}`],
+          {},
+        );
+        await BluetoothEscposPrinter.printColumn(
+          columnWidths,
+          [
+            BluetoothEscposPrinter.ALIGN.LEFT,
+            BluetoothEscposPrinter.ALIGN.CENTER,
+            BluetoothEscposPrinter.ALIGN.RIGHT,
+          ],
+          ['Fec Devolución', '', `${dateFormant}`],
+          {
+            encoding: 'Cp858',
+            codepage: 13,
+            widthtimes: 0,
+            heigthtimes: 0,
+            fonttype: 0,
+          },
+        );
+        await BluetoothEscposPrinter.printColumn(
+          columnWidths,
+          [
+            BluetoothEscposPrinter.ALIGN.LEFT,
+            BluetoothEscposPrinter.ALIGN.CENTER,
+            BluetoothEscposPrinter.ALIGN.RIGHT,
+          ],
+          ['Cant Productos', '', `${infoTicket.total_products}`],
+          {},
+        );
+        // espaciado
+        // await BluetoothEscposPrinter.printText('\n\r', {});
+        // qr tikcet
+        await BluetoothEscposPrinter.printerAlign(
+          BluetoothEscposPrinter.ALIGN.CENTER,
+        );
+        await BluetoothEscposPrinter.printQRCode(
+          infoTicket.token,
+          370,
+          BluetoothEscposPrinter.ERROR_CORRECTION.L,
+        );
+        // espaciado
+        // await BluetoothEscposPrinter.printText('\n\r', {});
+        // footer ticket
+        await BluetoothEscposPrinter.printerAlign(
+          BluetoothEscposPrinter.ALIGN.CENTER,
+        );
+        await BluetoothEscposPrinter.printText(
+          'COLOCA ESTE PAPEL JUNTO CON\n\r',
+          {
+            encoding: 'GBK',
+            codepage: 0,
+            widthtimes: 0,
+            heigthtimes: 0,
+            fonttype: 0,
+          },
+        );
+        await BluetoothEscposPrinter.printText(
+          'TUS PRODUCTOS DENTRO DE LA\n\r',
+          {
+            encoding: 'GBK',
+            codepage: 0,
+            widthtimes: 0,
+            heigthtimes: 0,
+            fonttype: 0,
+          },
+        );
+        await BluetoothEscposPrinter.printText('BOLSA DE DEVOLUCIONES\n\r', {
+          encoding: 'GBK',
+          codepage: 0,
+          widthtimes: 0,
+          heigthtimes: 0,
+          fonttype: 0,
+        });
+        // espaciado
+        await BluetoothEscposPrinter.printText('\n\r', {});
+        await BluetoothEscposPrinter.printText('\n\r', {});
+        await BluetoothEscposPrinter.printText('\n\r', {});
 
-      const [status, detail] = await Promise.all([
-        promiseStatus,
-        promiseDetail,
-      ]);
-      console.log(JSON.stringify(status.data, null, 3));
-      console.log(JSON.stringify(detail.data, null, 3));
-      setTimeout(() => {
-        dispatch({
-          type: CHECK_PRINTER,
-          payload: {
-            printer: true,
-            type: TypeOfPrinter.PRINTER_SUCCESS,
-          },
-        });
-      }, 1500);
-    } catch (error) {
-      setTimeout(() => {
-        dispatch({
-          type: CHECK_PRINTER,
-          payload: {
-            printer: true,
-            type: TypeOfPrinter.PRINTER_ERROR,
-          },
-        });
-      }, 1500);
+        // actualizar datos del ticket
+        const promiseStatus = dropoffApi.put(
+          '/dropoff/update-status-ticket',
+          statusTicket,
+        );
+        const promiseDetail = dropoffApi.put(
+          '/dropoff/update-detail-ticket',
+          detailTicket,
+        );
+
+        const [status, detail] = await Promise.all([
+          promiseStatus,
+          promiseDetail,
+        ]);
+        console.log(JSON.stringify(status.data, null, 3));
+        console.log(JSON.stringify(detail.data, null, 3));
+        setTimeout(() => {
+          dispatch({
+            type: CHECK_PRINTER,
+            payload: {
+              printer: true,
+              type: TypeOfPrinter.PRINTER_SUCCESS,
+            },
+          });
+        }, 1500);
+        return;
+      } catch (error) {
+        console.log('Error al conectar a ' + device.address);
+        // setTimeout(() => {
+        //   dispatch({
+        //     type: CHECK_PRINTER,
+        //     payload: {
+        //       printer: true,
+        //       type: TypeOfPrinter.PRINTER_ERROR,
+        //     },
+        //   });
+        // }, 1500);
+      }
     }
-  } else {
+  }
+
+  if (!isConnected) {
     console.log('error en conectar impresora');
     setTimeout(() => {
       dispatch({
@@ -417,31 +407,6 @@ export const printerQrAction = async (
       });
     }, 1500);
   }
-  // try {
-  //   const promiseStatus = dropoffApi.put(
-  //     '/dropoff/update-status-ticket',
-  //     statusTicket,
-  //   );
-  //   const promiseDetail = dropoffApi.put(
-  //     '/dropoff/update-detail-ticket',
-  //     detailTicket,
-  //   );
-
-  //   const [status, detail] = await Promise.all([promiseStatus, promiseDetail]);
-  //   console.log(JSON.stringify(status.data, null, 3));
-  //   console.log(JSON.stringify(detail.data, null, 3));
-  //   setTimeout(() => {
-  //     dispatch({
-  //       type: CHECK_PRINTER,
-  //       payload: {
-  //         printer: true,
-  //         type: TypeOfPrinter.PRINTER_SUCCESS,
-  //       },
-  //     });
-  //   }, 1500);
-  // } catch (error) {
-
-  // }
 };
 
 const connectPrinter = async (printer: DeviceBluetooth) => {
@@ -523,5 +488,15 @@ export const setListDevicesAction = (
   dispatch({
     type: SET_DEVICE_CURRENT,
     payload: device,
+  });
+};
+
+export const setListDevicesArrayAction = (
+  dispatch: React.Dispatch<QRDispatchTypes>,
+  devices: DeviceBluetooth[],
+) => {
+  dispatch({
+    type: SET_LIST_DEVICES,
+    payload: devices,
   });
 };

@@ -10,6 +10,7 @@ import {
   RESET_ANIMATION,
   SET_TOKEN,
   SET_DEVICE_CURRENT,
+  SET_LIST_DEVICES,
   ADD_PRODUCT_REURNED,
   DELETE_PRODUCT_REURNED,
 } from './AppTypes';
@@ -85,6 +86,11 @@ const AppReducer = (state: AppStateI, action: QRDispatchTypes) => {
       return {
         ...state,
         currentPrint: action.payload,
+      };
+    case SET_LIST_DEVICES:
+      return {
+        ...state,
+        listDevices: action.payload,
       };
     default:
       return state;
