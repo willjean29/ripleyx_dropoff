@@ -4,54 +4,60 @@ import TicketCanceledSvg from 'assets/img/ticket_canceled.svg';
 import TicketElectroSvg from 'assets/img/ticket_electro.svg';
 import TicketSecuritySvg from 'assets/img/ticket_security.svg';
 import TicketWifiSvg from 'assets/img/wifi_error.svg';
+import TicketNotFound from 'assets/img/ticket_not_found.svg';
 import {TicketContent} from 'interfaces/AppInterface';
 import {TypeOfError} from 'utils/enums';
 import {Product, Ticket} from 'context/app/interfaces/AppStateInterface';
 
-export const selectTicketContent = (typeOfError: TypeOfError) => {
+export const selectTicketContent = (
+  typeOfError: TypeOfError,
+  ticketId: string,
+) => {
   let ticketContent: TicketContent = {} as TicketContent;
   switch (typeOfError) {
     case TypeOfError.TICKET_USED:
       ticketContent.IconSvg = TicketUsedSvg;
       ticketContent.title = 'Tu ticket ya fue usado';
-      ticketContent.message =
-        'Los productos en este ticket ya fueron devueltos a la tienda';
+      ticketContent.message1 = 'Los productos en este ticket ya fueron';
+      ticketContent.message2 = 'devueltos a la tienda';
       break;
     case TypeOfError.TICKET_SECURITY:
       ticketContent.IconSvg = TicketSecuritySvg;
       ticketContent.title = 'Tu ticket no fue validado por seguridad';
-      ticketContent.message =
-        'Acércate a un personal de seguridad o a la caja más cercana';
+      ticketContent.message1 = 'Acércate a un personal de seguridad o';
+      ticketContent.message2 = 'a la caja más cercana';
       break;
     case TypeOfError.TICKET_ELECTRO:
       ticketContent.IconSvg = TicketElectroSvg;
       ticketContent.title = 'Tu ticket contiene un producto Electro';
-      ticketContent.message =
-        'Acércate a la Zona Electro/Gran Volumen para devolver tu producto';
+      ticketContent.message1 = 'Acércate a la Zona Electro/Gran Volumen';
+      ticketContent.message2 = 'para devolver tu producto';
       break;
     case TypeOfError.TICKET_CANCELED_CLIENT:
       ticketContent.IconSvg = TicketCanceledSvg;
       ticketContent.title = 'Tu ticket fue anulado';
-      ticketContent.message =
-        'La solicitud N° T-001005 fue anulada por un personal de Ripley';
+      ticketContent.message1 = `La solicitud N° ${ticketId} fue anulada por`;
+      ticketContent.message2 = 'el cliente hizo la compra';
       break;
     case TypeOfError.TICKET_CANCELED_PERSONAL:
       ticketContent.IconSvg = TicketCanceledSvg;
       ticketContent.title = 'Tu ticket fue anulado';
-      ticketContent.message =
-        'La solicitud N° T-001005 fue anulada por el cliente que hizo la compra';
+      ticketContent.message1 = `La solicitud N° ${ticketId}  fue anulada por`;
+      ticketContent.message2 = 'un personal de Ripley';
       break;
     case TypeOfError.TICKET_CANCELED:
-      ticketContent.IconSvg = TicketCanceledSvg;
+      ticketContent.IconSvg = TicketNotFound;
       ticketContent.title = 'No pudimos encontrar tu ticket';
-      ticketContent.message =
-        'Comunícate con un personal de tienda o dirígete a una caja para continuar tu devolución';
+      ticketContent.message1 = 'Comunícate con un personal de tienda o';
+      ticketContent.message2 =
+        'dirígete a una caja para continuar tu devolución';
       break;
     case TypeOfError.TICKET_WIFI:
       ticketContent.IconSvg = TicketWifiSvg;
       ticketContent.title = 'No pudimos encontrar tu ticket';
-      ticketContent.message =
-        'Comunícate con un personal de tienda o dirígete a una caja para continuar tu devolución';
+      ticketContent.message1 = 'Comunícate con un personal de tienda o';
+      ticketContent.message2 =
+        'dirígete a una caja para continuar tu devolución';
       break;
     default:
       break;
@@ -61,26 +67,6 @@ export const selectTicketContent = (typeOfError: TypeOfError) => {
 
 export const validateErrorTicket = (ticket: Ticket) => {
   let errorTicket: TypeOfError = TypeOfError.TICKET_NOT_ERROR;
-  // validar ticket usado
-  // if (ticket.status_request === 6 || ticket.status_request === 2) {
-  //   errorTicket = TypeOfError.TICKET_USED;
-  //   return errorTicket;
-  // }
-  // // validar ticket cancelado (personal)
-  // if (ticket.status_request === 37) {
-  //   errorTicket = TypeOfError.TICKET_CANCELED_CLIENT;
-  //   return errorTicket;
-  // }
-  // // validar ticket cancelado (personal)
-  // if (ticket.status_request === 4) {
-  //   errorTicket = TypeOfError.TICKET_CANCELED_PERSONAL;
-  //   return errorTicket;
-  // }
-  // // validar ticket por seguirdad
-  // if (ticket.status_request === 3) {
-  //   errorTicket = TypeOfError.TICKET_SECURITY;
-  //   return errorTicket;
-  // }
   switch (ticket.status_request) {
     case 1:
       errorTicket = TypeOfError.TICKET_SECURITY;

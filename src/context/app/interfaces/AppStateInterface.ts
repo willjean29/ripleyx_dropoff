@@ -2,7 +2,7 @@ import {DeviceBluetooth} from 'interfaces/appInterface';
 import {TypeOfError, TypeOfPrinter} from 'utils/enums';
 
 export interface AppStateI {
-  ticketStatus: 'checking' | 'acepted' | 'canceled' | 'init';
+  ticketId: string;
   returnedProducts: OrderDetail[];
   token: string;
   products: Product[];

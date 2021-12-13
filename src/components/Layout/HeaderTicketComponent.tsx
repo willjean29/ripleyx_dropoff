@@ -17,16 +17,19 @@ const HeaderTicketComponent: React.FC<HeaderTicketComponentProps> = ({
   } = useContext(AppContext);
   return (
     <View style={styles.containerHeader}>
-      <View style={{top: -8}}>
+      <View style={{position: 'absolute', top: 0}}>
         <ProgressBarComponent time={60} reset={resetAnimation} />
       </View>
       <View
         style={{
-          justifyContent: 'center',
+          // justifyContent: 'center',
           alignItems: 'center',
-          marginVertical: 31,
+          // marginVertical: 31,
+          // borderWidth: 3,
+          // marginBottom: 20,
         }}>
         <Text style={styles.txtTitle}>¡Encontramos tu solicitud!</Text>
+
         <View style={{...styles.containerCenter, marginVertical: 16}}>
           <Text style={[styles.txtTicket]}>Ticket N° </Text>
           <Text style={[styles.txtTicket, styles.txtTicketNumber]}>

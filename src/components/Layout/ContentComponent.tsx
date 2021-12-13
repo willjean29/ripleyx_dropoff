@@ -6,14 +6,16 @@ import {SvgProps} from 'react-native-svg';
 interface ContentComponentProps {
   IconSvg: React.FC<SvgProps>;
   title: string;
-  message: string;
+  message1: string;
+  message2: string;
   type?: 'primary' | 'secundary';
 }
 
 const ContentComponent: React.FC<ContentComponentProps> = ({
   IconSvg,
   title,
-  message,
+  message1,
+  message2,
   type = 'secundary',
 }) => {
   const backgroundColor =
@@ -31,10 +33,15 @@ const ContentComponent: React.FC<ContentComponentProps> = ({
         backgroundColor,
       }}>
       <IconSvg width={192} height={192} />
-
-      <Text style={{...styles.txtTitle, color}}>{title}</Text>
-      <View style={{borderWidth: 0, paddingHorizontal: '22%'}}>
-        <Text style={{...styles.txtMessage, color}}>{message}</Text>
+      <View style={{alignItems: 'center'}}>
+        <Text style={{...styles.txtTitle, color}}>{title}</Text>
+        <View
+          style={{
+            alignContent: 'center',
+          }}>
+          <Text style={{...styles.txtMessage, color}}>{message1}</Text>
+          <Text style={{...styles.txtMessage, color}}>{message2}</Text>
+        </View>
       </View>
     </View>
   );

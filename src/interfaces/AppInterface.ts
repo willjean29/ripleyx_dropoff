@@ -12,7 +12,8 @@ export type TicketStatus =
 export interface TicketContent {
   IconSvg: React.FC<SvgProps>;
   title: string;
-  message: string;
+  message1: string;
+  message2: string;
 }
 export interface DeviceBluetooth {
   name: string;

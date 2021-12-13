@@ -63,6 +63,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
         {/* <Button
           title="Leer Ticket"
           onPress={() => {
+            // console.log('holaaa');
             setReadInflaR(tokenDefault);
           }}
         /> */}

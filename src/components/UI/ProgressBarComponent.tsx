@@ -14,7 +14,7 @@ interface ProgressBarComponentProps {
 const ProgressBarComponent: React.FC<ProgressBarComponentProps> = ({
   time = 10,
   backgroundColor = GlobalColors.text.secondary_dark,
-  reset,
+  reset = false,
 }) => {
   const {animation, scaleInterpolate, scaleX} = useAnimationScale(time);
   const {backHome} = useContext(AppContext);

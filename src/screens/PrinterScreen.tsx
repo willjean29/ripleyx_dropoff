@@ -19,24 +19,26 @@ const PrinterScreen: React.FC<PrinterScreenProps> = () => {
 
   const [content, setContent] = useState({
     title: '',
-    message: '',
+    message1: '',
+    message2: '',
   });
 
   const selectContent = (typeOfPrinter: TypeOfPrinter) => {
     const content = {
       title: '',
-      message: '',
+      message1: '',
+      message2: '',
     };
     switch (typeOfPrinter) {
       case TypeOfPrinter.PRINTER_ERROR:
         content.title = '¡Ups! Algo falló al imprimir tu QR';
-        content.message =
-          'Si este error se vuelve a repetir, por favor llama a un personal de la tienda';
+        content.message1 = 'Si este error se vuelve a repetir, por favor';
+        content.message2 = 'llama a un personal de la tienda';
         break;
       case TypeOfPrinter.PRINTER_SUCCESS:
         content.title = '¡Impresión de QR exitosa!';
-        content.message =
-          'Coloca el papel con tu QR dentro de la bolsa junto con tus productos';
+        content.message1 = 'Coloca el papel con tu QR dentro de la bolsa';
+        content.message2 = 'junto con tus productos';
         break;
     }
     return content;
@@ -65,7 +67,8 @@ const PrinterScreen: React.FC<PrinterScreenProps> = () => {
               : PrinterError
           }
           title={content.title}
-          message={content.message}
+          message1={content.message1}
+          message2={content.message2}
           type={
             typeOfPrinter == TypeOfPrinter.PRINTER_ERROR
               ? 'secundary'

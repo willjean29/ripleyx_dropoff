@@ -29,7 +29,7 @@ export const ticketDemo: ITicketResponse = {
     ticket_id: 'T-000322',
     identity_document: '74785381',
     email: 'rulman26@gmail.com',
-    status_request: 35,
+    status_request: 4,
     status_request_name: 'DROP OFF - READ',
     category_id: 1,
     category_name: 'FALLADO',

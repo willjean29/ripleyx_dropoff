@@ -16,6 +16,7 @@ import TicketCanceledSvg from 'assets/img/ticket_canceled.svg';
 import TicketElectroSvg from 'assets/img/ticket_electro.svg';
 import TicketSecuritySvg from 'assets/img/ticket_security.svg';
 import TicketWifiSvg from 'assets/img/wifi_error.svg';
+import TicketNotFound from 'assets/img/ticket_not_found.svg';
 import {TypeOfError} from 'utils/enums';
 
 interface ErrorScreenProps
@@ -23,20 +24,17 @@ interface ErrorScreenProps
 
 const ErrorScreen: React.FC<ErrorScreenProps> = ({}) => {
   const [content, setContent] = useState<TicketContent>({} as TicketContent);
-  const [resetAnimation, setResetAnimation] = useState(false);
   const {
-    appState: {typeOfError},
+    appState: {typeOfError, ticketId},
   } = useContext(AppContext);
 
   useEffect(() => {
     if (typeOfError !== null) {
-      const contentError = selectTicketContent(typeOfError);
+      const contentError = selectTicketContent(typeOfError, ticketId);
       setContent(contentError);
     }
   }, []);
-  const onPressDemo = (callback: Function) => {
-    callback();
-  };
+
   return (
     <AppLayout footerTitle="Escanear otro código QR">
       <ContentComponent
@@ -48,17 +46,15 @@ const ErrorScreen: React.FC<ErrorScreenProps> = ({}) => {
             TicketCanceledSvg) ||
           (typeOfError == TypeOfError.TICKET_CANCELED_PERSONAL &&
             TicketCanceledSvg) ||
-          (typeOfError == TypeOfError.TICKET_CANCELED && TicketCanceledSvg) ||
+          (typeOfError == TypeOfError.TICKET_CANCELED && TicketNotFound) ||
           (typeOfError == TypeOfError.TICKET_WIFI && TicketWifiSvg) ||
           TicketCanceledSvg
         }
         title={content.title}
-        message={content.message}
+        message1={content.message1}
+        message2={content.message2}
       />
-      <ProgressBar
-        backgroundColor={GlobalColors.background.paper}
-        reset={resetAnimation}
-      />
+      <ProgressBar backgroundColor={GlobalColors.background.paper} />
     </AppLayout>
   );
 };

@@ -68,33 +68,10 @@ export const readQrAction = async (
         payload: {
           error: true,
           type: ticketError,
+          ticketId: response.data.ticket.ticket_id,
         },
       });
     }
-
-    // setTimeout(() => {
-    //   const response = ticketDemo;
-    //   const ticketError = validateErrorTicket(response.ticket);
-    //   if (ticketError === 0) {
-    //     dispatch({
-    //       type: QR_READ,
-    //       payload: {
-    //         ticket: response.ticket,
-    //         products: response.products,
-    //         totalProducts: calculateTotalProducts(response.products),
-    //       },
-    //     });
-    //   } else {
-    //     // ESTABLECER EL ERROR DE TICKET
-    //     dispatch({
-    //       type: TYPE_ERROR,
-    //       payload: {
-    //         error: true,
-    //         type: ticketError,
-    //       },
-    //     });
-    //   }
-    // }, 1500);
   } catch (error: any) {
     // console.log('error ');
     console.log(JSON.stringify(error.response, null, 3));
@@ -138,13 +115,15 @@ export const readQrAction = async (
       return;
     }
     // disparar un error
-    // dispatch({
-    //   type: TYPE_ERROR,
-    //   payload: {
-    //     error: true,
-    //     type: TypeOfError.TICKET_CANCELED,
-    //   },
-    // });
+    setTimeout(() => {
+      dispatch({
+        type: TYPE_ERROR,
+        payload: {
+          error: true,
+          type: TypeOfError.TICKET_WIFI,
+        },
+      });
+    }, 1500);
   }
 };
 
@@ -165,7 +144,7 @@ export const backHomeAction = (dispatch: React.Dispatch<QRDispatchTypes>) => {
       payload: {
         isLoading: false,
         messageLoading: '',
-        ticketStatus: 'init',
+        ticketId: '',
         token: '',
         ticketInfo: null,
         totalPorducts: 0,

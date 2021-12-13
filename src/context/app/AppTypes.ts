@@ -42,6 +42,7 @@ export interface TypeError {
   payload: {
     error: boolean;
     type: TypeOfError;
+    ticketId?: string;
   };
 }
 

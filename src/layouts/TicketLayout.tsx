@@ -12,6 +12,8 @@ interface TicketLayoutProps {
   main: React.ReactNode;
   footer: React.ReactNode;
 }
+console.log(DimensionsDevice.HEIGHT_DEVICE);
+console.log(DimensionsDevice.WIDTH_DEVICE);
 
 const TicketLayout: React.FC<TicketLayoutProps> = ({header, main, footer}) => {
   return (
@@ -31,10 +33,10 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   conatinerHeader: {
-    height: DimensionsDevice.HEIGHT_DEVICE * 0.28,
+    height: DimensionsDevice.HEIGHT_DEVICE * 0.3,
   },
   containerFooter: {
-    height: DimensionsDevice.HEIGHT_DEVICE * 0.22,
+    height: DimensionsDevice.HEIGHT_DEVICE * 0.2,
   },
 });
 export default TicketLayout;

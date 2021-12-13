@@ -25,7 +25,7 @@ const AppState: React.FC<AppStateProps> = ({children}) => {
   const appInitialState: AppStateI = {
     isLoading: false,
     messageLoading: '',
-    ticketStatus: 'init',
+    ticketId: '',
     token: '',
     ticketInfo: null,
     returnedProducts: [],

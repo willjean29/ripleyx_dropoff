@@ -44,6 +44,7 @@ const AppReducer = (state: AppStateI, action: QRDispatchTypes) => {
         isLoading: false,
         error: action.payload.error,
         typeOfError: action.payload.type,
+        ticketId: action.payload.ticketId ? action.payload.ticketId : '',
       };
     case CHECK_PRINTER:
       return {
