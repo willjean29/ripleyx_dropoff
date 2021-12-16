@@ -5,7 +5,7 @@ import CheckBoxComponent from 'components/UI/CheckBoxComponent';
 import {Product} from 'context/app/interfaces/AppStateInterface';
 import {AppContext} from 'context/app/AppContext';
 import {GlobalColors, GlobalFont} from 'theme/GlobalThemes';
-import {validateProperty} from 'utils/methods';
+import {getMessageDetail, validateProperty} from 'utils/methods';
 import BagSmallSvg from 'assets/img/bag_small.svg';
 
 interface ProductItemComponentProps {
@@ -23,6 +23,10 @@ const ProductItemComponent: React.FC<ProductItemComponentProps> = ({
     deleteProductReturned,
     addProductReturned,
   } = useContext(AppContext);
+  const messageDetails = getMessageDetail(
+    product.product_size,
+    product.product_color,
+  );
   return (
     <TouchableOpacity
       style={styles.container}
@@ -58,17 +62,15 @@ const ProductItemComponent: React.FC<ProductItemComponentProps> = ({
         </View>
         <View>
           <Text style={styles.txtTitleName}>{product.product_name}</Text>
-
-          <Text style={styles.txtDetails}>
-            {validateProperty(product.product_size) &&
-              `Talla ${product.product_size}`}
-            {validateProperty(product.product_size) &&
-              validateProperty(product.product_color) &&
-              ` - `}
-            {validateProperty(product.product_color) &&
-              `Color ${product.product_color}`}
-          </Text>
-          <View style={{flexDirection: 'row'}}>
+          {messageDetails.length > 0 && (
+            <Text style={styles.txtDetails}>{messageDetails}</Text>
+          )}
+          <View
+            style={{
+              flexDirection: 'row',
+              marginTop: 8,
+              alignItems: 'center',
+            }}>
             <Text style={styles.txtError}>{product.reason_name}</Text>
             <BagSmallSvg width={24} height={24} />
           </View>
@@ -76,15 +78,20 @@ const ProductItemComponent: React.FC<ProductItemComponentProps> = ({
       </View>
       {/* quantity */}
 
-      <View
-        style={{
-          flexDirection: 'row',
-          alignItems: 'center',
-        }}>
-        <Text style={styles.txtCloseIcon}>x</Text>
-        <Text style={styles.txtQuantity}>
-          {product.quantity_products_return}
-        </Text>
+      <View>
+        <View
+          style={{
+            flexDirection: 'row',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            top: -10,
+          }}>
+          <Text style={styles.txtCloseIcon}>x</Text>
+
+          <Text style={styles.txtQuantity}>
+            {product.quantity_products_return}
+          </Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -107,7 +114,6 @@ const styles = StyleSheet.create({
   txtDetails: {
     fontSize: 18,
     color: GlobalColors.text.primary,
-    marginBottom: 12,
     marginTop: 8,
     fontFamily: GlobalFont[400],
   },

@@ -22,11 +22,7 @@ const HeaderTicketComponent: React.FC<HeaderTicketComponentProps> = ({
       </View>
       <View
         style={{
-          // justifyContent: 'center',
           alignItems: 'center',
-          // marginVertical: 31,
-          // borderWidth: 3,
-          // marginBottom: 20,
         }}>
         <Text style={styles.txtTitle}>¡Encontramos tu solicitud!</Text>
 

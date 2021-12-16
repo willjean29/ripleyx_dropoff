@@ -83,9 +83,9 @@ export const validateErrorTicket = (ticket: Ticket) => {
     case 34:
       errorTicket = TypeOfError.TICKET_CANCELED_PERSONAL;
       break;
-    case 37:
-      errorTicket = TypeOfError.TICKET_CANCELED_CLIENT;
-      break;
+    // case 37:
+    //   errorTicket = TypeOfError.TICKET_CANCELED_CLIENT;
+    //   break;
   }
   // validar electro
   if (ticket.category_id === 2) {
@@ -117,4 +117,12 @@ export const validateProperty = (property: string) => {
     isValid = true;
   }
   return isValid;
+};
+
+export const getMessageDetail = (size: string, color: string) => {
+  let message = '';
+  message += validateProperty(size) ? `Talla ${size} ${color}` : '';
+  message += validateProperty(size) && validateProperty(color) ? ` - ` : '';
+  message += validateProperty(color) ? `Color ${color}` : '';
+  return message;
 };

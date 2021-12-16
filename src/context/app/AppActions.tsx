@@ -101,6 +101,19 @@ export const readQrAction = async (
       }, 1500);
       return;
     }
+    if (error.response.status === 409) {
+      // disparar un error
+      setTimeout(() => {
+        dispatch({
+          type: TYPE_ERROR,
+          payload: {
+            error: true,
+            type: TypeOfError.TICKET_CANCELED_CLIENT,
+          },
+        });
+      }, 1500);
+      return;
+    }
     if (error.response.status === 500 || error.response.status === 504) {
       // disparar un error
       setTimeout(() => {
@@ -398,16 +411,6 @@ const connectPrinter = async (printer: DeviceBluetooth) => {
     isConnected = false;
   }
   return isConnected;
-};
-
-const printerText2 = async () => {
-  await BluetoothEscposPrinter.printText('Tiendas Ripley\n\r', {});
-  await BluetoothEscposPrinter.printText('Prueba De QR\n\r', {});
-  await BluetoothEscposPrinter.printQRCode(
-    'Hola demo',
-    200,
-    BluetoothEscposPrinter.ERROR_CORRECTION.L,
-  );
 };
 
 export const changeTotalProductsAction = (

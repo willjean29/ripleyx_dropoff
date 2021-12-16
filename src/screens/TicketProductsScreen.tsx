@@ -12,7 +12,6 @@ import TicketProductsComponent from 'components/TicketProduct/TicketProductsComp
 import {AppContext} from 'context/app/AppContext';
 import {DeviceBluetooth} from 'interfaces/appInterface';
 import {listMacsPrint} from 'utils/enums';
-import useListPrinters from 'hooks/useListPrinters';
 
 interface TicketProductsScreenProps {}
 
@@ -22,32 +21,30 @@ const TicketProductsScreen: React.FC<TicketProductsScreenProps> = () => {
     setDeviceCurrent,
     setListDevices,
   } = useContext(AppContext);
-  const {listPrinters, isLoading} = useListPrinters();
+
   // console.log({currentPrint});
-  // console.log(JSON.stringify(listPrinters, null, 3));
+  console.log(JSON.stringify(listDevices, null, 3));
   console.log({listDevices});
   useEffect(() => {
-    if (!isLoading) {
-      BluetoothManager.enableBluetooth().then(
-        devices => {
-          const listDevices: DeviceBluetooth[] = [];
-          devices?.map(device => {
-            const dv: DeviceBluetooth = JSON.parse(device);
-            // console.log(dv);
-            // if (listPrinters.map(printer => printer.mac).includes(dv.address)) {
-            //   console.log('se encontro');
-            //   setDeviceCurrent(dv);
-            // }
-            listDevices.push(dv);
-          });
-          setListDevices(listDevices);
-        },
-        err => {
-          console.log(err);
-        },
-      );
-    }
-  }, [isLoading]);
+    BluetoothManager.enableBluetooth().then(
+      devices => {
+        const listDevices: DeviceBluetooth[] = [];
+        devices?.map(device => {
+          const dv: DeviceBluetooth = JSON.parse(device);
+          // console.log(dv);
+          // if (listPrinters.map(printer => printer.mac).includes(dv.address)) {
+          //   console.log('se encontro');
+          //   setDeviceCurrent(dv);
+          // }
+          listDevices.push(dv);
+        });
+        setListDevices(listDevices);
+      },
+      err => {
+        console.log(err);
+      },
+    );
+  }, []);
   return (
     <TicketLayout
       header={<HeaderTicketComponent ticket={ticketInfo!} />}
