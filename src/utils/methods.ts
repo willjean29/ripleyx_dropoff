@@ -37,12 +37,12 @@ export const selectTicketContent = (
       ticketContent.IconSvg = TicketCanceledSvg;
       ticketContent.title = 'Tu ticket fue anulado';
       ticketContent.message1 = `La solicitud N° ${ticketId} fue anulada por`;
-      ticketContent.message2 = 'el cliente hizo la compra';
+      ticketContent.message2 = 'el cliente que hizo la compra';
       break;
     case TypeOfError.TICKET_CANCELED_PERSONAL:
       ticketContent.IconSvg = TicketCanceledSvg;
       ticketContent.title = 'Tu ticket fue anulado';
-      ticketContent.message1 = `La solicitud N° ${ticketId}  fue anulada por`;
+      ticketContent.message1 = `La solicitud N° ${ticketId} fue anulada por`;
       ticketContent.message2 = 'un personal de Ripley';
       break;
     case TypeOfError.TICKET_CANCELED:

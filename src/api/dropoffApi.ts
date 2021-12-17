@@ -17,9 +17,9 @@ const environment_prod = {
 };
 
 const dropoffApi = axios.create({
-  baseURL: environment_qa.host,
+  baseURL: environment_prod.host,
   headers: {
-    'x-api-key': environment_qa.x_api_key,
+    'x-api-key': environment_prod.x_api_key,
   },
   timeout: 30000,
   timeoutErrorMessage:

@@ -12,7 +12,7 @@ interface ProgressBarComponentProps {
 }
 
 const ProgressBarComponent: React.FC<ProgressBarComponentProps> = ({
-  time = 10,
+  time = 15,
   backgroundColor = GlobalColors.text.secondary_dark,
   reset = false,
 }) => {

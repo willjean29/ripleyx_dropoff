@@ -88,7 +88,11 @@ export const readQrAction = async (
 
       return;
     }
-    if (error.response.status === 400 || error.response.status === 401) {
+    if (
+      error.response.status === 400 ||
+      error.response.status === 401 ||
+      error.response.status === 404
+    ) {
       // disparar un error
       setTimeout(() => {
         dispatch({
@@ -109,6 +113,7 @@ export const readQrAction = async (
           payload: {
             error: true,
             type: TypeOfError.TICKET_CANCELED_CLIENT,
+            ticketId: error.response.data,
           },
         });
       }, 1500);

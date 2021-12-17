@@ -17,7 +17,7 @@ interface HomeScreenProps
   extends StackScreenProps<StackParamList, 'HomeScreen'> {}
 const HomeScreen: React.FC<HomeScreenProps> = ({navigation}) => {
   // const tokenDefault =
-  //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDUyMTE2MDAsImRhdGEiOiJ7XCJkbmlcIjpcIjc3MDM2Njg3XCIsXCJ0aWNrZXROdW1iZXJcIjpcIlQtMDAwMzcxXCJ9IiwiaWF0IjoxNjM4MDQzNTA0fQ.ToXbCeEa_DglSL4wcbIHPn6hz-29JGDxSOIR50ydlJc';
+  //   'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3OTc0ODM2MDAsImRhdGEiOiJ7XCJkbmlcIjpcIjQxNTQ3NTI3XCIsXCJ0aWNrZXROdW1iZXJcIjpcIlQtMDAwMzE3XCJ9IiwiaWF0IjoxNjM5NjA0MzQ0fQ.ONzcHONzArMKOC5YktcNTlIl9g6ees9kYip5tgYLHDE';
   // const [token, setToken] = useState(tokenDefault);
   const [readInflaR, setReadInflaR] = useState('');
   const debouncedValue = useDebounceValue(readInflaR);
