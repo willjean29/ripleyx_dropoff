@@ -8,7 +8,7 @@ import DemoScreen from 'screens/DemoScreen';
 import TicketProductsScreen from 'screens/TicketProductsScreen';
 import PrinterScreen from 'screens/PrinterScreen';
 import ExampleScreen from 'screens/ExampleScreen';
-
+import KeyBoardTicketScreen from 'screens/KeyBoardTicketScreen';
 export type StackParamList = {
   DemoScreen: undefined;
   HomeScreen: undefined;
@@ -17,6 +17,7 @@ export type StackParamList = {
   TicketProductsScreen: undefined;
   PrinterScreen: undefined;
   ExampleScreen: undefined;
+  KeyBoardTicketScreen: undefined;
 };
 declare global {
   namespace ReactNavigation {
@@ -30,7 +31,7 @@ interface StackNavigationProps {}
 
 const StackNavigation: React.FC<StackNavigationProps> = () => {
   const {
-    appState: {isLoading, ticketInfo, error, printer},
+    appState: {isLoading, ticketInfo, error, printer, keyboard},
   } = useContext(AppContext);
 
   if (isLoading) return <LoadingScreen />;
@@ -43,8 +44,18 @@ const StackNavigation: React.FC<StackNavigationProps> = () => {
       {ticketInfo == null ? (
         <>
           {/* no hay un ticket activo */}
+          {keyboard && (
+            <Stack.Screen
+              name="KeyBoardTicketScreen"
+              component={KeyBoardTicketScreen}
+            />
+          )}
           {error && <Stack.Screen name="ErrorScreen" component={ErrorScreen} />}
           {/* <Stack.Screen name="ExampleScreen" component={ExampleScreen} /> */}
+          {/* <Stack.Screen
+            name="KeyBoardTicketScreen"
+            component={KeyBoardTicketScreen}
+          /> */}
           <Stack.Screen name="HomeScreen" component={HomeScreen} />
         </>
       ) : (

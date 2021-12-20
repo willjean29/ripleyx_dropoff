@@ -29,6 +29,7 @@ export interface QRCheck {
   payload: {
     status: boolean;
     message: string;
+    keyboard?: boolean;
   };
 }
 

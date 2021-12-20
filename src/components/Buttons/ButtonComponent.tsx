@@ -62,7 +62,6 @@ const styles = StyleSheet.create({
   txtTitle: {
     fontSize: 36,
     textAlign: 'center',
-
     fontFamily: GlobalFont[600],
   },
 });

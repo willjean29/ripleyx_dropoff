@@ -32,6 +32,7 @@ const AppReducer = (state: AppStateI, action: QRDispatchTypes) => {
         ...state,
         isLoading: action.payload.status,
         messageLoading: action.payload.message,
+        keyboard: action.payload.keyboard ? action.payload.keyboard : false,
       };
     case RESET_DATA:
       return {

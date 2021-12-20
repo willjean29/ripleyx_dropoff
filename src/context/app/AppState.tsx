@@ -13,6 +13,8 @@ import {
   addProductsReturnedAction,
   deleteProductsReturnedAction,
   setListDevicesArrayAction,
+  readTicketAction,
+  loadKeyboardAction,
 } from './AppActions';
 import {TypeOfPrinter} from 'utils/enums';
 import {DeviceBluetooth} from 'interfaces/appInterface';
@@ -26,6 +28,7 @@ const AppState: React.FC<AppStateProps> = ({children}) => {
     isLoading: false,
     messageLoading: '',
     ticketId: '',
+    keyboard: false,
     token: '',
     ticketInfo: null,
     returnedProducts: [],
@@ -42,6 +45,8 @@ const AppState: React.FC<AppStateProps> = ({children}) => {
   const [appState, dispatch] = useReducer(AppReducer, appInitialState);
 
   const readQr = (token: string) => readQrAction(dispatch, token);
+  const readTicket = (ticket: string) => readTicketAction(dispatch, ticket);
+  const loadKeyboard = () => loadKeyboardAction(dispatch);
   const backHome = () => backHomeAction(dispatch);
   const printerQr = (
     statusTicket: StatusTicketDto,
@@ -68,6 +73,8 @@ const AppState: React.FC<AppStateProps> = ({children}) => {
       value={{
         appState,
         readQr,
+        readTicket,
+        loadKeyboard,
         backHome,
         printerQr,
         changeTotalProducts,

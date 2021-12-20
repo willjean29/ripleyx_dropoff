@@ -8,6 +8,8 @@ import {
 export interface AppContextI {
   appState: AppStateI;
   readQr: (token: string) => Promise<void>;
+  readTicket: (ticket: string) => Promise<void>;
+  loadKeyboard: () => Promise<void>;
   backHome: () => void;
   printerQr: (
     statusTicket: StatusTicketDto,

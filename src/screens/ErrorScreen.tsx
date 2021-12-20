@@ -34,9 +34,12 @@ const ErrorScreen: React.FC<ErrorScreenProps> = ({}) => {
       setContent(contentError);
     }
   }, []);
-
+  const message =
+    typeOfError == TypeOfError.TICKET_CANCELED
+      ? 'o escanea otro código QR'
+      : 'Escanear otro código QR';
   return (
-    <AppLayout footerTitle="Escanear otro código QR">
+    <AppLayout footerTitle={message}>
       <ContentComponent
         IconSvg={
           (typeOfError == TypeOfError.TICKET_USED && TicketUsedSvg) ||

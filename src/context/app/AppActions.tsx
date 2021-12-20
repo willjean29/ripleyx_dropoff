@@ -145,6 +145,140 @@ export const readQrAction = async (
   }
 };
 
+export const readTicketAction = async (
+  dispatch: React.Dispatch<QRDispatchTypes>,
+  ticket: string,
+) => {
+  dispatch({
+    type: QR_CHECK,
+    payload: {
+      status: true,
+      message: 'Estamos buscando tu ticket',
+    },
+  });
+  try {
+    const ticketId = `T-${ticket}`;
+    const response = await dropoffApi.post<ITicketResponse>(`/dropoff/ticket`, {
+      ticket_id: ticketId,
+    });
+    console.log(JSON.stringify({data: response.data}, null, 3));
+    const ticketError = validateErrorTicket(response.data.ticket);
+    if (ticketError === 0) {
+      dispatch({
+        type: QR_READ,
+        payload: {
+          ticket: response.data.ticket,
+          products: response.data.products,
+          totalProducts: calculateTotalProducts(response.data.products),
+        },
+      });
+    } else {
+      // ESTABLECER EL ERROR DE TICKET
+      dispatch({
+        type: TYPE_ERROR,
+        payload: {
+          error: true,
+          type: ticketError,
+          ticketId: response.data.ticket.ticket_id,
+        },
+      });
+    }
+  } catch (error: any) {
+    // console.log('error ');
+    console.log(JSON.stringify(error.response, null, 3));
+    if (error.message == 'Network Error') {
+      setTimeout(() => {
+        dispatch({
+          type: TYPE_ERROR,
+          payload: {
+            error: true,
+            type: TypeOfError.TICKET_WIFI,
+          },
+        });
+      }, 1500);
+
+      return;
+    }
+    if (
+      error.response.status === 400 ||
+      error.response.status === 401 ||
+      error.response.status === 404
+    ) {
+      // disparar un error
+      setTimeout(() => {
+        dispatch({
+          type: TYPE_ERROR,
+          payload: {
+            error: true,
+            type: TypeOfError.TICKET_CANCELED,
+          },
+        });
+      }, 1500);
+      return;
+    }
+    if (error.response.status === 409) {
+      // disparar un error
+      setTimeout(() => {
+        dispatch({
+          type: TYPE_ERROR,
+          payload: {
+            error: true,
+            type: TypeOfError.TICKET_CANCELED_CLIENT,
+            ticketId: error.response.data,
+          },
+        });
+      }, 1500);
+      return;
+    }
+    if (error.response.status === 500 || error.response.status === 504) {
+      // disparar un error
+      setTimeout(() => {
+        dispatch({
+          type: TYPE_ERROR,
+          payload: {
+            error: true,
+            type: TypeOfError.TICKET_WIFI,
+          },
+        });
+      }, 1500);
+      return;
+    }
+    // disparar un error
+    setTimeout(() => {
+      dispatch({
+        type: TYPE_ERROR,
+        payload: {
+          error: true,
+          type: TypeOfError.TICKET_WIFI,
+        },
+      });
+    }, 1500);
+  }
+};
+
+export const loadKeyboardAction = async (
+  dispatch: React.Dispatch<QRDispatchTypes>,
+) => {
+  dispatch({
+    type: QR_CHECK,
+    payload: {
+      status: true,
+      message: 'Cargando teclado',
+    },
+  });
+  console.log('cragado teclado');
+  setTimeout(() => {
+    dispatch({
+      type: QR_CHECK,
+      payload: {
+        status: false,
+        message: '',
+        keyboard: true,
+      },
+    });
+  }, 2000);
+};
+
 export const backHomeAction = (dispatch: React.Dispatch<QRDispatchTypes>) => {
   // volver a home page
   // limpiar estado de tickets
@@ -162,6 +296,7 @@ export const backHomeAction = (dispatch: React.Dispatch<QRDispatchTypes>) => {
       payload: {
         isLoading: false,
         messageLoading: '',
+        keyboard: false,
         ticketId: '',
         token: '',
         ticketInfo: null,

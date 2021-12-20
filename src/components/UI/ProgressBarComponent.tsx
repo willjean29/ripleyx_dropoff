@@ -18,7 +18,7 @@ const ProgressBarComponent: React.FC<ProgressBarComponentProps> = ({
 }) => {
   const {animation, scaleInterpolate, scaleX} = useAnimationScale(time);
   const {backHome} = useContext(AppContext);
-
+  // console.log(time);
   useEffect(() => {
     animation.reset();
     scaleX(() => {

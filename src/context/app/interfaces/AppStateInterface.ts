@@ -3,6 +3,7 @@ import {TypeOfError, TypeOfPrinter} from 'utils/enums';
 
 export interface AppStateI {
   ticketId: string;
+  keyboard: boolean;
   returnedProducts: OrderDetail[];
   token: string;
   products: Product[];
