@@ -12,7 +12,7 @@ const AppLayout: React.FC<AppLayoutProps> = ({children, footerTitle}) => {
   return (
     <View style={styles.conatinerLayout}>
       <View style={styles.containerMain}>{children}</View>
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, zIndex: -1}}>
         <FooterScannerComponent message={footerTitle} />
       </View>
     </View>

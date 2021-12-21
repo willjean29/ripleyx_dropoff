@@ -88,7 +88,11 @@ export const validateErrorTicket = (ticket: Ticket) => {
     //   break;
   }
   // validar electro
-  if (ticket.category_id === 2) {
+
+  if (
+    errorTicket === TypeOfError.TICKET_NOT_ERROR &&
+    ticket.category_id === 2
+  ) {
     errorTicket = TypeOfError.TICKET_ELECTRO;
     return errorTicket;
   }

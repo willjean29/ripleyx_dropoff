@@ -7,12 +7,19 @@ const useInputCode = (length: number = 6) => {
   const [arrayValue, setArrayValue] = useState<string[]>([]);
   const arrayRef = [1, 2, 3, 4, 5, 6].map(x => useRef<TextInput>());
   useEffect(() => {
+    let timeout: any;
     if (arrayValue.length == 6) {
       console.log('ejecutar consulta');
       const ticket = arrayValue.join('');
       console.log(ticket);
-      readTicket(ticket);
+      timeout = setTimeout(() => {
+        readTicket(ticket);
+      }, 200);
+      // readTicket(ticket);
     }
+    return () => {
+      clearTimeout(timeout);
+    };
   }, [arrayValue]);
 
   const addCode = (value: string) => {

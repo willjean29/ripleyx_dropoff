@@ -60,6 +60,7 @@ const styles = StyleSheet.create({
     fontFamily: GlobalFont[400],
     fontSize: 28,
     color: GlobalColors.background.morita,
+    marginTop: 28,
   },
   txtTicket: {
     fontFamily: GlobalFont[500],
